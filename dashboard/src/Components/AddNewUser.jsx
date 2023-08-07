@@ -23,6 +23,7 @@ function AddNewUser() {
         setValues(res);
       })
       .then((res) => Navigate("/"))
+      .then((res) => localStorage.clear())
       .catch((err) => console.log(err));
   };
 

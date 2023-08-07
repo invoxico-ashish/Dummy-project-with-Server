@@ -4,7 +4,6 @@ import About from "../About/About";
 import Portfolio from "../Portfolio/Portfolio";
 import OurTeam from "../Team/OurTeam";
 import Slider from "../Header/Slider/Slider";
-// import "../../commonCss/style.css";
 
 function Home() {
   return (

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Home from "../Home/Home";
-import About from "../About/About";
+
 
 function Footer() {
   return (
@@ -17,18 +16,10 @@ function Footer() {
           </div>
           <div className="col-xl-6">
             <div className="link_box">
-              <Link to="/" className="">
-                Home
-              </Link>
-              <Link to={"/about"} className="">
-                About
-              </Link>
-              <Link to={"/portfolio"} className="">
-                Portfolio
-              </Link>
-              <Link to={"/team"} className="">
-                Team
-              </Link>
+              <Link to="/" className="">Home</Link>
+              <Link to={"/about"} className="">About</Link>
+              <Link to={"/portfolio"} className="">Portfolio</Link>
+              <Link to={"/team"} className="">Team</Link>
             </div>
           </div>
         </div>

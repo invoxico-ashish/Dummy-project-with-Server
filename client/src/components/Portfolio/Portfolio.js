@@ -11,7 +11,6 @@ function Portfolio() {
       try {
         const res = await axios.get("http://localhost:8000/api/get/img/port");
         setPortimg(res.data);
-        // console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -26,14 +25,8 @@ function Portfolio() {
             <h2>Portfolio</h2>
           </div>
           <div className="portfolio_container ">
-            <div className="box-1">
-              {portimg.map((value, index) => (
-                <div className="img-box b-1 b-2" key={index}>
-                  {/* {console.log(value.image)} */}
-                  <img
-                    src={`http://localhost:8000/img/${value.image}`}
-                    alt=""
-                  />
+            <div className="box-1">{portimg.map((value, index) => (<div className="img-box b-1 b-2" key={index}>
+                  <img src={`http://localhost:8000/img/${value.image}`}alt=""/>
                   <div className="btn-box">
                     <Link className="btn-1">
                       <i className="fa fa-share-alt" aria-hidden="true">

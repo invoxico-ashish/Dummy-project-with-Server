@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./About.css";
+// import "./About.css";
+import { Link } from "react-router-dom";
 import about from "../Images/about-img.jpg";
 import axios from "axios";
 
@@ -33,7 +34,7 @@ function About() {
                 <h2>{aboutData.heading}</h2>
               </div>
               <p>{aboutData.desciption}</p>
-              <a href="">Read More</a>
+              <Link>Read More</Link>
             </div>
           </div>
         </div>

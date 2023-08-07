@@ -14,26 +14,26 @@ import AddPortfolio from "./Components/AddPortfolio";
 import UpdatePortfolio from "./Components/UpdatePortfolio";
 import LoginPage from "./Components/LoginPage";
 import AddNewUser from "./Components/AddNewUser";
+import Protected from "./Components/Protected";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Navbar />
-        {/* <Header /> */}
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/resgister" element={<AddNewUser />} />
-          <Route path="/dashboard" element={<HomeSec />} />
-          <Route path="/slides" element={<Slider />} />
-          <Route path="/editslides" element={<AddSlider />} />
-          <Route path="/updateslide/:id" element={<EditSlide />} />
-          <Route path="/team" element={<OurTeam />} />
-          <Route path="/updateteam/:id" element={<UpdateTeam />} />
-          <Route path="/addteam" element={<AddTeam />} />
-          <Route path="/portfolio" element={<PortFolio />} />
-          <Route path="/addportfolio" element={<AddPortfolio />} />
-          <Route path="/Updateport/:id" element={<UpdatePortfolio />} />
+          <Route path="/dashboard"element={<Protected><HomeSec /></Protected>}/>
+          <Route path="/slides" element={<Protected><Slider /></Protected>} />
+          <Route path="/editslides" element={<Protected><AddSlider /></Protected>} />
+          <Route path="/updateslide/:id" element={<Protected><EditSlide /></Protected>} />
+          <Route path="/team" element={<Protected><OurTeam /></Protected>} />
+          <Route path="/updateteam/:id" element={<Protected><UpdateTeam /></Protected>} />
+          <Route path="/addteam" element={<Protected><AddTeam /></Protected>} />
+          <Route path="/portfolio" element={<Protected><PortFolio /></Protected>} />
+          <Route path="/addportfolio" element={<Protected><AddPortfolio /></Protected>} />
+          <Route path="/Updateport/:id" element={<Protected><UpdatePortfolio /></Protected>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -11,35 +11,10 @@ function OpenNavbar({ setShowMenu }) {
         <div onClick={() => setShowMenu(false)}>
           <GrClose size={40} color="white" className="crossArrow" />
         </div>
-        <div className="inner-div">
-          <Link
-            to={"/"}
-            className="active links"
-            onClick={() => setShowMenu(false)}
-          >
-            Home
-          </Link>
-          <Link
-            to={"/about"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            About
-          </Link>
-          <Link
-            to={"/portfolio"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            Portfolio
-          </Link>
-          <Link
-            to={"/team"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            team
-          </Link>
+        <div className="inner-div"><Link to={"/"}className="active links"onClick={() => setShowMenu(false)}>Home</Link>
+          <Link to={"/about"}className="links"onClick={() => setShowMenu(false)}>About</Link>
+          <Link to={"/portfolio"}className="links"onClick={() => setShowMenu(false)}>Portfolio</Link>
+          <Link to={"/team"}className="links"onClick={() => setShowMenu(false)}>team</Link>
         </div>
       </div>
     </>

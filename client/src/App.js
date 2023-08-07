@@ -8,7 +8,6 @@ import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Header/Navbar/Navbar";
 import GetInTouch from "./components/GetInTouch/GetInTouch";
 function App() {
-
   return (
     <BrowserRouter>
       <Navbar />
