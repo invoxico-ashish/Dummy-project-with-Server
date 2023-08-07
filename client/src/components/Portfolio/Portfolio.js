@@ -25,8 +25,13 @@ function Portfolio() {
             <h2>Portfolio</h2>
           </div>
           <div className="portfolio_container ">
-            <div className="box-1">{portimg.map((value, index) => (<div className="img-box b-1 b-2" key={index}>
-                  <img src={`http://localhost:8000/img/${value.image}`}alt=""/>
+            <div className="box-1">
+              {portimg.map((value, index) => (
+                <div className="img-box b-1 b-2" key={index}>
+                  <img
+                    src={`http://localhost:8000/img/${value.image}`}
+                    alt=""
+                  />
                   <div className="btn-box">
                     <Link className="btn-1">
                       <i className="fa fa-share-alt" aria-hidden="true">
@@ -78,9 +83,7 @@ function Portfolio() {
             </div>
           </div>
           <div>
-            <a href="" className="read_btn">
-              See More
-            </a>
+            <Link className="read_btn">See More</Link>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { useForm } from "react-hook-form";
+
 
 function EditSlide() {
   const Navigate = useNavigate();
@@ -23,8 +23,7 @@ function EditSlide() {
     axios
       .post("http://localhost:8000/api/img", formData)
       .then((response) => {
-        // setSlideImage(response);
-        console.log(response, "response");
+        setSlideImage(response);
       })
       .catch((err) => {
         console.log(err);
@@ -34,8 +33,6 @@ function EditSlide() {
     e.preventDefault();
     fetchData();
     Navigate("/slides");
-
-    console.log(title, imgname, slideImage);
   };
   return (
     <>
@@ -45,8 +42,6 @@ function EditSlide() {
             <div className="row">
               <div className="col-md-3 text-white col bg-success d-flex justify-content-between px-1 py-3 rounded ">
                 <button className="btn btn-success">Back To Slides</button>
-
-                {/* <TbSlideshow />    */}
               </div>
             </div>
           </Link>
@@ -58,34 +53,17 @@ function EditSlide() {
               <form encType="multipart/form-data">
                 <div className="inp-cont">
                   <label className="form-lable">Name</label>
-                  <input
-                    type="text"
-                    name="title"
-                    className="form-control"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
+                  <input type="text" name="title"className="form-control"value={title}onChange={(e) => setTitle(e.target.value)}/>
                 </div>
                 <div className="inp-cont">
                   <label className="form-lable">Image Name</label>
-                  <input
-                    name="imgname   "
-                    type="text"
-                    className="form-control"
-                    value={imgname}
-                    onChange={(e) => setimgname(e.target.value)}
+                  <input name="imgname   "type="text"className="form-control" value={imgname}onChange={(e) => setimgname(e.target.value)}/>
+                </div>
+                <div className="inp-cont ">
+                  <input className="chooseFile" type="file"name="slideImage"accept="image/png,image/jpg, image/jpeg"onChange={handelImageChange}
                   />
                 </div>
-                <div className="inp-cont">
-                  <input
-                    type="file"
-                    name="slideImage"
-                    accept="image/png,image/jpg, image/jpeg"
-                    onChange={handelImageChange}
-                  />
-                </div>
-                <div className="inp-cont">
-                  <button onClick={handleClick}>Submit</button>
+                <div className="inp-cont"> <button className="btn btn-success" onClick={handleClick}>Submit</button>
                 </div>
               </form>
             </div>

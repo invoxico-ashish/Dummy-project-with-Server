@@ -1,12 +1,10 @@
 import axios from "axios";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function OurTeam(props) {
   const [team, setteam] = useState([]);
-  // const [modalOpen, setModalOpen] = useState(null);
-  // const [updateName, setUpdateName] = useState("");
 
   useEffect(() => {
     const FetchTeam = async () => {
@@ -14,6 +12,7 @@ function OurTeam(props) {
         const Teamres = await axios.get(
           "http://localhost:8000/api/get/our/team"
         );
+        console.log(Teamres.data)
         setteam(Teamres.data.data);
       } catch (error) {
         console.log(error);
@@ -23,8 +22,7 @@ function OurTeam(props) {
   }, []);
 
   const handleDeleteTeamById = async (id) => {
-    const confirm = window.confirm(`would you like to delete the ${id}`);
-
+    const confirm = window.confirm(`would you like to delete the ${id}`)
     if (confirm) {
       axios
         .delete(`http://localhost:8000/api/delete/team/${id}`)

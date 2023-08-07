@@ -1,11 +1,10 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 
 function Header() {
   return (
     <>
-      {/* <Navbar />/ */}
       <div className="d-flex justify-content-around header">
         <div>
           <h1>DashBoard</h1>

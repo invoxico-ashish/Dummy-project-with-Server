@@ -15,7 +15,7 @@ function GetInTouch() {
           <div className="col-md-8 map_container">
             <div className="map">
               <div id="googleMap">
-                <iframe id="googleMap"src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3430.4384347703726!2d76.68200117445404!3d30.706072586922627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefe86537c193%3A0xc0cea068f1cdf7ac!2sInvoxico%20Technologies!5e0!3m2!1sen!2sin!4v1690869577733!5m2!1sen!2sin"
+                <iframe title="" id="googleMap"src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3430.4384347703726!2d76.68200117445404!3d30.706072586922627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefe86537c193%3A0xc0cea068f1cdf7ac!2sInvoxico%20Technologies!5e0!3m2!1sen!2sin!4v1690869577733!5m2!1sen!2sin"
                   width="900"allowFullScreen=""loading="lazy"referrerPolicy="no-referrer-when-downgrade"></iframe>
               </div>
             </div>

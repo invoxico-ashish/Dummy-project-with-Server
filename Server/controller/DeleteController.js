@@ -219,8 +219,8 @@ exports.LoginAdmin = async (req, res) => {
           res.cookie("token", token);
           return res.status(200).json({
             success: true,
-            message: "matched",token
-            
+            message: "matched",
+            token,
           });
         } else {
           res.json({ message: "Pass not matched" });

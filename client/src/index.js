@@ -5,6 +5,7 @@ import App from "./App";
 import "./commonCss/bootstrap.css";
 import "./commonCss/responsive.css";
 import "./commonCss/style.css";
+import "./commonCss/style.css.map"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
