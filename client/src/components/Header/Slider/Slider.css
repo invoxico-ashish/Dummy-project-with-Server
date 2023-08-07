@@ -1,0 +1,35 @@
+.cara-container {
+  /* height: 500px; */
+  width: 65%;
+  height: 100vh;
+  position: relative;
+  float: right;
+  object-fit: contain;
+}
+.main-cont {
+  /* border: 1px solid black; */
+  /* height: auto; */
+  display: flex;
+  justify-content: space-between;
+   
+}
+.left {
+  height: 100px;
+  margin: 250px 0 0 25px;
+}
+.text-side {
+  display: flex;
+  flex-direction: column;
+  text-transform: uppercase;
+}
+.readmore-btn {
+  width: 10rem;
+  height: 3rem;
+  color: #ffffff;
+  border: 1px solid #85310c;
+  background-color: #85310c;
+  font-family: 'Poppins', sans-serif
+}
+.img-cont{
+    height: 100vh;
+}

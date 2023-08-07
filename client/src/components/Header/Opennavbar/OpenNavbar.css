@@ -1,0 +1,62 @@
+.Main-cont {
+  background-color: rgba(141, 58, 21, 0.95);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  /* transition: width 2s; */
+  -webkit-transition: all 3s ease-in-out;
+}
+.inner-div {
+  position: relative;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  animation: slideCartWindow 0.3s ease forwards;
+}
+.links {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 10px 0;
+  display: block;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border: 1.5px solid #ffffff;
+  border-radius: 5px;
+  width: 190px;
+}
+.links:hover,
+.links.active {
+  border-color: transparent;
+  background-color: #ffffff;
+  color: #000000;
+}
+/* .crossArrow {
+  background-color: white;
+  color: seagreen;
+  cursor: pointer;
+} */
+
+@keyframes slideCartWindow {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
