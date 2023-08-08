@@ -254,13 +254,34 @@ exports.UpdateAdminDetails = async (req, res) => {
     let name = req.body.name;
     let email = req.body.email;
 
-    const sql = `update admin_details set name=?, email=? where admin_id=${id}`;
+    const sql = "update admin_details set name=?, email=? where admin_id=" + id;
 
-    await sqlconnect.query(sql, [name, email, id], (err, data) => {
+    await sqlconnect.query(sql, [name, email,id], (err, data) => {
       if (!err) {
         res.status(200).json({
           success: true,
           message: "Success",
+          data,
+        });
+      } else {
+        res.send(err);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.DeleteAdminById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sql = `delete from admin_details where  admin_id = ${id}`;
+
+    sqlconnect.query(sql, (err, data) => {
+      if (!err) {
+        res.status(200).json({
+          success: true,
+          message: "Successfully deleted",
           data,
         });
       } else {

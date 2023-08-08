@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from "react";
-import "./Style/Home.css";
-import { Link, useSearchParams } from "react-router-dom";
-import { TiDelete } from "react-icons/ti";
 import axios from "axios";
-function HomeSec() {
-  const [data, setData] = useState([]);
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+function AdminPortfolio() {
+  const [portfoimg, setPortfoimg] = useState([]);
+
   useEffect(() => {
-    const FetchData = async () => {
+    const FetchPortimg = async () => {
       try {
-        axios.defaults.withCredentials = true;
-        const res = await axios.get("http://localhost:8000/api/admin/details");
-        console.log(res.data.data);
-        setData(res.data.data);
+        const PortImg = await axios.get(
+          "http://localhost:8000/api/get/img/port"
+        );
+        console.log(PortImg);
+        setPortfoimg(PortImg.data);
       } catch (error) {
         console.log(error);
       }
     };
-    FetchData();
+    FetchPortimg();
   }, []);
+
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
     if (confirm) {
-      axios
-        .delete("http://localhost:8000/api/delete/admin/" + id)
-
-        .then((response) => {
-          console.log(response);
-        })
+      await axios
+        .delete(`http://localhost:8000/api/delete/portfolio/${id}`)
         .then((res) => {
+          console.log(res);
           window.location.reload();
         })
         .catch((err) => {
@@ -35,48 +34,53 @@ function HomeSec() {
         });
     }
   };
-
   return (
     <>
+      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-              <p>Total User</p>
+              <p>Portfolio</p>
+              {/* <FaUserAlt /> */}
             </div>
           </div>
           <div className="d-flex justify-content-around">
-            <h2>Users</h2>
-            <Link to={"/resgister"}>
+            <h2>Our portfolio</h2>
+            <Link to={"/addport"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
           <table className="table w-100">
             <thead>
               <tr>
-                <th scope="col">admin_id</th>
-                <th scope="col">name</th>
-                <th scope="col">email</th>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Image</th>
+                <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
+              {portfoimg.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.admin_id}</td>
+                  <td>{item.portF_id}</td>
                   <td>{item.name}</td>
-                  <td>{item.email}</td>
                   <td>
-                    <Link to={`/Updateadmin/${item.admin_id}`}>
+                    <img
+                      src={`http://localhost:8000/img/${item.image}`}
+                      alt=""
+                      className="tableImage"
+                    />
+                  </td>
+                  <td>
+                    <Link to={`/updateport/${item.portF_id}`}>
                       <button className="btn btn-success mx-2">Edit</button>
                     </Link>
 
                     <button
                       className="btn btn-danger"
-                      onClick={(e) => handleDelete(item.admin_id)}
+                      onClick={() => handleDelete(item.portF_id)}
                     >
-                      <span>
-                        <TiDelete />
-                      </span>
                       Delete
                     </button>
                   </td>
@@ -90,4 +94,4 @@ function HomeSec() {
   );
 }
 
-export default HomeSec;
+export default AdminPortfolio;

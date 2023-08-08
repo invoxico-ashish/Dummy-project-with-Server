@@ -5,7 +5,8 @@ import App from "./App";
 import "./commonCss/bootstrap.css";
 import "./commonCss/responsive.css";
 import "./commonCss/style.css";
-import "./commonCss/style.css.map"
+import "./commonCss/style.css.map";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

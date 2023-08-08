@@ -1,5 +1,5 @@
 import React from "react";
-import { MdOutlineDashboard, } from "react-icons/md";
+import { MdOutlineDashboard } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
@@ -23,7 +23,14 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <button className="navbar-toggler"data-bs-toggle="collapse"data-bs-targer="#navbarm"aria-controls="#navbarm"aria-expanded="false"aria-label="Toggle-navigation">
+          <button
+            className="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-targer="#navbarm"
+            aria-controls="#navbarm"
+            aria-expanded="false"
+            aria-label="Toggle-navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse justify-content-md-center">

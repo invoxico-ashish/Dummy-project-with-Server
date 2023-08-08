@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
 
 function UpdateAdmin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const { id } = useParams;
+  const Navigate = useNavigate();
 
   const handleUpdate = async () => {
     const formData = new FormData();
@@ -16,15 +18,15 @@ function UpdateAdmin() {
       .put("http://localhost:8000/api/update/admin/det/" + id, formData)
       .then((res) => {
         console.log(res);
+      })
+      .then((res) => {
+        Navigate("/dashboard");
       });
-    // .then((res) => {
-    //   Navigate("/dashboard");
-    // });
     console.log(name, email);
   };
-
   return (
     <>
+      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3 ms-10">
           <Link to={"/dashboard"}>

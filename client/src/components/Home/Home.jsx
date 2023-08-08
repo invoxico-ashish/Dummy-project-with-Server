@@ -5,15 +5,17 @@ import Portfolio from "../Portfolio/Portfolio";
 import OurTeam from "../Team/OurTeam";
 import Slider from "../Header/Slider/Slider";
 
+
 function Home() {
   return (
     <>
       <div>
-        <Navbar  />
+        <Navbar />
         <Slider />
         <About />
         <Portfolio />
         <OurTeam />
+        {/* <Login /> */}
       </div>
     </>
   );

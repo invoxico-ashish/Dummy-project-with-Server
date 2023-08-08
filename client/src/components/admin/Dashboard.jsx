@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
+import AdminNavbar from "./AdminNavbar";
 import { Link, useSearchParams } from "react-router-dom";
 import { TiDelete } from "react-icons/ti";
 import axios from "axios";
-function HomeSec() {
+
+function Dashboard() {
   const [data, setData] = useState([]);
   useEffect(() => {
     const FetchData = async () => {
@@ -35,9 +37,9 @@ function HomeSec() {
         });
     }
   };
-
   return (
     <>
+      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3">
           <div className="row">
@@ -47,7 +49,7 @@ function HomeSec() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Users</h2>
-            <Link to={"/resgister"}>
+            <Link to={"/newadmin"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
@@ -66,7 +68,7 @@ function HomeSec() {
                   <td>{item.name}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Link to={`/Updateadmin/${item.admin_id}`}>
+                    <Link to={`/updateadmin/${item.admin_id}`}>
                       <button className="btn btn-success mx-2">Edit</button>
                     </Link>
 
@@ -90,4 +92,4 @@ function HomeSec() {
   );
 }
 
-export default HomeSec;
+export default Dashboard;

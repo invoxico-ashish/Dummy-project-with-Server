@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import "./Style/LoginPage.css";
+import "../admin/Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-function LoginPage() {
+function Login() {
   const [values, setValues] = useState({ email: "", password: "" });
   const {
     register,
@@ -32,7 +31,6 @@ function LoginPage() {
   };
   return (
     <>
-      {" "}
       <div className="bodyDiv">
         <div className="Form-cont">
           <div className="logo">
@@ -100,4 +98,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;

@@ -1,0 +1,17 @@
+.home {
+  margin-top: 20px;
+  margin-left: 200px;
+}
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+}
+.content {
+  overflow: auto;
+  margin-left: 205px;
+}
+.tableImage{
+  width: 50px;
+
+}
