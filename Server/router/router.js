@@ -41,6 +41,9 @@ router.post("/login", delcontroller.LoginAdmin);
 router.post("/register", delcontroller.RegisterAdmin);
 router.get("/checkAuth", verifyUser, delcontroller.VeriFiesUser);
 router.get("/logout", delcontroller.LogOut);
+router.put("/update/admin/det/:id", delcontroller.UpdateAdminDetails);
+router.get("/admin/details", controller.GetAdminDetails);
+router.delete("/del/admin/det/:id", controller.DelAdminDetails);
 
 // POST ROUTES---------------------------------------------->
 router.post("/img", upload.single("slideImage"), controller.imgController);

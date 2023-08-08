@@ -36,8 +36,6 @@ function UpdatePortfolio() {
             <div className="row">
               <div className="col-md-3 text-white col bg-success d-flex justify-content-between px-1 py-3 rounded ">
                 <button className="btn btn-success">Back To Slides</button>
-
-                {/* <TbSlideshow />    */}
               </div>
             </div>
           </Link>

@@ -14,7 +14,7 @@ function HomeSec() {
         const slideres = await axios.get(
           "http://localhost:8000/api/get/img/slide"
         );
-        console.log(slideres.data);
+        // console.log(slideres.data);
         setSlideimg(slideres.data);
       } catch (error) {
         console.log(error);

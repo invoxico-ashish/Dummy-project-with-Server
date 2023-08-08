@@ -15,6 +15,7 @@ import UpdatePortfolio from "./Components/UpdatePortfolio";
 import LoginPage from "./Components/LoginPage";
 import AddNewUser from "./Components/AddNewUser";
 import Protected from "./Components/Protected";
+import UpdateAdmin from "./Components/UpdateAdmin";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/portfolio" element={<Protected><PortFolio /></Protected>} />
           <Route path="/addportfolio" element={<Protected><AddPortfolio /></Protected>} />
           <Route path="/Updateport/:id" element={<Protected><UpdatePortfolio /></Protected>} />
+          <Route path="/Updateadmin/:id" element={<Protected><UpdateAdmin /></Protected>} />
         </Routes>
       </BrowserRouter>
     </>

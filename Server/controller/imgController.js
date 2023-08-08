@@ -297,3 +297,49 @@ exports.PostPortImage = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.GetAdminDetails = async (rea, res) => {
+  const sql = `SELECT admin_id,name,email from admin_details`;
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed",
+      });
+      console.log(err);
+    }
+  });
+};
+exports.DelAdminDetails = async (res, req) => {
+  try {
+    let id = req.params.id;
+    console.log(id);
+    // return false;
+    sql = ` DELETE FROM admin_details WHERE admin_id = ${id}`;
+    sqlconnect.query(sql, id, (err, data) => {
+      if (!err) {
+        res.status(200).json({
+          success: true,
+          message: "Success",
+          data,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Failed",
+          err,
+        });
+        console.log(err);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

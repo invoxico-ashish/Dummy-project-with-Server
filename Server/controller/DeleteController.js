@@ -247,3 +247,27 @@ exports.LogOut = async (req, res) => {
   res.clearCookie("token");
   return res.json({ status: "success" });
 };
+
+exports.UpdateAdminDetails = async (req, res) => {
+  try {
+    const id = req.params.id;
+    let name = req.body.name;
+    let email = req.body.email;
+
+    const sql = `update admin_details set name=?, email=? where admin_id=${id}`;
+
+    await sqlconnect.query(sql, [name, email, id], (err, data) => {
+      if (!err) {
+        res.status(200).json({
+          success: true,
+          message: "Success",
+          data,
+        });
+      } else {
+        res.send(err);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

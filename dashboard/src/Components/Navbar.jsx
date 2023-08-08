@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSafari, } from "react-icons/fa";
+import { MdOutlineDashboard, } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
@@ -45,7 +45,7 @@ function Navbar() {
         <ul className="nav -nav-pils flex-column mb-auto px-0">
           <li className="nav-item">
             <Link to="/dashboard" className="nav-link text-white">
-              <FaSafari /> <span className="ml-2">Dashboard</span>
+              <MdOutlineDashboard /> <span className="ml-2">Dashboard</span>
             </Link>
           </li>
           <li className="nav-item">

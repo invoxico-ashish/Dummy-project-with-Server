@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function LoginPage() {
+  
   const [values, setValues] = useState({ email: "", password: "" });
   const {
     register,
@@ -12,6 +13,7 @@ function LoginPage() {
     handleSubmit,
   } = useForm();
   const Navigate = useNavigate();
+  
   axios.defaults.withCredentials = true;
   const onSubmit = async (err, data) => {
     console.log(data);

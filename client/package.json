@@ -2,13 +2,17 @@
   "name": "dummy-pro",
   "version": "0.1.0",
   "private": true,
-  "files": [ "dist", "src" ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "cjs-module": "^1.5.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",
     "owl.carousel": "^2.3.4",
