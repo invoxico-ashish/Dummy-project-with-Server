@@ -31,7 +31,7 @@ function AddTeam() {
   const handleAddTeam = async (e) => {
     e.preventDefault();
     FetchData();
-    Navigate("/team");
+    Navigate("/teamadmin");
   };
   return (
     <>

@@ -343,3 +343,23 @@ exports.DelAdminDetails = async (res, req) => {
     console.log(error);
   }
 };
+
+exports.AdminCount = async (req, res) => {
+  const sql = `SELECT COUNT(admin_id) AS Total_User FROM admin_details`;
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed",
+      });
+      console.log(err);
+    }
+  });
+};

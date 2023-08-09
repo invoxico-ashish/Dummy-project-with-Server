@@ -4,9 +4,12 @@ import AdminNavbar from "./AdminNavbar";
 import { Link, useSearchParams } from "react-router-dom";
 import { TiDelete } from "react-icons/ti";
 import axios from "axios";
+import { contains } from "jquery";
 
 function Dashboard() {
   const [data, setData] = useState([]);
+  const [record, setRecords] = useState([]);
+  const [totalAdmin, setTotalAdmin] = useState([]);
   useEffect(() => {
     const FetchData = async () => {
       try {
@@ -14,12 +17,32 @@ function Dashboard() {
         const res = await axios.get("http://localhost:8000/api/admin/details");
         console.log(res.data.data);
         setData(res.data.data);
+        setRecords(res.data.data);
       } catch (error) {
         console.log(error);
       }
     };
+    const FetchTotalUser = async () => {
+      try {
+        const totalUser = axios
+          .get("http://localhost:8000/api/admin/count")
+          .then((res) => {
+            console.log(res.data.data[0]);
+            setTotalAdmin(res.data.data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    FetchTotalUser();
     FetchData();
   }, []);
+
+  const Filter = (e) => {
+    setRecords(
+      data.filter((f) => f.name.toLowerCase().includes(e.target.value))
+    );
+  };
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
     if (confirm) {
@@ -44,11 +67,19 @@ function Dashboard() {
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-              <p>Total User</p>
+              {totalAdmin.map((i) => (
+                <p>Total User {i.Total_User}</p>
+              ))}
             </div>
           </div>
           <div className="d-flex justify-content-around">
             <h2>Users</h2>
+            <input
+              type="text"
+              onChange={Filter}
+              placeholder="search"
+              className="searchTerm"
+            />
             <Link to={"/newadmin"}>
               <button className="btn btn-success">+Add</button>
             </Link>
@@ -62,7 +93,7 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
+              {record.map((item, index) => (
                 <tr key={index}>
                   <td>{item.admin_id}</td>
                   <td>{item.name}</td>

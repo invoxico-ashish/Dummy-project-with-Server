@@ -31,7 +31,7 @@ function AddPortfolio() {
   const handleAddPort = (e) => {
     e.preventDefault();
     FetchData();
-    Navigate("/portfolio");
+    Navigate("/adminport");
   };
   return (
     <>

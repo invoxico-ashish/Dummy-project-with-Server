@@ -15,3 +15,14 @@
   width: 50px;
 
 }
+.searchTerm{
+  width: 300px;
+  /* height: 200px; */
+  border: 3px solid #28a745;
+  /* border-right: none; */
+  padding: 10px;
+  height: 20px;
+  border-radius: 10px;
+  outline: none;
+  color: #dc3545;
+}

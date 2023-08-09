@@ -61,6 +61,7 @@ router.get("/get/our/team", controller.getOurteam);
 router.get("/get/team/data", controller.getTeamData);
 
 //DASHBOARD ROUTES------------------------------------------->
+router.get("/admin/count", controller.AdminCount);
 router.post("/resgisert/admin", controller.RegisterAdmin);
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
 //DELETE ROUTES----------------------------->

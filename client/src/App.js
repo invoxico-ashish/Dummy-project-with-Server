@@ -26,32 +26,120 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        {/* <Navbar /> */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/team" element={<OurTeam />} />
-          <Route path="*" element={<Missing />} />
-
+          <Route element={<Footer />}>
+            <Route element={<Navbar />}>
+              <Route element={<GetInTouch />}>
+                <Route>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/portfolio" element={<Portfolio />} />
+                  <Route path="/team" element={<OurTeam />} />
+                  <Route path="*" element={<Missing />} />
+                </Route>
+              </Route>
+            </Route>
+          </Route>
           {/* ADMIN-ROUTES-------------------------------------------------------------> */}
 
           <Route path="/admin" element={<AdminHome />} />
-          <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
-          <Route path="/adminport" element={<Protected><AdminPortfolio /></Protected>} />
-          <Route path="/slideradmin" element={<Protected><AdminSlider /></Protected>} />
-          <Route path="/teamadmin" element={<Protected><AdminTeam /></Protected>} />
-          <Route path="/newadmin" element={<Protected><AddNewAdmin /></Protected>} />
-          <Route path="/updateadmin/:id" element={<Protected><UpdateAdmin /></Protected>} />
-          <Route path="/addport" element={<Protected><AddPortfolio /></Protected>} />
-          <Route path="/addslides" element={<Protected><AddSlide /></Protected>} />
-          <Route path="/updateslides/:id" element={<Protected><UpdateSlides /></Protected>} />
-          <Route path="/addteam" element={<Protected><AddTeam /></Protected>} />
-          <Route path="/updateteam/:id" element={<Protected><UpdateTeam /></Protected>} />
-          <Route path="/updateport/:id" element={<Protected><UpdatePortfolio /></Protected>} />
+          <Route
+            path="/dashboard"
+            element={
+              <Protected>
+                <Dashboard />
+              </Protected>
+            }
+          />
+          <Route
+            path="/adminport"
+            element={
+              <Protected>
+                <AdminPortfolio />
+              </Protected>
+            }
+          />
+          <Route
+            path="/slideradmin"
+            element={
+              <Protected>
+                <AdminSlider />
+              </Protected>
+            }
+          />
+          <Route
+            path="/teamadmin"
+            element={
+              <Protected>
+                <AdminTeam />
+              </Protected>
+            }
+          />
+          <Route
+            path="/newadmin"
+            element={
+              <Protected>
+                <AddNewAdmin />
+              </Protected>
+            }
+          />
+          <Route
+            path="/updateadmin/:id"
+            element={
+              <Protected>
+                <UpdateAdmin />
+              </Protected>
+            }
+          />
+          <Route
+            path="/addport"
+            element={
+              <Protected>
+                <AddPortfolio />
+              </Protected>
+            }
+          />
+          <Route
+            path="/addslides"
+            element={
+              <Protected>
+                <AddSlide />
+              </Protected>
+            }
+          />
+          <Route
+            path="/updateslides/:id"
+            element={
+              <Protected>
+                <UpdateSlides />
+              </Protected>
+            }
+          />
+          <Route
+            path="/addteam"
+            element={
+              <Protected>
+                <AddTeam />
+              </Protected>
+            }
+          />
+          <Route
+            path="/updateteam/:id"
+            element={
+              <Protected>
+                <UpdateTeam />
+              </Protected>
+            }
+          />
+          <Route
+            path="/updateport/:id"
+            element={
+              <Protected>
+                <UpdatePortfolio />
+              </Protected>
+            }
+          />
         </Routes>
-        {/* {/* <GetInTouch /> */}
-        {/* <Footer />  */}
       </BrowserRouter>
     </div>
   );
