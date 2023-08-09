@@ -36,7 +36,6 @@ function UpdateSlides() {
   };
   return (
     <>
-      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3 ms-10">
           <Link to={"/slideradmin"}>

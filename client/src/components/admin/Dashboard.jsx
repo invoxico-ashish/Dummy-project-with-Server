@@ -1,89 +1,114 @@
 import React, { useEffect, useState } from "react";
-import "./Style/Home.css";
+import { Link } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
-import { Link, useSearchParams } from "react-router-dom";
-import { TiDelete } from "react-icons/ti";
+import "./Style/Home.css";
+import p1 from "../Images/p1.jpg";
 import axios from "axios";
-import { contains } from "jquery";
 
-function Dashboard() {
-  const [data, setData] = useState([]);
-  const [record, setRecords] = useState([]);
-  const [totalAdmin, setTotalAdmin] = useState([]);
+const Dashboard = () => {
+  const [portimg, setPortimg] = useState([]);
+  const [slideData, setSlideData] = useState([]);
+  const [adminData, setAdminData] = useState([]);
+  const [teamData, setTeamData] = useState([]);
+
   useEffect(() => {
-    const FetchData = async () => {
+    const FetchPortImg = async () => {
       try {
-        axios.defaults.withCredentials = true;
-        const res = await axios.get("http://localhost:8000/api/admin/details");
-        console.log(res.data.data);
-        setData(res.data.data);
-        setRecords(res.data.data);
+        axios.get("http://localhost:8000/api/get/new/port").then((res) => {
+          // console.log(res.data.data);
+          setPortimg(res.data.data);
+        });
       } catch (error) {
         console.log(error);
       }
     };
-    const FetchTotalUser = async () => {
+    const FetchLetSlides = async () => {
       try {
-        const totalUser = axios
-          .get("http://localhost:8000/api/admin/count")
+        axios.get("http://localhost:8000/api/get/latest/slide").then((res) => {
+          setSlideData(res.data.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const FetchAdminData = async () => {
+      try {
+        axios
+          .get("http://localhost:8000/api/get/latest/admin/user")
           .then((res) => {
-            console.log(res.data.data[0]);
-            setTotalAdmin(res.data.data);
+            setAdminData(res.data.data);
           });
       } catch (error) {
         console.log(error);
       }
     };
-    FetchTotalUser();
-    FetchData();
-  }, []);
-
-  const Filter = (e) => {
-    setRecords(
-      data.filter((f) => f.name.toLowerCase().includes(e.target.value))
-    );
-  };
-  const handleDelete = async (id) => {
-    const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {
-      axios
-        .delete("http://localhost:8000/api/delete/admin/" + id)
-
-        .then((response) => {
-          console.log(response);
-        })
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
+    const FetchTeamData = async () => {
+      try {
+        axios.get("http://localhost:8000/api/get/latest/team").then((res) => {
+          setTeamData(res.data.data);
         });
-    }
-  };
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    FetchTeamData();
+    FetchAdminData();
+    FetchLetSlides();
+    FetchPortImg();
+  }, []);
   return (
     <>
-      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-              {totalAdmin.map((i) => (
-                <p>Total User {i.Total_User}</p>
-              ))}
+              <p>Latest Portfolio</p>
             </div>
           </div>
-          <div className="d-flex justify-content-around">
-            <h2>Users</h2>
-            <input
-              type="text"
-              onChange={Filter}
-              placeholder="search"
-              className="searchTerm"
+        </div>
+      </div>
+      <div className="cardSection">
+        {portimg.map((item, index) => (
+          <div className="card" style={{ width: "18rem" }} key={index}>
+            <img
+              src={`http://localhost:8000/img/${item.image}`}
+              className="card-img-top image-zoom"
+              alt={item.name}
             />
-            <Link to={"/newadmin"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
           </div>
+        ))}
+      </div>
+      <div className="d-flex home">
+        <div className="content container mt-3">
+          <div className="row">
+            <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
+              <p>Latest Slides</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="cardSection">
+        {slideData.map((value, index) => (
+          <div className="card" style={{ width: "18rem" }} key={index}>
+            <img
+              src={`http://localhost:8000/img/${value.image}`}
+              className="card-img-top image-zoom"
+              alt={value.title}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="d-flex home">
+        <div className="content container mt-3">
+          <div className="row">
+            <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
+              <p>Latest Users/Admin</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="adminContainer">
+        <div className="adminDetail">
           <table className="table w-100">
             <thead>
               <tr>
@@ -93,34 +118,39 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {record.map((item, index) => (
+              {adminData.map((value, index) => (
                 <tr key={index}>
-                  <td>{item.admin_id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>
-                    <Link to={`/updateadmin/${item.admin_id}`}>
-                      <button className="btn btn-success mx-2">Edit</button>
-                    </Link>
-
-                    <button
-                      className="btn btn-danger"
-                      onClick={(e) => handleDelete(item.admin_id)}
-                    >
-                      <span>
-                        <TiDelete />
-                      </span>
-                      Delete
-                    </button>
-                  </td>
+                  <td>{value.admin_id}</td>
+                  <td>{value.name}</td>
+                  <td>{value.email}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      <div className="d-flex home">
+        <div className="content container mt-3">
+          <div className="row">
+            <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
+              <p>Latest Team</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="cardSection">
+        {teamData.map((value, index) => (
+          <div className="card" style={{ width: "18rem" }}>
+            <img
+              src={`http://localhost:8000/img/${value.image}`}
+              className="card-img-top image-zoom"
+              alt={value.name}
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
-}
+};
 
 export default Dashboard;

@@ -253,10 +253,11 @@ exports.UpdateAdminDetails = async (req, res) => {
     const id = req.params.id;
     let name = req.body.name;
     let email = req.body.email;
+    console.log(id);
 
     const sql = "update admin_details set name=?, email=? where admin_id=" + id;
 
-    await sqlconnect.query(sql, [name, email,id], (err, data) => {
+    await sqlconnect.query(sql, [name, email, id], (err, data) => {
       if (!err) {
         res.status(200).json({
           success: true,

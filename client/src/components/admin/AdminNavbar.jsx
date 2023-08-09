@@ -5,8 +5,11 @@ import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
 import { Link, Navigate } from "react-router-dom";
 import { TbUsersPlus } from "react-icons/tb";
+import { TbUsersGroup } from "react-icons/tb";
 import { FiLogOut } from "react-icons/fi";
 import axios from "axios";
+import { Outlet } from "react-router-dom";
+import "./Style/Home.css";
 
 function AdminNavbar() {
   const handleDelete = () => {
@@ -21,7 +24,8 @@ function AdminNavbar() {
   };
   return (
     <>
-      <div>
+  
+      <div className="navbarMain">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <button
@@ -81,9 +85,15 @@ function AdminNavbar() {
                 <FiLogOut /> <span className="ml-2">LogOut</span>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/userlist" className="nav-link text-white">
+                <TbUsersGroup /> <span className="ml-2">Users List</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
+      <Outlet />
     </>
   );
 }

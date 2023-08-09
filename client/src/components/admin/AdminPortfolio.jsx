@@ -36,7 +36,6 @@ function AdminPortfolio() {
   };
   return (
     <>
-      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3">
           <div className="row">

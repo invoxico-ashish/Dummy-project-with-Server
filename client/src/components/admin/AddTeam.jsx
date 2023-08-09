@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AdminNavbar from "../AdminNavbar";
+import AdminNavbar from "./AdminNavbar";
 
 function AddTeam() {
   const Navigate = useNavigate();
@@ -35,7 +35,6 @@ function AddTeam() {
   };
   return (
     <>
-      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3 ms-10">
           <Link to={"/teamadmin"}>

@@ -352,12 +352,93 @@ exports.AdminCount = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "Success",
-        data
+        data,
       });
     } else {
       res.status(400).json({
         success: false,
         message: "Failed",
+      });
+      console.log(err);
+    }
+  });
+};
+
+exports.GetNewPortImg = async (req, res) => {
+  const sql = "select * from portfolio_img order by image DESC LIMIT 2";
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed",
+      });
+      console.log(err);
+    }
+  });
+};
+
+exports.GetLatestSlideImage = async (req, res) => {
+  const sql = "select * from slider_data order by image DESC LIMIT 2";
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data,
+      });
+    } else {
+      res.status(400).json({
+        success: true,
+        message: "Failed",
+        err,
+      });
+      console.log(err);
+    }
+  });
+};
+exports.GetLatestAdminDetails = async (req, res) => {
+  const sql = "select * from admin_details order by name DESC LIMIT 2";
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
+    }
+  });
+};
+
+exports.GetLatestTeam = async (req, res) => {
+  const sql = "select * from our_team_img order by name DESC LIMIT 2";
+
+  sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      res.status(200).json({
+        success: true,
+        message: "Success",
+        data,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Failed",
+        err,
       });
       console.log(err);
     }

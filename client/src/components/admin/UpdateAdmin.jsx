@@ -1,32 +1,29 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 
 function UpdateAdmin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const { id } = useParams;
+  const { id } = useParams();
+
   const Navigate = useNavigate();
 
   const handleUpdate = async () => {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-
     axios
-      .put("http://localhost:8000/api/update/admin/det/" + id, formData)
+      .put(`http://localhost:8000/api/update/admin/det/${id}`, name, email)
       .then((res) => {
-        console.log(res);
+        console.log(res.data, "this is res");
+        setName(res.data);
       })
       .then((res) => {
         Navigate("/dashboard");
       });
-    console.log(name, email);
+    // console.log(name, email);
   };
   return (
     <>
-      <AdminNavbar />
       <div className="d-flex home">
         <div className="content container mt-3 ms-10">
           <Link to={"/dashboard"}>
@@ -41,7 +38,7 @@ function UpdateAdmin() {
           </div>
           <div className="slide-form">
             <div className="slideinput">
-              <form encType="multipart/form-data">
+              <form>
                 <div className="inp-cont">
                   <label className="form-lable">Name</label>
                   <input
