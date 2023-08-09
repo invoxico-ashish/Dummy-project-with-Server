@@ -35,7 +35,7 @@ function AddTeam() {
   };
   return (
     <>
-      <div className="d-flex home">
+      <div className="d-flex homeie">
         <div className="content container mt-3 ms-10">
           <Link to={"/teamadmin"}>
             <div className="row">

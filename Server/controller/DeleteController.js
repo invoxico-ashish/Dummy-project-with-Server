@@ -161,6 +161,22 @@ exports.UpdatePortFolio = async (req, res) => {
 };
 exports.RegisterAdmin = async (req, res) => {
   let password = req.body.password;
+  if (!password) {
+    return res.status(400).json({
+      success: false,
+      message: "Password is requried",
+    });
+  } else if (password.length < 4) {
+    return res.status(400).json({
+      success: false,
+      message: "Passord is too short",
+    });
+  } if (password.length > 15) {
+    res.status(400).json({
+      success: false,
+      message: "Password is too Long",
+    });
+  }
   const salt = 10;
   const sql =
     "INSERT INTO admin_details (`name`,`email`,`password`) VALUES (?)";

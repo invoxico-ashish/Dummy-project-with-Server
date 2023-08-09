@@ -98,7 +98,7 @@ function AddNewAdmin() {
                   </span>
                 </div>
                 <div className="inp-cont">
-                  <button>Submit</button>
+                  <button className=" btn btn-success">Submit</button>
                 </div>
               </form>
             </div>
