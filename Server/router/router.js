@@ -4,8 +4,7 @@ const multer = require("multer");
 const controller = require("../controller/imgController");
 const delcontroller = require("../controller/DeleteController");
 const path = require("path");
-
-
+const checkUserRole  = require("../Middleware/AdminMiddle") 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./src/img/");
@@ -15,18 +14,6 @@ let storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
-const checkUserRole=(role) =>{
-  return (req, res, next) => {
-    console.log(req.user)
-    return false
-    if (req.user && req.user.role === role) {
-      next(); // User has the required role, continue to the next middleware or route handler
-    } else {
-      res.status(403).json({ message: "Access denied" });
-    }
-  };
-}
 
 
 // POST ROUTES---------------------------------------------->
@@ -51,7 +38,7 @@ router.get("/get/latest/team", controller.GetLatestTeam);
 router.post("/resgisert/admin", controller.RegisterAdmin);
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
 //LOGIN ROUTE-------------------------------------------->
-router.post("/login",checkUserRole("admin"), delcontroller.LoginAdmin);
+router.post("/login",delcontroller.LoginAdmin);
 router.post("/register", delcontroller.RegisterAdmin);
 // router.get("/checkAuth", verifyUser, delcontroller.VeriFiesUser);
 router.get("/logout", delcontroller.LogOut);

@@ -49,7 +49,6 @@ function AdminSlider() {
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-between px-1 py-3 rounded ">
               <p>Slides</p>
-              <TbSlideshow />
             </div>
           </div>
           <div className="d-flex justify-content-around">

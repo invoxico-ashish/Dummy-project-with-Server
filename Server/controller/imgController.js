@@ -385,7 +385,7 @@ exports.GetNewPortImg = async (req, res) => {
 };
 
 exports.GetLatestSlideImage = async (req, res) => {
-  const sql = "select * from slider_data order by image DESC LIMIT 2";
+  const sql = "select * from slider_data order by slider_id DESC LIMIT 2";
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {
@@ -425,7 +425,7 @@ exports.GetLatestAdminDetails = async (req, res) => {
 };
 
 exports.GetLatestTeam = async (req, res) => {
-  const sql = "select * from our_team_img order by name DESC LIMIT 2";
+  const sql = "select * from our_team_img order by team_id DESC LIMIT 2";
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {

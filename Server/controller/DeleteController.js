@@ -192,6 +192,7 @@ exports.RegisterAdmin = async (req, res) => {
         res.status(200).json({
           success: true,
           message: "Success",
+          result,
         });
       } else {
         res.status(400).json({
@@ -220,8 +221,6 @@ exports.LoginAdmin = async (req, res) => {
     }
 
     if (data.length > 0) {
-      // console.log(req.session.Email);
-      // return false;
       bcrypt.compare(password.toString(), data[0].password, (err, response) => {
         if (err) {
           return res.status(401).json({
@@ -232,14 +231,18 @@ exports.LoginAdmin = async (req, res) => {
         }
         if (response) {
           const name = data[0].name;
+          const role = data[0].role;
+          console.log(role, "ikjhgf");
+          // return false;
           const token = jwt.sign({ name }, "jwt-secret-key", {
-            expiresIn: "30m",
+            expiresIn: "7s",
           });
           res.cookie("Bearer", token);
           return res.status(200).json({
             success: true,
             message: "matched",
             token,
+            role,
           });
         } else {
           res.json({ message: "Pass not matched" });
@@ -253,8 +256,6 @@ exports.LoginAdmin = async (req, res) => {
     return false;
   });
 };
-
-exports.VeriFiesUser = async (req, res) => {};
 
 exports.LogOut = async (req, res) => {
   res.clearCookie("token");
@@ -270,12 +271,12 @@ exports.UpdateAdminDetails = async (req, res) => {
 
     const sql = "update admin_details set name=?, email=? where admin_id=" + id;
 
-    await sqlconnect.query(sql, [name, email, id], (err, data) => {
+    await sqlconnect.query(sql, [name, email, id], (err, result) => {
       if (!err) {
         res.status(200).json({
           success: true,
           message: "Success",
-          data,
+          result,
         });
       } else {
         res.send(err);

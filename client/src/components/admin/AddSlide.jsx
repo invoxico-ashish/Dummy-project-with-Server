@@ -32,7 +32,7 @@ function AddSlide() {
   const handleClick = (e) => {
     e.preventDefault();
     fetchData();
-    Navigate("/slides");
+    Navigate("/slideradmin");
   };
   return (
     <>

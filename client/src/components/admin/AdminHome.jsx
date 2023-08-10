@@ -32,7 +32,7 @@ function AdminHome() {
     await axios
       .post("http://localhost:8000/api/login", values)
       .then((res) => {
-        console.log(res, "res");
+        console.log(res.data, "res");
         localStorage.setItem("token", res.data.token);
         if (res.data.success === true) {
           Navigate("/dashboard");

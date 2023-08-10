@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function UpdateSlides() {
   const Navigate = useNavigate();
+  const { id } = useParams();
 
   const [title, setTitle] = useState("");
   const [imgname, setimgname] = useState("");
@@ -14,26 +14,22 @@ function UpdateSlides() {
     const file = e.target.files[0];
     setSlideImage(file);
   };
-
-  const fetchData = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("imgname", imgname);
+    formData.append("imagename", imgname);
     formData.append("slideImage", slideImage);
     axios
-      .post("http://localhost:8000/api/img", formData)
-      .then((response) => {
-        setSlideImage(response);
+      .put("http://localhost:8000/api/update/slide/" + id, formData)
+      .then((res) => {
+        setTitle(res);
       })
-      .catch((err) => {
-        console.log(err);
+      .then((res) => {
+        Navigate("/slideradmin");
       });
   };
-  const handleClick = (e) => {
-    e.preventDefault();
-    fetchData();
-    Navigate("/slides");
-  };
+
   return (
     <>
       <div className="d-flex homeie">
@@ -81,7 +77,6 @@ function UpdateSlides() {
                   />
                 </div>
                 <div className="inp-cont">
-                  {" "}
                   <button className="btn btn-success" onClick={handleClick}>
                     Submit
                   </button>
