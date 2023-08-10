@@ -299,7 +299,7 @@ exports.PostPortImage = async (req, res) => {
 };
 
 exports.GetAdminDetails = async (rea, res) => {
-  const sql = `SELECT admin_id,name,email from admin_details`;
+  const sql = `SELECT admin_id,name,email,role from admin_details`;
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {
@@ -405,7 +405,7 @@ exports.GetLatestSlideImage = async (req, res) => {
   });
 };
 exports.GetLatestAdminDetails = async (req, res) => {
-  const sql = "select * from admin_details order by name DESC LIMIT 2";
+  const sql = "select * from admin_details order by admin_id DESC LIMIT 2";
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {

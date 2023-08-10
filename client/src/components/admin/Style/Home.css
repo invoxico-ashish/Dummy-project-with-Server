@@ -66,3 +66,20 @@
   margin-left: 100px;
   margin-top: 20px;
 }
+
+.topDash{
+
+  margin-left: 200px;
+  margin-top: 10px;
+  width: auto;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.dashonebox{
+  border: 1px solid black;
+  width: 200px;
+  height: 100px;
+  font-size:30px;
+}

@@ -10,30 +10,30 @@ function UserList() {
   const [data, setData] = useState([]);
   const [record, setRecords] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState([]);
+  const FetchData = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const res = await axios.get("http://localhost:8000/api/admin/details");
+      console.log(res.data.data);
+      setData(res.data.data);
+      setRecords(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const FetchTotalUser = async () => {
+    try {
+      const totalUser = axios
+        .get("http://localhost:8000/api/admin/count")
+        .then((res) => {
+          console.log(res.data.data[0]);
+          setTotalAdmin(res.data.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const FetchData = async () => {
-      try {
-        axios.defaults.withCredentials = true;
-        const res = await axios.get("http://localhost:8000/api/admin/details");
-        console.log(res.data.data);
-        setData(res.data.data);
-        setRecords(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const FetchTotalUser = async () => {
-      try {
-        const totalUser = axios
-          .get("http://localhost:8000/api/admin/count")
-          .then((res) => {
-            console.log(res.data.data[0]);
-            setTotalAdmin(res.data.data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
     FetchTotalUser();
     FetchData();
   }, []);
@@ -66,8 +66,8 @@ function UserList() {
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-              {totalAdmin.map((i) => (
-                <p>Total User {i.Total_User}</p>
+              {totalAdmin.map((i,index) => (
+                <p key={index}>Total User {i.Total_User}</p>
               ))}
             </div>
           </div>
@@ -89,6 +89,7 @@ function UserList() {
                 <th scope="col">admin_id</th>
                 <th scope="col">name</th>
                 <th scope="col">email</th>
+                <th scope="col">Role</th>
               </tr>
             </thead>
             <tbody>
@@ -97,6 +98,7 @@ function UserList() {
                   <td>{item.admin_id}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
+                  <td>{item.role}</td>
                   <td>
                     <Link to={`/updateadmin/${item.admin_id}`}>
                       <button className="btn btn-success mx-2">Edit</button>

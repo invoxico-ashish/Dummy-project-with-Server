@@ -3,10 +3,14 @@ import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-    
 
 function AddNewAdmin() {
-  const [values, setValues] = useState({ name: "", email: "", password: "" });
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
   const {
     register,
     formState: { errors },
@@ -23,7 +27,7 @@ function AddNewAdmin() {
         console.log(res);
         setValues(res);
       })
-      .then((res) => Navigate("/"))
+      .then((res) => Navigate("/userlist"))
       .then((res) => localStorage.clear())
       .catch((err) => console.log(err));
   };
@@ -48,7 +52,13 @@ function AddNewAdmin() {
                     onChange={(e) =>
                       setValues({ ...values, name: e.target.value })
                     }
+                    {...register("name", {
+                      required: true,
+                    })}
                   />
+                  <span className="textdanger">
+                    {errors.name?.type === "required" && "name is required"}
+                  </span>
                   <label className="form-lable">
                     Email<span className="textdanger">*</span>
                   </label>
@@ -96,6 +106,19 @@ function AddNewAdmin() {
                     {errors.password?.type === "maxLength" &&
                       "password is too long"}
                   </span>
+                  <label htmlFor="role">Choose:</label>
+
+                  <select
+                    name="role"
+                    id=""
+                    onChange={(e) =>
+                      setValues({ ...values, role: e.target.value })
+                    }
+                  >
+                    <option value="user">user</option>
+                    <option value="admin">Admin</option>
+                    <option value="admin">Editor</option>
+                  </select>
                 </div>
                 <div className="inp-cont">
                   <button className=" btn btn-success">Submit</button>

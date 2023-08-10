@@ -24,7 +24,7 @@ function UpdateAdmin() {
   };
   return (
     <>
-      <div className="d-flex home">
+      <div className="d-flex homeie">
         <div className="content container mt-3 ms-10">
           <Link to={"/dashboard"}>
             <div className="row">
@@ -34,7 +34,7 @@ function UpdateAdmin() {
             </div>
           </Link>
           <div className="d-flex justify-content-around">
-            <h2> Update Slides</h2>
+            <h2> Update Admin</h2>
           </div>
           <div className="slide-form">
             <div className="slideinput">

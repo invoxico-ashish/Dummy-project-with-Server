@@ -171,7 +171,8 @@ exports.RegisterAdmin = async (req, res) => {
       success: false,
       message: "Passord is too short",
     });
-  } if (password.length > 15) {
+  }
+  if (password.length > 15) {
     res.status(400).json({
       success: false,
       message: "Password is too Long",
@@ -179,13 +180,13 @@ exports.RegisterAdmin = async (req, res) => {
   }
   const salt = 10;
   const sql =
-    "INSERT INTO admin_details (`name`,`email`,`password`) VALUES (?)";
+    "INSERT INTO admin_details (`name`,`email`,`password`,`role`) VALUES (?)";
   bcrypt.hash(password.toString(), salt, (err, hash) => {
     if (err) {
       res.json("Error in hashing password");
       console.log(err);
     }
-    const values = [req.body.name, req.body.email, hash];
+    const values = [req.body.name, req.body.email, hash, req.body.role];
     sqlconnect.query(sql, [values], (err, result) => {
       if (!err) {
         res.status(200).json({
@@ -219,6 +220,8 @@ exports.LoginAdmin = async (req, res) => {
     }
 
     if (data.length > 0) {
+      // console.log(req.session.Email);
+      // return false;
       bcrypt.compare(password.toString(), data[0].password, (err, response) => {
         if (err) {
           return res.status(401).json({
@@ -230,9 +233,9 @@ exports.LoginAdmin = async (req, res) => {
         if (response) {
           const name = data[0].name;
           const token = jwt.sign({ name }, "jwt-secret-key", {
-            expiresIn: "1d",
+            expiresIn: "30m",
           });
-          res.cookie("token", token);
+          res.cookie("Bearer", token);
           return res.status(200).json({
             success: true,
             message: "matched",
@@ -251,13 +254,7 @@ exports.LoginAdmin = async (req, res) => {
   });
 };
 
-exports.VeriFiesUser = async (req, res) => {
-  return res.json({
-    success: true,
-    message: "Success",
-    name: req.name,
-  });
-};
+exports.VeriFiesUser = async (req, res) => {};
 
 exports.LogOut = async (req, res) => {
   res.clearCookie("token");

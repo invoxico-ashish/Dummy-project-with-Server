@@ -3,14 +3,27 @@ import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 function AdminHome() {
   const [values, setValues] = useState({ email: "", password: "" });
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
+    confirmPassword: Yup.string()
+      .required("Confirm Password is required")
+      .oneOf([Yup.ref("password")], "Passwords must match"),
+  });
+  const formOptions = { resolver: yupResolver(validationSchema) };
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm(formOptions);
+
   const Navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
@@ -30,6 +43,7 @@ function AdminHome() {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       <div>
@@ -89,6 +103,26 @@ function AdminHome() {
                       "password is too long"}
                   </span>
                 </div>
+                <div className="inp-cont">
+                  <label>
+                    Confirm Password <span className="textdanger">*</span>
+                  </label>
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    {...register("confirmPassword", {
+                      required: true,
+                    })}
+                    className={`form-control ${
+                      errors.confirmPassword ? "is-invalid" : ""
+                    }`}
+                  />
+                  
+                  <span className=" textdanger">
+                    {errors.confirmPassword?.message}
+                  </span>
+                </div>
+
                 <div className="inp-cont">
                   <button className="btn btn-success">Submit</button>
                 </div>

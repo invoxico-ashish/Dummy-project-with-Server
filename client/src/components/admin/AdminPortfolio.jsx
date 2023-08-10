@@ -36,7 +36,7 @@ function AdminPortfolio() {
   };
   return (
     <>
-      <div className="d-flex home">
+      <div className="d-flex homeie">
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">

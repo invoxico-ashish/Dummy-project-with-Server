@@ -4,13 +4,13 @@
 }
 .bodyDiv {
   background-color: whitesmoke;
-  width: auto;
+  /* width: 100vh; */
   height: 100vh;
   position: relative;
 }
 .Form-cont {
-  width: 70vh;
-  height: 70vh;
+  width: 90vh;
+  height: 90vh;
   background-color: white;
   position: absolute;
   top: 0;
@@ -48,6 +48,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+
 }
 .textdanger{
     color: red;

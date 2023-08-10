@@ -17,6 +17,7 @@ function AdminNavbar() {
       .get("http://localhost:8000/api/logout")
       .then((res) => {
         localStorage.clear();
+        // Cookies.clear();
         window.location.reload();
         Navigate("/admin");
       })
@@ -24,7 +25,6 @@ function AdminNavbar() {
   };
   return (
     <>
-  
       <div className="navbarMain">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
@@ -41,7 +41,7 @@ function AdminNavbar() {
             <div className="collapse navbar-collapse justify-content-md-center">
               <ul className="navbar-nav">
                 <li className="nav-item mx-2">
-                  <Link className="nav-link text-white">Home</Link>
+                  <Link to={"/dashboard"} className="nav-link text-white">Home</Link>
                 </li>
                 <li className="nav-item mx-2">
                   <Link className="nav-link text-white">contact</Link>
@@ -81,13 +81,13 @@ function AdminNavbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" onClick={handleDelete}>
-                <FiLogOut /> <span className="ml-2">LogOut</span>
+              <Link to="/userlist" className="nav-link text-white">
+                <TbUsersGroup /> <span className="ml-2">Users List</span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/userlist" className="nav-link text-white">
-                <TbUsersGroup /> <span className="ml-2">Users List</span>
+              <Link className="nav-link text-white" onClick={handleDelete}>
+                <FiLogOut /> <span className="ml-2">LogOut</span>
               </Link>
             </li>
           </ul>
