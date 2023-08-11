@@ -33,9 +33,11 @@ function AdminHome() {
       .then((res) => {
         console.log(res.data, "res");
         localStorage.setItem("token", res.data.token);
-        // const UserRole = res.data.role
-        // console.log(UserRole)
-        // return false
+        // console.log(res.data.role_code)
+        sessionStorage.setItem("user", res.data.role_code);
+        const UserRole = res.data.role_code;
+        console.log(UserRole, "thisiiiiiiii");
+        // return false;
         if (res.data.success === true) {
           Navigate("/dashboard");
         } else {

@@ -1,12 +1,29 @@
-// const express = require("express");
-// const sqlconnect = require("../DBconnect");
+const express = require("express");
+const sqlconnect = require("../DBconnect");
 
-// exports.checkUserRole = (role) => {
-//   (req, res, next) => {
-//     if (req.user && req.user.role === role) {
-//       next(); // User has the required role, continue to the next middleware or route handler
-//     } else {
-//       res.status(403).json({ message: "Access denied" });
+const checkAdminMiddleware = (role) => {
+  return (req,res,next) => {
+    
+  };
+};
+
+// const checkAdminMiddleware = async (req, res, next) => {
+//   const sqlQuery = `SELECT role FROM admin_details WHERE role = "admin"`;
+//   sqlconnect.query(sqlQuery, (err, result) => {
+//     if (err) {
+//       res
+//         .status(400)
+//         .json({ success: false, message: "an Error occured", err });
 //     }
-//   };
+//     if (result.length === 0) {
+//       res.json({
+//         success: false,
+//         message: "Access denied. User is not an admin",
+//       });
+//     } else {
+//       next();
+//     }
+//   });
 // };
+
+module.exports = checkAdminMiddleware;

@@ -12,12 +12,13 @@ import { Outlet } from "react-router-dom";
 import "./Style/Home.css";
 
 function AdminNavbar() {
+  const user = sessionStorage.getItem("user");
   const handleDelete = () => {
     axios
       .get("http://localhost:8000/api/logout")
       .then((res) => {
         localStorage.clear();
-        // Cookies.clear();
+        sessionStorage.clear();
         window.location.reload();
         Navigate("/admin");
       })
@@ -41,7 +42,9 @@ function AdminNavbar() {
             <div className="collapse navbar-collapse justify-content-md-center">
               <ul className="navbar-nav">
                 <li className="nav-item mx-2">
-                  <Link to={"/dashboard"} className="nav-link text-white">Home</Link>
+                  <Link to={"/dashboard"} className="nav-link text-white">
+                    Home
+                  </Link>
                 </li>
                 <li className="nav-item mx-2">
                   <Link className="nav-link text-white">contact</Link>
@@ -49,49 +52,58 @@ function AdminNavbar() {
                 <li className="nav-item mx-2">
                   <Link className="nav-link text-white">About</Link>
                 </li>
+                <li className="nav-item mx-2">
+                  <Link className="nav-link text-white" onClick={handleDelete}>
+                    <span className="ml-2">LogOut</span>
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
         </nav>
-        <div className="d-flex sidebar flex-column flex-shrink-0 text-white bg-dark">
-          <ul className="nav -nav-pils flex-column mb-auto px-0">
-            <li className="nav-item">
-              <Link to="/dashboard" className="nav-link text-white">
-                <MdOutlineDashboard /> <span className="ml-2">Dashboard</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/adminport" className="nav-link text-white">
-                <IoMdAlbums /> <span className="ml-2">Portfolio</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/slideradmin" className="nav-link text-white">
-                <PiSlideshowBold /> <span className="ml-2">Slider</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/teamadmin" className="nav-link text-white">
-                <RiTeamFill /> <span className="ml-2">Team</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/newadmin" className="nav-link text-white">
-                <TbUsersPlus /> <span className="ml-2">Add New User</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/userlist" className="nav-link text-white">
-                <TbUsersGroup /> <span className="ml-2">Users List</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" onClick={handleDelete}>
-                <FiLogOut /> <span className="ml-2">LogOut</span>
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {user === "0" ? 
+          ""
+         : 
+          <div className="d-flex sidebar flex-column flex-shrink-0 text-white bg-dark">
+            <ul className="nav -nav-pils flex-column mb-auto px-0">
+              <li className="nav-item">
+                <Link to="/dashboard" className="nav-link text-white">
+                  <MdOutlineDashboard /> <span className="ml-2">Dashboard</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/adminport" className="nav-link text-white">
+                  <IoMdAlbums /> <span className="ml-2">Portfolio</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/slideradmin" className="nav-link text-white">
+                  <PiSlideshowBold /> <span className="ml-2">Slider</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/teamadmin" className="nav-link text-white">
+                  <RiTeamFill /> <span className="ml-2">Team</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/newadmin" className="nav-link text-white">
+                  <TbUsersPlus /> <span className="ml-2">Add New User</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/userlist" className="nav-link text-white">
+                  <TbUsersGroup /> <span className="ml-2">Users List</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" onClick={handleDelete}>
+                  <FiLogOut /> <span className="ml-2">LogOut</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        }
       </div>
       <Outlet />
     </>

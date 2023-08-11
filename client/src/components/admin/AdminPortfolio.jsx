@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 function AdminPortfolio() {
+  const user = sessionStorage.getItem("user");
   const [portfoimg, setPortfoimg] = useState([]);
 
   useEffect(() => {
@@ -41,12 +42,11 @@ function AdminPortfolio() {
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
               <p>Portfolio</p>
-              {/* <FaUserAlt /> */}
             </div>
           </div>
           <div className="d-flex justify-content-around">
             <h2>Our portfolio</h2>
-            <Link to={"/addport"}>
+            <Link to={user === "0" ? "*" : "/addport"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
@@ -56,7 +56,6 @@ function AdminPortfolio() {
                 <th scope="col">id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Image</th>
-                <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -71,18 +70,22 @@ function AdminPortfolio() {
                       className="tableImage"
                     />
                   </td>
-                  <td>
-                    <Link to={`/updateport/${item.portF_id}`}>
-                      <button className="btn btn-success mx-2">Edit</button>
-                    </Link>
+                  {user === "0"  ? (
+                    ""
+                  ) : (
+                    <td>
+                      <Link to={`/updateport/${item.portF_id}`}>
+                        <button className="btn btn-success mx-2">Edit</button>
+                      </Link>
 
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item.portF_id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(item.portF_id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

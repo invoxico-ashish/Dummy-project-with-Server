@@ -4,7 +4,7 @@ const multer = require("multer");
 const controller = require("../controller/imgController");
 const delcontroller = require("../controller/DeleteController");
 const path = require("path");
-const checkUserRole  = require("../Middleware/AdminMiddle") 
+const checkAdminMiddleware  = require("../Middleware/AdminMiddle") 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./src/img/");

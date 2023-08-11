@@ -37,11 +37,12 @@ function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/portfolio" element={<Portfolio />} />
                   <Route path="/team" element={<OurTeam />} />
-                  <Route path="*" element={<Missing />} />
+                 
                 </Route>
               </Route>
             </Route>
           </Route>
+          <Route path="*" element={<Missing />} />
           {/* ADMIN-ROUTES-------------------------------------------------------------> */}
           <Route element={<AdminNavbar/>}>
           <Route path="/admin" element={<AdminHome />} />

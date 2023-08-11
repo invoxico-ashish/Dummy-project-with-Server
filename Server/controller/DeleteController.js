@@ -226,8 +226,7 @@ exports.LoginAdmin = async (req, res) => {
   const password = req.body.password;
   console.log(email, password);
   const sql = " select * from admin_details where email=?";
-
-  sqlconnect.query(sql, [email], (err, data) => {
+  const queries = sqlconnect.query(sql, [email], (err, data) => {
     if (err) {
       return res.status(400).json({
         success: false,
@@ -248,6 +247,7 @@ exports.LoginAdmin = async (req, res) => {
         if (response) {
           const name = data[0].name;
           const role = data[0].role;
+          const role_code = data[0].role_code;
           console.log(role, "ikjhgf");
           // return false;
           const token = jwt.sign({ name }, "jwt-secret-key", {
@@ -259,6 +259,7 @@ exports.LoginAdmin = async (req, res) => {
             message: "matched",
             token,
             role,
+            role_code,
           });
         } else {
           res.json({ message: "Pass not matched" });
@@ -271,6 +272,7 @@ exports.LoginAdmin = async (req, res) => {
 
     return false;
   });
+  console.log(queries, "thsi si queryr");
 };
 
 exports.LogOut = async (req, res) => {
