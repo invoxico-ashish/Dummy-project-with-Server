@@ -28,12 +28,14 @@ function AdminHome() {
 
   axios.defaults.withCredentials = true;
   const onSubmit = async (err, data) => {
-    console.log(data);
     await axios
       .post("http://localhost:8000/api/login", values)
       .then((res) => {
         console.log(res.data, "res");
         localStorage.setItem("token", res.data.token);
+        // const UserRole = res.data.role
+        // console.log(UserRole)
+        // return false
         if (res.data.success === true) {
           Navigate("/dashboard");
         } else {
@@ -117,7 +119,7 @@ function AdminHome() {
                       errors.confirmPassword ? "is-invalid" : ""
                     }`}
                   />
-                  
+
                   <span className=" textdanger">
                     {errors.confirmPassword?.message}
                   </span>

@@ -160,48 +160,64 @@ exports.UpdatePortFolio = async (req, res) => {
   }
 };
 exports.RegisterAdmin = async (req, res) => {
-  let password = req.body.password;
-  if (!password) {
-    return res.status(400).json({
-      success: false,
-      message: "Password is requried",
-    });
-  } else if (password.length < 4) {
-    return res.status(400).json({
-      success: false,
-      message: "Passord is too short",
-    });
-  }
-  if (password.length > 15) {
-    res.status(400).json({
-      success: false,
-      message: "Password is too Long",
-    });
-  }
-  const salt = 10;
-  const sql =
-    "INSERT INTO admin_details (`name`,`email`,`password`,`role`) VALUES (?)";
-  bcrypt.hash(password.toString(), salt, (err, hash) => {
-    if (err) {
-      res.json("Error in hashing password");
-      console.log(err);
-    }
-    const values = [req.body.name, req.body.email, hash, req.body.role];
-    sqlconnect.query(sql, [values], (err, result) => {
-      if (!err) {
-        res.status(200).json({
-          success: true,
-          message: "Success",
-          result,
-        });
-      } else {
-        res.status(400).json({
+  const email = req.body.email;
+  const checkEmail =
+    "SELECT COUNT(*) AS count FROM admin_details WHERE email = ?";
+  sqlconnect.query(checkEmail, [email], (error, results) => {
+    const count = results[0].count;
+
+    // const emailExists = ;
+    // res.json({ success: false, message: "already Exist", error });
+    if (count != 1) {
+      let password = req.body.password;
+      if (!password) {
+        return res.status(400).json({
           success: false,
-          message: "Failed",
+          message: "Password is requried",
+        });
+      } else if (password.length < 4) {
+        return res.status(400).json({
+          success: false,
+          message: "Passord is too short",
         });
       }
-      console.log(err);
-    });
+      if (password.length > 15) {
+        res.status(400).json({
+          success: false,
+          message: "Password is too Long",
+        });
+      }
+      const salt = 10;
+      const sql =
+        "INSERT INTO admin_details (`name`,`email`,`password`,`role`) VALUES (?)";
+      bcrypt.hash(password.toString(), salt, (err, hash) => {
+        if (err) {
+          res.json("Error in hashing password");
+          console.log(err);
+        }
+        const values = [req.body.name, req.body.email, hash, req.body.role];
+        sqlconnect.query(sql, [values], (err, result) => {
+          if (!err) {
+            res.status(200).json({
+              success: true,
+              message: "Success",
+              result,
+            });
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "Failed",
+            });
+          }
+          console.log(err);
+        });
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "already Exists",
+      });
+    }
   });
 };
 

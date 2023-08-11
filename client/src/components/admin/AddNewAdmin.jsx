@@ -3,6 +3,8 @@ import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddNewAdmin() {
   const Navigate = useNavigate();
@@ -24,9 +26,18 @@ function AddNewAdmin() {
       .post("http://localhost:8000/api/register", values)
       .then((res) => {
         console.log(res, "this is res");
-        setValues(res);
+        // return false;
+        if (res.data.message === "already Exists") {
+          console.log("alredy exist");
+          toast.error("user already exist!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          setValues(res);
+          Navigate("/userlist");
+        }
       })
-      .then((res) => Navigate("/userlist"))
+
       .catch((err) => console.log(err));
   };
   return (
@@ -120,6 +131,7 @@ function AddNewAdmin() {
               </div>
               <div className="inp-cont">
                 <button className=" btn btn-success">Submit</button>
+                <ToastContainer />
               </div>
             </form>
           </div>
