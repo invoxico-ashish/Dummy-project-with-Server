@@ -22,7 +22,6 @@ function AddTeam() {
       .post("http://localhost:8000/api/our/team", formData)
       .then((res) => {
         setName(res);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

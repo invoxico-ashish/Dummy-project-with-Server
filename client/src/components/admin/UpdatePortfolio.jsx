@@ -22,7 +22,6 @@ function UpdatePortfolio() {
     await axios
       .put(`http://localhost:8000/api/update/portfolio/${id}`, formData)
       .then((res) => {
-        console.log(res, "check the res");
         setSlideImage(res);
       })
       .then((res) => {

@@ -22,9 +22,6 @@ function UpdateTeam() {
     axios
       .put("http://localhost:8000/api/update/Team/" + id, formData)
       .then((res) => {
-        console.log(res);
-      })
-      .then((res) => {
         Navigate("/teamadmin");
       });
   };

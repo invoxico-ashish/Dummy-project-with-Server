@@ -12,7 +12,6 @@ function AdminTeam() {
         const Teamres = await axios.get(
           "http://localhost:8000/api/get/our/team"
         );
-        console.log(Teamres.data);
         setteam(Teamres.data.data);
       } catch (error) {
         console.log(error);
@@ -26,9 +25,6 @@ function AdminTeam() {
     if (confirm) {
       axios
         .delete(`http://localhost:8000/api/delete/team/${id}`)
-        .then((res) => {
-          console.log(res);
-        })
         .then((res) => {
           window.location.reload();
         })

@@ -14,7 +14,6 @@ const Dashboard = () => {
   const FetchPortImg = async () => {
     try {
       axios.get("http://localhost:8000/api/get/new/port").then((res) => {
-        // console.log(res.data.data);
         setPortimg(res.data.data);
       });
     } catch (error) {
@@ -55,7 +54,7 @@ const Dashboard = () => {
       const totalUser = axios
         .get("http://localhost:8000/api/admin/count")
         .then((res) => {
-          console.log(res.data.data[0]);
+          // console.log(res.data.data[0]);
           setTotalAdmin(res.data.data);
         });
     } catch (error) {
@@ -77,7 +76,7 @@ const Dashboard = () => {
           to={"/userlist"}
           className="dashonebox  col-md-3 text-white col bg-danger d-flex justify-content-around px-1 py-3 rounded"
         >
-          {totalAdmin.map((i,index) => (
+          {totalAdmin.map((i, index) => (
             <p key={index}>Total User {i.Total_User}</p>
           ))}
         </Link>

@@ -8,7 +8,6 @@ import AdminNavbar from "./AdminNavbar";
 
 function AdminSlider() {
   const user = sessionStorage.getItem("user");
-  console.log(user, "admin user");
   const Navigate = useNavigate();
   const [slideimg, setSlideimg] = useState([]);
 
@@ -18,7 +17,6 @@ function AdminSlider() {
         const slideres = await axios.get(
           "http://localhost:8000/api/get/img/slide"
         );
-        // console.log(slideres.data);
         setSlideimg(slideres.data);
       } catch (error) {
         console.log(error);
@@ -32,10 +30,6 @@ function AdminSlider() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/img/" + id)
-
-        .then((response) => {
-          console.log(response);
-        })
         .then((res) => {
           window.location.reload();
         })

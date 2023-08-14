@@ -12,7 +12,6 @@ function AdminPortfolio() {
         const PortImg = await axios.get(
           "http://localhost:8000/api/get/img/port"
         );
-        console.log(PortImg);
         setPortfoimg(PortImg.data);
       } catch (error) {
         console.log(error);
@@ -27,7 +26,6 @@ function AdminPortfolio() {
       await axios
         .delete(`http://localhost:8000/api/delete/portfolio/${id}`)
         .then((res) => {
-          console.log(res);
           window.location.reload();
         })
         .catch((err) => {
@@ -70,7 +68,7 @@ function AdminPortfolio() {
                       className="tableImage"
                     />
                   </td>
-                  {user === "0"  ? (
+                  {user === "0" ? (
                     ""
                   ) : (
                     <td>

@@ -16,7 +16,6 @@ function UpdateAdmin() {
     axios
       .put(`http://localhost:8000/api/update/admin/det/${id}`, values)
       .then((res) => {
-        console.log(res, "this is res");
         setValues(res);
       })
       .then((res) => {

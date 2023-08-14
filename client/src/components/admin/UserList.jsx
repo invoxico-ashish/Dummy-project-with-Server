@@ -48,9 +48,6 @@ function UserList() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/admin/" + id)
-        .then((response) => {
-          console.log(response);
-        })
         .then((res) => {
           window.location.reload();
         })
@@ -60,11 +57,6 @@ function UserList() {
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
   return (
     <>
       <div className="d-flex homeie">

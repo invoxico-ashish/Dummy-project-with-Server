@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 function AdminNavbar() {
   const location = useLocation();
-  console.log(location.pathname);
+
   const user = sessionStorage.getItem("user");
   const handleDelete = () => {
     axios

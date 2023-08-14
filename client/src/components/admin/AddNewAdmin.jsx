@@ -21,12 +21,10 @@ function AddNewAdmin() {
   } = useForm();
 
   const onSubmit = async (err, data) => {
-    console.log(data, "this is data ");
+    // console.log(data, "this is data ");
     await axios
       .post("http://localhost:8000/api/register", values)
       .then((res) => {
-        console.log(res, "this is res");
-        // return false;
         if (res.data.message === "already Exists") {
           console.log("alredy exist");
           toast.error("user already exist!", {
