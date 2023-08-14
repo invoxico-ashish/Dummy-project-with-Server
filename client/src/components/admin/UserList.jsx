@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
 import { RiEditBoxLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-
+// import Modal from "react-modal";
 import axios from "axios";
 
 function UserList() {
@@ -60,6 +60,11 @@ function UserList() {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <>
       <div className="d-flex homeie">
@@ -118,12 +123,20 @@ function UserList() {
                     )}
                     <Link>
                       <RiEditBoxLine size={20} className="eidtBox" />
+
+                      <select>
+                        <option disabled>Select</option>
+                        <option value="editor">editor</option>
+                        <option value="	visitor"> visitor</option>
+                        <option value="admin">admin</option>
+                      </select>
                     </Link>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div className="dropdown"></div>
         </div>
       </div>
     </>

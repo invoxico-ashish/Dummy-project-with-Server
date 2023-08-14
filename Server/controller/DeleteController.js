@@ -228,51 +228,25 @@ exports.LoginAdmin = async (req, res) => {
   const sql = " select * from admin_details where email=?";
   const queries = sqlconnect.query(sql, [email], (err, data) => {
     if (err) {
-      return res.status(400).json({
-        success: false,
-        message: "Some error occured",
-        err,
-      });
-    }
-
+      return res.status(400).json({ success: false,message: "Some error occured",err, });}
     if (data.length > 0) {
       bcrypt.compare(password.toString(), data[0].password, (err, response) => {
-        if (err) {
-          return res.status(401).json({
-            success: false,
-            message: "Password errror",
-            err,
-          });
-        }
-        if (response) {
+        if (err) {return res.status(401).json({success: false, message: "Password errror",err,});}
+           if (response) {
           const name = data[0].name;
           const role = data[0].role;
           const role_code = data[0].role_code;
           console.log(role, "ikjhgf");
           // return false;
-          const token = jwt.sign({ name }, "jwt-secret-key", {
-            expiresIn: "7s",
-          });
+          const token = jwt.sign({ name }, "jwt-secret-key", {expiresIn: "1d"});
           res.cookie("Bearer", token);
-          return res.status(200).json({
-            success: true,
-            message: "matched",
-            token,
-            role,
-            role_code,
-          });
-        } else {
-          res.json({ message: "Pass not matched" });
-        }
+          return res.status(200).json({success: true,message: "matched",token,role,role_code,});
+        } else {res.json({ message: "Pass not matched" });}
       });
-    } else {
-      return res.json({ message: "No email existed" });
-    }
+    } else {return res.json({ message: "No email existed" });}
     console.log(data);
-
     return false;
   });
-  console.log(queries, "thsi si queryr");
 };
 
 exports.LogOut = async (req, res) => {

@@ -24,13 +24,15 @@ import UpdatePortfolio from "./components/admin/UpdatePortfolio";
 import UserList from "./components/admin/UserList";
 import Missing from "./components/Missing";
 import AdminNavbar from "./components/admin/AdminNavbar";
+import "./components/Header/Navbar/Navbar.css"
 function App() {
+  const token = localStorage.getItem("token");
   return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route element={<Footer />}>
-            <Route element={<Navbar/>}>
+            <Route element={<Navbar />}>
               <Route element={<GetInTouch />}>
                 <Route>
                   <Route path="/" element={<Home />} />
@@ -42,9 +44,9 @@ function App() {
               </Route>
             </Route>
           </Route>
-          <Route path="*" element={<Missing />} />
+          <Route path="*" element={ <Missing />} />
           {/* ADMIN-ROUTES-------------------------------------------------------------> */}
-          <Route element={<AdminNavbar/>}>
+          <Route  element={<AdminNavbar/>}>
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/dashboard"element={<Protected><Dashboard /></Protected>}/>
           <Route path="/adminport"element={<Protected><AdminPortfolio /></Protected>}/>

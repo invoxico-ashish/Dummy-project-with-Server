@@ -7,6 +7,8 @@ import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 
 function AdminSlider() {
+  const user = sessionStorage.getItem("user");
+  console.log(user, "admin user");
   const Navigate = useNavigate();
   const [slideimg, setSlideimg] = useState([]);
 
@@ -53,9 +55,15 @@ function AdminSlider() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Slides</h2>
-            <Link to={"/addslides"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
+            {user === "0" ? (
+              ""
+            ) : (
+              <>
+                <Link to={"/addslides"}>
+                  <button className="btn btn-success">+Add</button>
+                </Link>
+              </>
+            )}
           </div>
           <table className="table w-100">
             <thead>
@@ -63,7 +71,6 @@ function AdminSlider() {
                 <th scope="col">Slider_id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Slide</th>
-                <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -79,19 +86,25 @@ function AdminSlider() {
                     />
                   </td>
                   <td>
-                    <Link
-                      to={`/updateslides/${item.slider_id}`}
-                      className="btn btn-success mx-2"
-                    >
-                      Edit
-                    </Link>
+                    {user == "0" ? (
+                      ""
+                    ) : (
+                      <>
+                        <Link
+                          to={`/updateslides/${item.slider_id}`}
+                          className="btn btn-success mx-2"
+                        >
+                          Edit
+                        </Link>
 
-                    <button
-                      className="btn btn-danger"
-                      onClick={(e) => handleDelete(item.slider_id)}
-                    >
-                      Delete
-                    </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={(e) => handleDelete(item.slider_id)}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -67,8 +67,7 @@
   margin-top: 20px;
 }
 
-.topDash{
-
+.topDash {
   margin-left: 200px;
   margin-top: 10px;
   width: auto;
@@ -77,12 +76,17 @@
   align-items: center;
   justify-content: space-evenly;
 }
-.dashonebox{
+.dashonebox {
   border: 1px solid black;
   width: 200px;
   height: 100px;
-  font-size:30px;
+  font-size: 30px;
 }
-.eidtBox{
-   cursor: pointer;
+.eidtBox {
+  cursor: pointer;
+}
+.navbarMain  {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }

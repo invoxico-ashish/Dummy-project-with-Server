@@ -1,6 +1,11 @@
 .custom_menu-btn svg {
   cursor: pointer;
 }
-#navid{
-  border: 1px solid black;
+.NavColor {
+  position: relative;
+  background-color: #85310c;
+  color: white;
+}
+#NewNav span  {
+  color: azure;
 }
