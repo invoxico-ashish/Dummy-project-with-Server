@@ -24,6 +24,7 @@ import UpdatePortfolio from "./components/admin/UpdatePortfolio";
 import UserList from "./components/admin/UserList";
 import Missing from "./components/Missing";
 import AdminNavbar from "./components/admin/AdminNavbar";
+import Permissions from "./components/admin/Permissions";
 import "./components/Header/Navbar/Navbar.css"
 function App() {
   const token = localStorage.getItem("token");
@@ -61,6 +62,7 @@ function App() {
           <Route path="/updateteam/:id"element={ <Protected><UpdateTeam /></Protected> }/>
           <Route path="/updateport/:id"element={ <Protected><UpdatePortfolio /> </Protected>} />
           <Route path="/userlist" element={<Protected><UserList /></Protected> } />
+          <Route path="/permission/:id" element={<Protected><Permissions /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter>

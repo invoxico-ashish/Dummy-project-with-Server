@@ -35,6 +35,7 @@ router.get("/get/new/port", controller.GetNewPortImg);
 router.get("/get/latest/slide", controller.GetLatestSlideImage);
 router.get("/get/latest/admin/user", controller.GetLatestAdminDetails);
 router.get("/get/latest/team", controller.GetLatestTeam);
+router.get("/get/permision/data", controller.PermissionData);
 router.post("/resgisert/admin", controller.RegisterAdmin);
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
 //LOGIN ROUTE-------------------------------------------->

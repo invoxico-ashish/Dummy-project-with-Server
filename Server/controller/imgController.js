@@ -444,3 +444,11 @@ exports.GetLatestTeam = async (req, res) => {
     }
   });
 };
+
+exports.PermissionData = async(req,res)=>{
+const sql = `select * from permissions`;
+sqlconnect.query(sql,(err,result)=>{
+  if(!err){res.status(200).json({success:true,message:"Success",result})}
+  else{ res.status(400).json({success:false,message:"Failed",err})}
+})
+}
