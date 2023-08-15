@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 function Permissions() {
   const { id } = useParams();
   const [perData, setPerData] = useState([]);
-  const [main, setMain] = useState([]);
+  const [main, setMain] = useState("");
 
   const GetPermisionData = async () => {
     try {
@@ -16,17 +16,20 @@ function Permissions() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     GetPermisionData();
   }, []);
-  const handleChange = (user, e, module_id) => {
-    console.log(user, "useId", e, "value", module_id, "moduleId");
-    setMain(user);
-    console.log(main, "main state");
-    axios
+
+  const handleChange = async (user, e, module_id) => {
+    console.log(user, module_id, e);
+    setMain(user, module_id, e);
+    console.log(id, main, "state");
+    // return false;
+    await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, main)
       .then((res) => {
-        console.log(res, "chguyagvsdig");
+        // console.log(res);
       });
   };
 
@@ -67,8 +70,6 @@ function Permissions() {
                   </td>
                 </tr>
               ))}
-
-              {main}
             </tbody>
           </table>
         </div>

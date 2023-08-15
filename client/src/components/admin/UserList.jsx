@@ -102,16 +102,16 @@ function UserList() {
                       <>
                         <Link to={`/updateadmin/${item.admin_id}`}>
                           {/* <AiOutlineEdit size={25}/> */}
-                          <button className="btn btn-success mx-2">Edit</button>
+                          <button className="btn btn-success mx-2 btn-sm">Edit</button>
                         </Link>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger btn-sm"
                           onClick={(e) => handleDelete(item.admin_id)}
                         >
                           Delete
                         </button>
                         <Link to={`/permission/${item.admin_id}`}>
-                          <button className="btn btn-warning mx-2">
+                          <button className="btn btn-warning mx-2 btn-sm">
                             Permission
                           </button>
                         </Link>
