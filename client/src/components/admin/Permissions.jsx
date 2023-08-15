@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 function Permissions() {
   const { id } = useParams();
   const [perData, setPerData] = useState([]);
-  const [main, setMain] = useState("");
+
 
   const GetPermisionData = async () => {
     try {
@@ -22,21 +22,12 @@ function Permissions() {
   }, []);
 
   const handleChange = async (admin_id, permissions, module_id) => {
-    const data= {
-      "admin_id":admin_id,
-      "permissions":permissions,
-      "module_id":module_id
-    }
-    // setMain([admin_id, module_id, e]);
+    const data= {"admin_id":admin_id,"permissions":permissions,"module_id":module_id}
     console.log(data);
-    // return false;
-
-
     await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
-      .then((res) => {
-        // console.log(res);
-      });
+      .then((res)=>console.log("success"))
+    
   };
 
   return (

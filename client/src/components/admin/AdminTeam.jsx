@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 function AdminTeam() {
-  const user = sessionStorage.getItem("user");
+  // const user = sessionStorage.getItem("user");
   const [team, setteam] = useState([]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function AdminTeam() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Team</h2>
-            <Link to={user === "0" ? "*" : "/addteam"}>
+            <Link to={"/addteam"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
@@ -68,24 +68,21 @@ function AdminTeam() {
                       className="tableImage"
                     />
                   </td>
-                  {user === "0" ? (
-                    ""
-                  ) : (
-                    <td>
-                      <div className="modalContainer">
-                        <Link to={`/updateteam/${item.team_id}`}>
-                          <button className="btn btn-success mx-2">edit</button>
-                        </Link>
 
-                        <button
-                          className="btn btn-danger"
-                          onClick={(e) => handleDeleteTeamById(item.team_id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  )}
+                  <td>
+                    <div className="modalContainer">
+                      <Link to={`/updateteam/${item.team_id}`}>
+                        <button className="btn btn-success mx-2">edit</button>
+                      </Link>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={(e) => handleDeleteTeamById(item.team_id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

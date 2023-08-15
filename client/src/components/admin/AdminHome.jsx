@@ -13,9 +13,9 @@ function AdminHome() {
     password: Yup.string()
       .required("Password is required")
       .min(6, "Password must be at least 6 characters"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+    // confirmPassword: Yup.string()
+    //   .required("Confirm Password is required")
+    //   .oneOf([Yup.ref("password")], "Passwords must match"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const {
@@ -104,7 +104,7 @@ function AdminHome() {
                       "password is too long"}
                   </span>
                 </div>
-                <div className="inp-cont">
+                {/* <div className="inp-cont">
                   <label>
                     Confirm Password <span className="textdanger">*</span>
                   </label>
@@ -122,7 +122,7 @@ function AdminHome() {
                   <span className=" textdanger">
                     {errors.confirmPassword?.message}
                   </span>
-                </div>
+                </div> */}
 
                 <div className="inp-cont">
                   <button className="btn btn-success">Submit</button>

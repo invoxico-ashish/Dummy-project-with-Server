@@ -85,15 +85,12 @@ function AdminNavbar() {
                     <RiTeamFill /> <span className="ml-2">Team</span>
                   </Link>
                 </li>
-                {user === "0" ? (
-                  ""
-                ) : (
-                  <li className="nav-item">
-                    <Link to="/newadmin" className="nav-link text-white">
-                      <TbUsersPlus /> <span className="ml-2">Add New User</span>
-                    </Link>
-                  </li>
-                )}
+
+                <li className="nav-item">
+                  <Link to="/newadmin" className="nav-link text-white">
+                    <TbUsersPlus /> <span className="ml-2">Add New User</span>
+                  </Link>
+                </li>
 
                 <li className="nav-item">
                   <Link to="/userlist" className="nav-link text-white">

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function UserList() {
-  const user = sessionStorage.getItem("user");
+  // const user = sessionStorage.getItem("user");
   const [data, setData] = useState([]);
   const [record, setRecords] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState([]);
@@ -15,20 +15,14 @@ function UserList() {
       const res = await axios.get("http://localhost:8000/api/admin/details");
       setData(res.data.data);
       setRecords(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+        } catch (error) {console.log(error)}
   };
   const FetchTotalUser = async () => {
     try {
       const totalUser = axios
         .get("http://localhost:8000/api/admin/count")
-        .then((res) => {
-          setTotalAdmin(res.data.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+        .then((res) => {setTotalAdmin(res.data.data);});
+         } catch (error) {console.log(error)}
   };
 
   useEffect(() => {
@@ -38,7 +32,7 @@ function UserList() {
 
   const Filter = (e) => {
     setRecords(
-      data.filter((f) => f.name.toLowerCase().includes(e.target.value)) ||
+      data.filter((f) => f.name.toLowerCase().includes(e.target.value)),
         data.filter((f) => f.email.toLowerCase().includes(e.target.value))
     );
   };
@@ -47,12 +41,8 @@ function UserList() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/admin/" + id)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then((res) => {window.location.reload();})
+        .catch((err) => {console.log(err);});
     }
   };
 
@@ -75,7 +65,7 @@ function UserList() {
               placeholder="search"
               className="searchTerm"
             />
-            <Link to={user === "0" ? "*" : "/newadmin"}>
+            <Link to={"/newadmin"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
@@ -85,7 +75,7 @@ function UserList() {
                 <th scope="col">admin_id</th>
                 <th scope="col">name</th>
                 <th scope="col">email</th>
-                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -94,29 +84,25 @@ function UserList() {
                   <td>{item.admin_id}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
-                  <td>{item.role}</td>
+
                   <td>
-                    {user === "0" ? (
-                      ""
-                    ) : (
-                      <>
-                        <Link to={`/updateadmin/${item.admin_id}`}>
-                          {/* <AiOutlineEdit size={25}/> */}
-                          <button className="btn btn-success mx-2 btn-sm">Edit</button>
-                        </Link>
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={(e) => handleDelete(item.admin_id)}
-                        >
-                          Delete
-                        </button>
-                        <Link to={`/permission/${item.admin_id}`}>
-                          <button className="btn btn-warning mx-2 btn-sm">
-                            Permission
-                          </button>
-                        </Link>
-                      </>
-                    )}
+                    <Link to={`/updateadmin/${item.admin_id}`}>
+                      {/* <AiOutlineEdit size={25}/> */}
+                      <button className="btn btn-success mx-2 btn-sm">
+                        Edit
+                      </button>
+                    </Link>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={(e) => handleDelete(item.admin_id)}
+                    >
+                      Delete
+                    </button>
+                    <Link to={`/permission/${item.admin_id}`}>
+                      <button className="btn btn-warning mx-2 btn-sm">
+                        Permission
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

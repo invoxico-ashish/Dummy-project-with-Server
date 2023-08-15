@@ -49,15 +49,10 @@ function AdminSlider() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Slides</h2>
-            {user === "0" ? (
-              ""
-            ) : (
-              <>
-                <Link to={"/addslides"}>
-                  <button className="btn btn-success">+Add</button>
-                </Link>
-              </>
-            )}
+
+            <Link to={"/addslides"}>
+              <button className="btn btn-success">+Add</button>
+            </Link>
           </div>
           <table className="table w-100">
             <thead>
@@ -80,25 +75,19 @@ function AdminSlider() {
                     />
                   </td>
                   <td>
-                    {user == "0" ? (
-                      ""
-                    ) : (
-                      <>
-                        <Link
-                          to={`/updateslides/${item.slider_id}`}
-                          className="btn btn-success mx-2"
-                        >
-                          Edit
-                        </Link>
+                    <Link
+                      to={`/updateslides/${item.slider_id}`}
+                      className="btn btn-success mx-2"
+                    >
+                      Edit
+                    </Link>
 
-                        <button
-                          className="btn btn-danger"
-                          onClick={(e) => handleDelete(item.slider_id)}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
+                    <button
+                      className="btn btn-danger"
+                      onClick={(e) => handleDelete(item.slider_id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

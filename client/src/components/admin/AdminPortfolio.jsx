@@ -39,12 +39,11 @@ function AdminPortfolio() {
         <div className="content container mt-3">
           <div className="row">
             <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-              <p>Portfolio</p>
+              <h4>Our portfolio</h4>
             </div>
           </div>
           <div className="d-flex justify-content-around">
-            <h2>Our portfolio</h2>
-            <Link to={user === "0" ? "*" : "/addport"}>
+              <Link to={"/addport"}>
               <button className="btn btn-success">+Add</button>
             </Link>
           </div>
@@ -54,6 +53,7 @@ function AdminPortfolio() {
                 <th scope="col">id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Image</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -68,22 +68,19 @@ function AdminPortfolio() {
                       className="tableImage"
                     />
                   </td>
-                  {user === "0" ? (
-                    ""
-                  ) : (
-                    <td>
-                      <Link to={`/updateport/${item.portF_id}`}>
-                        <button className="btn btn-success mx-2">Edit</button>
-                      </Link>
 
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDelete(item.portF_id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  )}
+                  <td>
+                    <Link to={`/updateport/${item.portF_id}`}>
+                      <button className="btn btn-success mx-2">Edit</button>
+                    </Link>
+
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(item.portF_id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
