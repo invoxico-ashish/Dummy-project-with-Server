@@ -1,6 +1,4 @@
-const { json } = require("body-parser");
 const sqlconnect = require("../DBconnect");
-const { head } = require("../router/router");
 const bcrypt = require("bcryptjs");
 
 exports.imgController = async (req, res, next) => {
@@ -456,11 +454,13 @@ exports.ModuleData = async (req, res) => {
   });
 };
 exports.PermissionModuleVal = async (req, res) => {
+  console.log(req.body);
+  // return false;
   let id = req.params.id;
   let permissions = req.body.permissions;
   let module_id = req.body.module_id;
   const sql = ` insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
-  sqlconnect.query(sql, (err, result) => {
+  await sqlconnect.query(sql, (err, result) => {
     if (!err) {
       res.status(200).json({ success: true, message: "Success", result });
       console.log(id, permissions, module_id);

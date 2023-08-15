@@ -21,13 +21,19 @@ function Permissions() {
     GetPermisionData();
   }, []);
 
-  const handleChange = async (user, e, module_id) => {
-    console.log(user, module_id, e);
-    setMain(user, module_id, e);
-    console.log(id, main, "state");
+  const handleChange = async (admin_id, permissions, module_id) => {
+    const data= {
+      "admin_id":admin_id,
+      "permissions":permissions,
+      "module_id":module_id
+    }
+    // setMain([admin_id, module_id, e]);
+    console.log(data);
     // return false;
+
+
     await axios
-      .post(`http://localhost:8000/api/permission/module/value/${id}`, main)
+      .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
       .then((res) => {
         // console.log(res);
       });
