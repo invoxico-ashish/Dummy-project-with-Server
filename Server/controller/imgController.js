@@ -445,10 +445,28 @@ exports.GetLatestTeam = async (req, res) => {
   });
 };
 
-exports.PermissionData = async(req,res)=>{
-const sql = `select * from permissions`;
-sqlconnect.query(sql,(err,result)=>{
-  if(!err){res.status(200).json({success:true,message:"Success",result})}
-  else{ res.status(400).json({success:false,message:"Failed",err})}
-})
-}
+exports.ModuleData = async (req, res) => {
+  const sql = `select * from module_data`;
+  sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      res.status(200).json({ success: true, message: "Success", result });
+    } else {
+      res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};
+exports.PermissionModuleVal = async (req, res) => {
+  let id = req.params.id;
+  let permissions = req.body.permissions;
+  let module_id = req.body.module_id;
+  const sql = ` insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
+  const queries = sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      res.status(200).json({ success: true, message: "Success",result });
+      console.log(id,permissions,module_id)
+    } else {
+      res.status(400).json({ success: false, message: "failed", err });
+    }
+    console.log(err,"err");
+  });
+};
