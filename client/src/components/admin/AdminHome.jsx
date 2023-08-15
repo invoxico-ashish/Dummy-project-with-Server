@@ -104,25 +104,25 @@ function AdminHome() {
                       "password is too long"}
                   </span>
                 </div>
-                {/* <div className="inp-cont">
-                  <label>
-                    Confirm Password <span className="textdanger">*</span>
-                  </label>
-                  <input
-                    name="confirmPassword"
-                    type="password"
-                    {...register("confirmPassword", {
-                      required: true,
-                    })}
-                    className={`form-control ${
-                      errors.confirmPassword ? "is-invalid" : ""
-                    }`}
-                  />
+                  {/* <div className="inp-cont">
+                    <label>
+                      Confirm Password <span className="textdanger">*</span>
+                    </label>
+                    <input
+                      name="confirmPassword"
+                      type="password"
+                      {...register("confirmPassword", {
+                        required: true,
+                      })}
+                      className={`form-control ${
+                        errors.confirmPassword ? "is-invalid" : ""
+                      }`}
+                    />
 
-                  <span className=" textdanger">
-                    {errors.confirmPassword?.message}
-                  </span>
-                </div> */}
+                    <span className=" textdanger">
+                      {errors.confirmPassword?.message}
+                    </span>
+                  </div> */}
 
                 <div className="inp-cont">
                   <button className="btn btn-success">Submit</button>
