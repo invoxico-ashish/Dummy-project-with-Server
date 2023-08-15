@@ -18,6 +18,7 @@ function AddNewAdmin() {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm();
 
   const onSubmit = async (err, data) => {
@@ -31,6 +32,9 @@ function AddNewAdmin() {
             position: toast.POSITION.TOP_RIGHT,
           });
         } else {
+          toast.success("user resgister!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
           setValues(res);
           Navigate("/userlist");
         }
@@ -104,6 +108,7 @@ function AddNewAdmin() {
                     setValues({ ...values, password: e.target.value })
                   }
                 />
+
                 <span className="textdanger">
                   {errors.password?.type === "required" &&
                     "password is required"}
@@ -112,20 +117,35 @@ function AddNewAdmin() {
                   {errors.password?.type === "maxLength" &&
                     "password is too long"}
                 </span>
-                <label htmlFor="role">Choose:</label>
-
-                <select
-                  name="role"
-                  id=""
+              </div>
+              <div className="inp-cont">
+                <label>
+                  Confirm Password<span className="textdanger">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="Confirmpassword"
+                  {...register("Confirmpassword", {
+                    required: true,
+                    validate: (value) => value === watch("password"),
+                    minLength: 6,
+                    maxLength: 20,
+                  })}
+                  className="form-control"
                   onChange={(e) =>
-                    setValues({ ...values, role: e.target.value })
+                    setValues({ ...values, password: e.target.value })
                   }
-                >
-                  <option value="user">user</option>
-                  <option value="admin">Admin</option>
-                  <option value="admin">Editor</option>
-                  <option>none</option>
-                </select>
+                />
+                <span className="textdanger">
+                  {errors.Confirmpassword?.type === "required" &&
+                    "password is required"}
+                  {errors.Confirmpassword?.type === "minLength" &&
+                    "password is too short"}
+                  {errors.Confirmpassword?.type === "maxLength" &&
+                    "password is too long"}
+                  {errors.Confirmpasswords?.type === "password" &&
+                    "Passwords do not match"}
+                </span>
               </div>
               <div className="inp-cont">
                 <button className=" btn btn-success">Submit</button>

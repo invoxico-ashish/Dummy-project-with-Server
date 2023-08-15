@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminHome() {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -30,15 +32,13 @@ function AdminHome() {
   const onSubmit = async (err, data) => {
     await axios
       .post("http://localhost:8000/api/login", values)
-      .then((res) => {
-        console.log(res.data, "res");
+      .then((res) => { console.log(res.data, "res");
         localStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", res.data.role_code);
+        
         const UserRole = res.data.role_code;
-        if (res.data.success === true) {
-          Navigate("/dashboard");
-        } else {
-          alert("Error");
+        if (res.data.success === true) {Navigate("/dashboard");
+        } else { toast.error("Invalid Credentials", {position: toast.POSITION.TOP_RIGHT});
           console.log(err);
         }
       })
@@ -104,7 +104,7 @@ function AdminHome() {
                       "password is too long"}
                   </span>
                 </div>
-                  {/* <div className="inp-cont">
+                {/* <div className="inp-cont">
                     <label>
                       Confirm Password <span className="textdanger">*</span>
                     </label>
@@ -127,6 +127,7 @@ function AdminHome() {
                 <div className="inp-cont">
                   <button className="btn btn-success">Submit</button>
                 </div>
+                <ToastContainer />
               </form>
             </div>
           </div>

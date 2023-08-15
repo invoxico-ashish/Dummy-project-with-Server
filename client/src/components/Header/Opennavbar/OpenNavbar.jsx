@@ -8,8 +8,8 @@ function OpenNavbar({ setShowMenu }) {
   return (
     <>
       <div className="Main-cont" direction="right">
-        <div onClick={() => setShowMenu(false)}>
-          <GrClose size={40} color="white" className="crossArrow" />
+        <div onClick={() => setShowMenu(false)}className="crossArrow" >
+          <GrClose size={40} />
         </div>
         <div className="inner-div">
           <NavLink

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import AdminNavbar from "./AdminNavbar";
+
 
 function AddPortfolio() {
   const Navigate = useNavigate();

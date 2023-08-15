@@ -1,5 +1,6 @@
 .Main-cont {
   background-color: rgba(141, 58, 21, 0.95);
+  position: relative;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -8,11 +9,11 @@
   left: 0;
   overflow-x: hidden;
   transition: 0.5s;
-  /* transition: width 2s; */
-  -webkit-transition: all 3s ease-in-out;
+  /* -webkit-transition: all 3s ease-in-out;   */
+  animation: slideCartWindow 1s ease forwards;
 }
 .inner-div {
-  position: relative;
+  position: absolute;
   top: 20%;
   width: 100%;
   text-align: center;
@@ -46,11 +47,11 @@
   background-color: #ffffff;
   color: #000000;
 }
-/* .crossArrow {
-  background-color: white;
-  color: seagreen;
+.crossArrow svg{
+  /* background-color: white; */
+  color: rgb(255, 255, 255);
   cursor: pointer;
-} */
+}
 
 @keyframes slideCartWindow {
   0% {
