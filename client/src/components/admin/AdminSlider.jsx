@@ -6,24 +6,25 @@ import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
 function AdminSlider() {
   const id = localStorage.getItem("admin_id");
-  const Navigate = useNavigate();
   const [slideimg, setSlideimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
+
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
-    setUserPermissions([permissions[0], permissions[1], permissions[2]]);
-    console.log([permissions], "ttttttttttttt");
-  };
+    const makePerm = [permissions[0].permission_value,permissions[1].permission_value];
+    setUserPermissions(makePerm);
+    console.log(
+      permissions[0].permission_value,
+      permissions[1].permission_value,
+      "ttttttttttttt")}
+
   const slideimages = async () => {
     try {
-      const slideres = await axios.get(
-        "http://localhost:8000/api/get/img/slide"
-      );
+      const slideres = await axios.get("http://localhost:8000/api/get/img/slide");
       setSlideimg(slideres.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error)}
   };
+
   useEffect(() => {
     fetchPermissions();
     slideimages();
@@ -34,12 +35,8 @@ function AdminSlider() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/img/" + id)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then((res) => {window.location.reload()})
+        .catch((err) => {console.log(err)});
     }
   };
   return (
