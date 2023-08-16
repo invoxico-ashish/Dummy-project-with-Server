@@ -7,10 +7,12 @@ function AdminPortfolio() {
   const id = localStorage.getItem("admin_id");
   const [portfoimg, setPortfoimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
+
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions([permissions[0], permissions[1], permissions[2]]);
-    console.log([permissions], "ttttttttttttt");
+    console.log(permissions, "ttttttttttttt");
+    console.log(permissions, "ttttttttttttt");
   };
 
   const FetchPortimg = async () => {

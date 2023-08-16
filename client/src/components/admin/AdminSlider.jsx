@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
@@ -11,18 +11,20 @@ function AdminSlider() {
 
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
-    const makePerm = [permissions[0].permission_value,permissions[1].permission_value];
+    const makePerm = [permissions[1].permission_value];
     setUserPermissions(makePerm);
-    console.log(
-      permissions[0].permission_value,
-      permissions[1].permission_value,
-      "ttttttttttttt")}
+    console.log(permissions, "ttttttttttttt");
+  };
 
   const slideimages = async () => {
     try {
-      const slideres = await axios.get("http://localhost:8000/api/get/img/slide");
+      const slideres = await axios.get(
+        "http://localhost:8000/api/get/img/slide"
+      );
       setSlideimg(slideres.data);
-    } catch (error) {console.log(error)}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -35,8 +37,12 @@ function AdminSlider() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/img/" + id)
-        .then((res) => {window.location.reload()})
-        .catch((err) => {console.log(err)});
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (

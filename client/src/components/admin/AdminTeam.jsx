@@ -1,22 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
+
 function AdminTeam() {
-  // const user = sessionStorage.getItem("user");
+  const id = localStorage.getItem("admin_id");
   const [team, setteam] = useState([]);
+  const FetchTeam = async () => {
+    try {
+      const Teamres = await axios.get("http://localhost:8000/api/get/our/team");
+      setteam(Teamres.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const FetchTeam = async () => {
-      try {
-        const Teamres = await axios.get(
-          "http://localhost:8000/api/get/our/team"
-        );
-        setteam(Teamres.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     FetchTeam();
   }, []);
 
@@ -73,7 +71,9 @@ function AdminTeam() {
                   <td>
                     <div className="modalContainer">
                       <Link to={`/updateteam/${item.team_id}`}>
-                        <button className="btn btn-success mx-2 btn-sm">edit</button>
+                        <button className="btn btn-success mx-2 btn-sm">
+                          edit
+                        </button>
                       </Link>
 
                       <button

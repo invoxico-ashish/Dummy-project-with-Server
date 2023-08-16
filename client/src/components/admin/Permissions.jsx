@@ -40,7 +40,7 @@ function Permissions() {
             </div>
           </div>
           <div className="d-flex justify-content-around">
-            <h2></h2>
+          
           </div>
           <table className="table w-50">
             <thead>
