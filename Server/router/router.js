@@ -49,6 +49,7 @@ router.post("/register", delcontroller.RegisterAdmin);
 // router.get("/checkAuth", verifyUser, delcontroller.VeriFiesUser);
 router.get("/logout", delcontroller.LogOut);
 router.get("/admin/details", controller.GetAdminDetails);
+router.get("/permision/values/module/:id", controller.getPermissionValues);
 
 //DELETE ROUTES-------------------->
 

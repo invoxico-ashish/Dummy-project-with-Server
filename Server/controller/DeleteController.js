@@ -231,12 +231,12 @@ exports.LoginAdmin = async (req, res) => {
       return res.status(400).json({ success: false, message: "Some error occured", err })}
     if (data.length > 0) {bcrypt.compare(password.toString(), data[0].password, (err, response) => {
         if (err) {return res.status(401).json({ success: false, message: "Password errror", err })}
-           if (response) {const name = data[0].name;const role = data[0].role;const role_code = data[0].role_code;
-          console.log(role, "ikjhgf");
+           if (response) {const name = data[0].name; const admin_id= data[0].admin_id;
+          console.log(admin_id, "ikjhgf");
           // return false;
           const token = jwt.sign({ name }, "jwt-secret-key", {expiresIn: "1d"});
           res.cookie("Bearer", token);
-          return res.status(200).json({success: true,message: "matched",token});
+          return res.status(200).json({success: true,message: "matched",token,admin_id});
         }  else { res.json({ message: "Pass not matched" });}
       });
     } else {return res.json({ message: "No email existed" });}

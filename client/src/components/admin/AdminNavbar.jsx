@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
@@ -13,8 +13,8 @@ import "./Style/Home.css";
 import { useLocation } from "react-router-dom";
 
 function AdminNavbar() {
+  const id = localStorage.getItem("admin_id");
   const location = useLocation();
-
   const user = sessionStorage.getItem("user");
   const handleDelete = () => {
     axios
@@ -27,6 +27,7 @@ function AdminNavbar() {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       <div className="navbarMain">
@@ -66,7 +67,7 @@ function AdminNavbar() {
               <ul className="nav -nav-pils flex-column mb-auto px-0">
                 <li className="nav-item">
                   <Link to="/dashboard" className="nav-link text-white">
-                    <MdOutlineDashboard />{" "}
+                    <MdOutlineDashboard />
                     <span className="ml-2">Dashboard</span>
                   </Link>
                 </li>
@@ -85,18 +86,25 @@ function AdminNavbar() {
                     <RiTeamFill /> <span className="ml-2">Team</span>
                   </Link>
                 </li>
+                {id === "20" ? (
+                  <>
+                    <li className="nav-item">
+                      <Link to="/newadmin" className="nav-link text-white">
+                        <TbUsersPlus />
+                        <span className="ml-2">Add New User</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/userlist" className="nav-link text-white">
+                        <TbUsersGroup />
+                        <span className="ml-2">Users List</span>
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  ""
+                )}
 
-                <li className="nav-item">
-                  <Link to="/newadmin" className="nav-link text-white">
-                    <TbUsersPlus /> <span className="ml-2">Add New User</span>
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link to="/userlist" className="nav-link text-white">
-                    <TbUsersGroup /> <span className="ml-2">Users List</span>
-                  </Link>
-                </li>
                 <li className="nav-item">
                   <Link className="nav-link text-white" onClick={handleDelete}>
                     <FiLogOut /> <span className="ml-2">LogOut</span>

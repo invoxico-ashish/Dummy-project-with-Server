@@ -83,7 +83,6 @@ function GetInTouch() {
           </div>
         </div>
       </section>
-    
     </>
   );
 }

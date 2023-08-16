@@ -6,6 +6,7 @@ import axios from "axios";
 
 function UserList() {
   // const user = sessionStorage.getItem("user");
+
   const [data, setData] = useState([]);
   const [record, setRecords] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState([]);
@@ -15,25 +16,25 @@ function UserList() {
       const res = await axios.get("http://localhost:8000/api/admin/details");
       setData(res.data.data);
       setRecords(res.data.data);
-        } catch (error) {console.log(error)}
+    } catch (error) {
+      console.log(error);
+    }
   };
   const FetchTotalUser = async () => {
     try {
       const totalUser = axios
         .get("http://localhost:8000/api/admin/count")
-        .then((res) => {setTotalAdmin(res.data.data);});
-         } catch (error) {console.log(error)}
+        .then((res) => {
+          setTotalAdmin(res.data.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  useEffect(() => {
-    FetchTotalUser();
-    FetchData();
-  }, []);
-
   const Filter = (e) => {
     setRecords(
       data.filter((f) => f.name.toLowerCase().includes(e.target.value)),
-        data.filter((f) => f.email.toLowerCase().includes(e.target.value))
+      data.filter((f) => f.email.toLowerCase().includes(e.target.value))
     );
   };
   const handleDelete = async (id) => {
@@ -41,10 +42,21 @@ function UserList() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/admin/" + id)
-        .then((res) => {window.location.reload();})
-        .catch((err) => {console.log(err);});
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
+
+
+  useEffect(() => {
+    FetchTotalUser();
+    FetchData();
+   
+  }, []);
 
   return (
     <>
@@ -84,10 +96,8 @@ function UserList() {
                   <td>{item.admin_id}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
-
                   <td>
                     <Link to={`/updateadmin/${item.admin_id}`}>
-                      {/* <AiOutlineEdit size={25}/> */}
                       <button className="btn btn-success mx-2 btn-sm">
                         Edit
                       </button>

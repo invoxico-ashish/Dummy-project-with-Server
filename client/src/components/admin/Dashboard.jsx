@@ -54,7 +54,6 @@ const Dashboard = () => {
       const totalUser = axios
         .get("http://localhost:8000/api/admin/count")
         .then((res) => {
-          // console.log(res.data.data[0]);
           setTotalAdmin(res.data.data);
         });
     } catch (error) {

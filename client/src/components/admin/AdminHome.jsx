@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function AdminHome() {
+  const id = localStorage.getItem("admin_id");
   const [values, setValues] = useState({ email: "", password: "" });
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("email is required"),
-    password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
     // passwordConfirmation: Yup.string().oneOf([Yup.ref("password"), null],"Passwords must match"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -30,10 +33,9 @@ function AdminHome() {
       .post("http://localhost:8000/api/login", values)
       .then((res) => {
         console.log(res.data, "res");
-        localStorage.setItem("token", res.data.token);
-        sessionStorage.setItem("user", res.data.role_code);
+        localStorage.setItem("token", res.data.token, res.data.admin_id);
+        localStorage.setItem("admin_id", res.data.admin_id);
 
-        const UserRole = res.data.role_code;
         if (res.data.success === true) {
           Navigate("/dashboard");
         } else {
@@ -45,6 +47,7 @@ function AdminHome() {
       })
       .catch((err) => console.log(err));
   };
+
 
   return (
     <>

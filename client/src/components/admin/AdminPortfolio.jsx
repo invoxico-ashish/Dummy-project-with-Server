@@ -1,22 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
-function AdminPortfolio() {
-  const user = sessionStorage.getItem("user");
-  const [portfoimg, setPortfoimg] = useState([]);
+import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
+function AdminPortfolio() {
+  const id = localStorage.getItem("admin_id");
+  const [portfoimg, setPortfoimg] = useState([]);
+  const [userPermissions, setUserPermissions] = useState([]);
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions([permissions[0], permissions[1], permissions[2]]);
+    console.log([permissions], "ttttttttttttt");
+  };
+
+  const FetchPortimg = async () => {
+    try {
+      const PortImg = await axios.get("http://localhost:8000/api/get/img/port");
+      setPortfoimg(PortImg.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const FetchPortimg = async () => {
-      try {
-        const PortImg = await axios.get(
-          "http://localhost:8000/api/get/img/port"
-        );
-        setPortfoimg(PortImg.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    fetchPermissions();
     FetchPortimg();
   }, []);
 
@@ -42,11 +48,16 @@ function AdminPortfolio() {
               <h4>Our portfolio</h4>
             </div>
           </div>
-          <div className="d-flex justify-content-around">
+          {hasPermission(userPermissions, "2") ? (
+            <div className="d-flex justify-content-around">
               <Link to={"/addport"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
-          </div>
+                <button className="btn btn-success">+Add</button>
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
+
           <table className="table w-100">
             <thead>
               <tr>
@@ -69,18 +80,26 @@ function AdminPortfolio() {
                     />
                   </td>
 
-                  <td>
-                    <Link to={`/updateport/${item.portF_id}`}>
-                      <button className="btn btn-success mx-2 btn-sm">Edit</button>
-                    </Link>
+                  {id === "20" || hasPermission(userPermissions, "2") ? (
+                    <>
+                      <td>
+                        <Link to={`/updateport/${item.portF_id}`}>
+                          <button className="btn btn-success mx-2 btn-sm">
+                            Edit
+                          </button>
+                        </Link>
 
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(item.portF_id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(item.portF_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               ))}
             </tbody>

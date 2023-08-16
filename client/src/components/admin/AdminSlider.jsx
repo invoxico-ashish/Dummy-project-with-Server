@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
 import { Link, useNavigate } from "react-router-dom";
-import { TiDelete } from "react-icons/ti";
-import { TbSlideshow } from "react-icons/tb";
 import axios from "axios";
-import AdminNavbar from "./AdminNavbar";
+import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
 function AdminSlider() {
-  const user = sessionStorage.getItem("user");
+  const id = localStorage.getItem("admin_id");
   const Navigate = useNavigate();
   const [slideimg, setSlideimg] = useState([]);
-
+  const [userPermissions, setUserPermissions] = useState([]);
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions([permissions[0], permissions[1], permissions[2]]);
+    console.log([permissions], "ttttttttttttt");
+  };
+  const slideimages = async () => {
+    try {
+      const slideres = await axios.get(
+        "http://localhost:8000/api/get/img/slide"
+      );
+      setSlideimg(slideres.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const slideimages = async () => {
-      try {
-        const slideres = await axios.get(
-          "http://localhost:8000/api/get/img/slide"
-        );
-        setSlideimg(slideres.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    fetchPermissions();
     slideimages();
   }, []);
 
@@ -75,21 +79,27 @@ function AdminSlider() {
                       className="tableImage"
                     />
                   </td>
-                  <td>
-                    <Link
-                      to={`/updateslides/${item.slider_id}`}
-                      className="btn btn-success mx-2 btn-sm"
-                    >
-                      Edit
-                    </Link>
+                  {id === "20" || hasPermission(userPermissions, "2") ? (
+                    <>
+                      <td>
+                        <Link
+                          to={`/updateslides/${item.slider_id}`}
+                          className="btn btn-success mx-2 btn-sm"
+                        >
+                          Edit
+                        </Link>
 
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={(e) => handleDelete(item.slider_id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={(e) => handleDelete(item.slider_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -470,3 +470,13 @@ exports.PermissionModuleVal = async (req, res) => {
     console.log(err, "err");
   });
 };
+
+exports.getPermissionValues = async (req, res) => {
+  id = req.params.id;
+  const sql = `SELECT permission_value, admin_id,module_id FROM permissions WHERE admin_id = ?`;
+
+  sqlconnect.query(sql, id, (err, result) => {
+    if (!err) {res.status(200).json({success:true,message:"success",result})}
+       else{console.log(err)}
+  });
+};
