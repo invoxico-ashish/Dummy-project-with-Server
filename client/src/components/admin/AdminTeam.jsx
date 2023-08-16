@@ -54,6 +54,7 @@ function AdminTeam() {
                 <th scope="col">Team id</th>
                 <th scope="col">name</th>
                 <th scope="col">image</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -72,11 +73,11 @@ function AdminTeam() {
                   <td>
                     <div className="modalContainer">
                       <Link to={`/updateteam/${item.team_id}`}>
-                        <button className="btn btn-success mx-2">edit</button>
+                        <button className="btn btn-success mx-2 btn-sm">edit</button>
                       </Link>
 
                       <button
-                        className="btn btn-danger"
+                        className="btn btn-danger btn-sm"
                         onClick={(e) => handleDeleteTeamById(item.team_id)}
                       >
                         Delete

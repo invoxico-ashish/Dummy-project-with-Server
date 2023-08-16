@@ -189,13 +189,13 @@ exports.RegisterAdmin = async (req, res) => {
       }
       const salt = 10;
       const sql =
-        "INSERT INTO admin_details (`name`,`email`,`password`,`role`) VALUES (?)";
+        "INSERT INTO admin_details (`name`,`email`,`password`) VALUES (?)";
       bcrypt.hash(password.toString(), salt, (err, hash) => {
         if (err) {
           res.json("Error in hashing password");
           console.log(err);
         }
-        const values = [req.body.name, req.body.email, hash, req.body.role];
+        const values = [req.body.name, req.body.email, hash];
         sqlconnect.query(sql, [values], (err, result) => {
           if (!err) {
             res.status(200).json({
@@ -228,20 +228,16 @@ exports.LoginAdmin = async (req, res) => {
   const sql = " select * from admin_details where email=?";
   const queries = sqlconnect.query(sql, [email], (err, data) => {
     if (err) {
-      return res.status(400).json({ success: false,message: "Some error occured",err, });}
-    if (data.length > 0) {
-      bcrypt.compare(password.toString(), data[0].password, (err, response) => {
-        if (err) {return res.status(401).json({success: false, message: "Password errror",err,});}
-           if (response) {
-          const name = data[0].name;
-          const role = data[0].role;
-          const role_code = data[0].role_code;
+      return res.status(400).json({ success: false, message: "Some error occured", err })}
+    if (data.length > 0) {bcrypt.compare(password.toString(), data[0].password, (err, response) => {
+        if (err) {return res.status(401).json({ success: false, message: "Password errror", err })}
+           if (response) {const name = data[0].name;const role = data[0].role;const role_code = data[0].role_code;
           console.log(role, "ikjhgf");
           // return false;
           const token = jwt.sign({ name }, "jwt-secret-key", {expiresIn: "1d"});
           res.cookie("Bearer", token);
-          return res.status(200).json({success: true,message: "matched",token,role,role_code,});
-        } else {res.json({ message: "Pass not matched" });}
+          return res.status(200).json({success: true,message: "matched",token});
+        }  else { res.json({ message: "Pass not matched" });}
       });
     } else {return res.json({ message: "No email existed" });}
     console.log(data);

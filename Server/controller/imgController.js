@@ -297,7 +297,7 @@ exports.PostPortImage = async (req, res) => {
 };
 
 exports.GetAdminDetails = async (rea, res) => {
-  const sql = `SELECT admin_id,name,email,role from admin_details`;
+  const sql = `SELECT admin_id,name,email from admin_details`;
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {

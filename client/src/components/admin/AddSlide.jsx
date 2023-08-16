@@ -81,8 +81,7 @@ function AddSlide() {
                   />
                 </div>
                 <div className="inp-cont">
-                  {" "}
-                  <button className="btn btn-success" onClick={handleClick}>
+                  <button className="btn btn-success " onClick={handleClick}>
                     Submit
                   </button>
                 </div>

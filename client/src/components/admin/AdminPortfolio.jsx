@@ -71,11 +71,11 @@ function AdminPortfolio() {
 
                   <td>
                     <Link to={`/updateport/${item.portF_id}`}>
-                      <button className="btn btn-success mx-2">Edit</button>
+                      <button className="btn btn-success mx-2 btn-sm">Edit</button>
                     </Link>
 
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger btn-sm"
                       onClick={() => handleDelete(item.portF_id)}
                     >
                       Delete

@@ -60,6 +60,7 @@ function AdminSlider() {
                 <th scope="col">Slider_id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Slide</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -77,13 +78,13 @@ function AdminSlider() {
                   <td>
                     <Link
                       to={`/updateslides/${item.slider_id}`}
-                      className="btn btn-success mx-2"
+                      className="btn btn-success mx-2 btn-sm"
                     >
                       Edit
                     </Link>
 
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger btn-sm"
                       onClick={(e) => handleDelete(item.slider_id)}
                     >
                       Delete

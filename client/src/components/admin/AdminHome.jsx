@@ -12,12 +12,8 @@ function AdminHome() {
   const [values, setValues] = useState({ email: "", password: "" });
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
-    // confirmPassword: Yup.string()
-    //   .required("Confirm Password is required")
-    //   .oneOf([Yup.ref("password")], "Passwords must match"),
+    password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
+    // passwordConfirmation: Yup.string().oneOf([Yup.ref("password"), null],"Passwords must match"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const {
@@ -32,13 +28,18 @@ function AdminHome() {
   const onSubmit = async (err, data) => {
     await axios
       .post("http://localhost:8000/api/login", values)
-      .then((res) => { console.log(res.data, "res");
+      .then((res) => {
+        console.log(res.data, "res");
         localStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", res.data.role_code);
-        
+
         const UserRole = res.data.role_code;
-        if (res.data.success === true) {Navigate("/dashboard");
-        } else { toast.error("Invalid Credentials", {position: toast.POSITION.TOP_RIGHT});
+        if (res.data.success === true) {
+          Navigate("/dashboard");
+        } else {
+          toast.error("Invalid Credentials", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
           console.log(err);
         }
       })
@@ -104,26 +105,6 @@ function AdminHome() {
                       "password is too long"}
                   </span>
                 </div>
-                {/* <div className="inp-cont">
-                    <label>
-                      Confirm Password <span className="textdanger">*</span>
-                    </label>
-                    <input
-                      name="confirmPassword"
-                      type="password"
-                      {...register("confirmPassword", {
-                        required: true,
-                      })}
-                      className={`form-control ${
-                        errors.confirmPassword ? "is-invalid" : ""
-                      }`}
-                    />
-
-                    <span className=" textdanger">
-                      {errors.confirmPassword?.message}
-                    </span>
-                  </div> */}
-
                 <div className="inp-cont">
                   <button className="btn btn-success">Submit</button>
                 </div>
