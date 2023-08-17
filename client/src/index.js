@@ -6,7 +6,7 @@ import "./commonCss/bootstrap.css";
 import "./commonCss/responsive.css";
 import "./commonCss/style.css";
 import "./commonCss/style.css.map";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

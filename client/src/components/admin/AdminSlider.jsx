@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
@@ -11,10 +11,11 @@ function AdminSlider() {
 
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
-    const makePerm = [permissions[1].permission_value];
-    setUserPermissions(makePerm);
+
+    setUserPermissions(permissions);
     console.log(permissions, "ttttttttttttt");
   };
+
 
   const slideimages = async () => {
     try {
@@ -82,7 +83,7 @@ function AdminSlider() {
                       className="tableImage"
                     />
                   </td>
-                  {id === "20" || hasPermission(userPermissions, "2") ? (
+                  {id === "20" || hasPermission(userPermissions, 2) ? (
                     <>
                       <td>
                         <Link

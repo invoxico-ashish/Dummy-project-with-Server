@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function UserList() {
-  // const user = sessionStorage.getItem("user");
+  const id = localStorage.getItem("admin_id");
 
   const [data, setData] = useState([]);
   const [record, setRecords] = useState([]);
@@ -51,11 +51,9 @@ function UserList() {
     }
   };
 
-
   useEffect(() => {
     FetchTotalUser();
     FetchData();
-   
   }, []);
 
   return (
@@ -77,9 +75,13 @@ function UserList() {
               placeholder="search"
               className="searchTerm"
             />
-            <Link to={"/newadmin"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
+            {id === "20" ? (
+              <Link to={"/newadmin"}>
+                <button className="btn btn-success">+Add</button>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
           <table className="table w-100">
             <thead>
@@ -91,31 +93,48 @@ function UserList() {
               </tr>
             </thead>
             <tbody>
-              {record.map((item, index) => (
+              {record.slice(0, 1).map((item, index) => (
                 <tr key={index}>
                   <td>{item.admin_id}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Link to={`/updateadmin/${item.admin_id}`}>
-                      <button className="btn btn-success mx-2 btn-sm">
-                        Edit
-                      </button>
-                    </Link>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={(e) => handleDelete(item.admin_id)}
-                    >
-                      Delete
-                    </button>
-                    <Link to={`/permission/${item.admin_id}`}>
-                      <button className="btn btn-warning mx-2 btn-sm">
-                        Permission
+                    <Link>
+                      {/* to={`/updateadmin/${item.admin_id}`} */}
+                      <button className="btn btn-success mx-2 btn-dark btn-sm">
+                        Super Admin
                       </button>
                     </Link>
                   </td>
                 </tr>
               ))}
+              {record.slice(1).map((item) => {
+                return (
+                  <tr key={item.admin_id}>
+                    <td>{item.admin_id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>
+                      <Link to={`/updateadmin/${item.admin_id}`}>
+                        <button className="btn btn-success mx-2 btn-sm">
+                          Edit
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={(e) => handleDelete(item.admin_id)}
+                      >
+                        Delete
+                      </button>
+                      <Link to={`/permission/${item.admin_id}`}>
+                        <button className="btn btn-warning mx-2 btn-sm">
+                          Permission
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           <div className="dropdown"></div>

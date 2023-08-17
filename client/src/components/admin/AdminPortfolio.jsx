@@ -10,9 +10,9 @@ function AdminPortfolio() {
 
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
-    setUserPermissions([permissions[0], permissions[1], permissions[2]]);
+    setUserPermissions(permissions);
     console.log(permissions, "ttttttttttttt");
-    console.log(permissions, "ttttttttttttt");
+    // console.log(permissions, "ttttttttttttt");
   };
 
   const FetchPortimg = async () => {

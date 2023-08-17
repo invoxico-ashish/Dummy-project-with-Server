@@ -7,8 +7,8 @@ export const fetchUserPermissions = async () => {
       `http://localhost:8000/api/permision/values/module/${id}`
     );
     // const data = await response.json();
-    console.log(response,"kdioqhi")
-    // return  data.permissions;
+    console.log(response.data.result, "res");
+    return response.data.result;
   } catch (error) {
     console.error("Error fetching permissions:", error);
     return [];

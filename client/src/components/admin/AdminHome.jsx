@@ -41,6 +41,7 @@ function AdminHome() {
         } else {
           toast.error("Invalid Credentials", {
             position: toast.POSITION.TOP_RIGHT,
+            className: 'toast-message'
           });
           console.log(err);
         }
