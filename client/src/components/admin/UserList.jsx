@@ -99,12 +99,12 @@ function UserList() {
                   <td>{item.name}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Link>
+                    {/* <Link> */}
                       {/* to={`/updateadmin/${item.admin_id}`} */}
-                      <button className="btn btn-success mx-2 btn-dark btn-sm">
+                      <span className=" mx-2 badge badge-dark">
                         Super Admin
-                      </button>
-                    </Link>
+                      </span>
+                    {/* </Link> */}
                   </td>
                 </tr>
               ))}
