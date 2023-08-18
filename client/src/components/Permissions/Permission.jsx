@@ -9,22 +9,15 @@ export const fetchUserPermissions = async () => {
     // const data = await response.json();
     const resTwo = response.data.result;
     // const arrayAsString = JSON.stringify(resTwo);
-    console.log(
-      "permission",
-      resTwo[0].permission_value,
-      "moduleID",
-      resTwo[0].module_id,
-      resTwo[1],
-      "mwfjkoebhsf"
-    );
-    sessionStorage.setItem("permission", resTwo[0].permission_value);
-    sessionStorage.setItem("moduleID", resTwo[0].module_id);
-    sessionStorage.setItem("permission two", resTwo[1].permission_value);
-    sessionStorage.setItem("moduleID two", resTwo[1].module_id);
-    sessionStorage.setItem("permission three", resTwo[2].permission_value);
-    sessionStorage.setItem("moduleID three", resTwo[2].module_id);
-    sessionStorage.setItem("permission for", resTwo[3].permission_value);
-    sessionStorage.setItem("moduleID for", resTwo[3].module_id);
+   
+    // sessionStorage.setItem("permission", resTwo[0].permission_value);
+    // sessionStorage.setItem("moduleID", resTwo[0].module_id);
+    // sessionStorage.setItem("permission two", resTwo[1].permission_value);
+    // sessionStorage.setItem("moduleID two", resTwo[1].module_id);
+    // sessionStorage.setItem("permission three", resTwo[2].permission_value);
+    // sessionStorage.setItem("moduleID three", resTwo[2].module_id);
+    // sessionStorage.setItem("permission for", resTwo[3].permission_value);
+    // sessionStorage.setItem("moduleID for", resTwo[3].module_id);
 
     return resTwo;
   } catch (error) {

@@ -11,7 +11,6 @@ function AdminSlider() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    console.log(permissions, "ttttttttttttt");
   };
   const permissiontwo = sessionStorage.getItem("permission two");
   const moduleTwo = sessionStorage.getItem("moduleID two");
@@ -85,28 +84,34 @@ function AdminSlider() {
                       className="tableImage"
                     />
                   </td>
-                  {id === "20" ||
-                  (permissiontwo === "2" && moduleTwo === "2") ? (
-                    <>
-                      <td>
-                        <Link
-                          to={`/updateslides/${item.slider_id}`}
-                          className="btn btn-success mx-2 btn-sm"
-                        >
-                          Edit
-                        </Link>
-
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={(e) => handleDelete(item.slider_id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </>
-                  ) : (
-                    ""
-                  )}
+                  {userPermissions.forEach((value) => {
+                    let data = {
+                      permission: value.permission_value,
+                      module: value.module_id,
+                    };
+                    // {
+                    //   data.permission === "2" && data.module === "2" ? (
+                    //     <>
+                    //       <td>
+                    //         <Link
+                    //           to={`/updateslides/${item.slider_id}`}
+                    //           className="btn btn-success mx-2 btn-sm"
+                    //         >
+                    //           Edit
+                    //         </Link>
+                    //         <button
+                    //           className="btn btn-danger btn-sm"
+                    //           onClick={(e) => handleDelete(item.slider_id)}
+                    //         >
+                    //           Delete
+                    //         </button>
+                    //       </td>
+                    //     </>
+                    //   ) : (
+                    //     ""
+                    //   );
+                    // }
+                  })}
                 </tr>
               ))}
             </tbody>
