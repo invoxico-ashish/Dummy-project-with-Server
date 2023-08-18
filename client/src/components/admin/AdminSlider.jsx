@@ -75,22 +75,23 @@ function AdminSlider() {
             <tbody>
               {slideimg.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.slider_id}</td>
-                  <td>{item.title}</td>
+                  <td>{item.slider_id}</td><td>{item.title}</td>
                   <td>
                     <img
                       src={`http://localhost:8000/img/${item.image}`}
-                      alt=""
-                      className="tableImage"
+                      alt=""className="tableImage"
                     />
                   </td>
                   {userPermissions.forEach((value) => {
-                    let data = {
-                      permission: value.permission_value,
-                      module: value.module_id,
-                    };
+                    sessionStorage.setItem(
+                      "permission",
+                      value.permission_value
+                    );
+                    sessionStorage.setItem("module", value.module_id);
+
                     // {
-                    //   data.permission === "2" && data.module === "2" ? (
+                    //   value.permission_value === "2" &&
+                    //   value.module_id === "2" ? (
                     //     <>
                     //       <td>
                     //         <Link
