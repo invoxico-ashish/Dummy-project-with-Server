@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
 function AdminTeam() {
   const id = localStorage.getItem("admin_id");
   const [team, setteam] = useState([]);
+  const [userPermissions, setUserPermissions] = useState([]);
+  const permission = sessionStorage.getItem("permission for");
+  const module = sessionStorage.getItem("moduleID for");
   const FetchTeam = async () => {
     try {
       const Teamres = await axios.get("http://localhost:8000/api/get/our/team");
@@ -13,9 +17,16 @@ function AdminTeam() {
       console.log(error);
     }
   };
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions(permissions);
+    console.log(permissions, "ttttttttttttt");
+    // console.log(hasPermission, "FFFFF");
+  };
 
   useEffect(() => {
     FetchTeam();
+    fetchPermissions();
   }, []);
 
   const handleDeleteTeamById = async (id) => {
@@ -42,9 +53,13 @@ function AdminTeam() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Team</h2>
-            <Link to={"/addteam"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
+            {id === "20" || (permission === "2" && module === "3") ? (
+              <Link to={"/addteam"}>
+                <button className="btn btn-success">+Add</button>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
           <table className="table w-100">
             <thead>
@@ -67,23 +82,28 @@ function AdminTeam() {
                       className="tableImage"
                     />
                   </td>
+                  {id === "20" || (permission === "2" && module === "3") ? (
+                    <>
+                      <td>
+                        <div className="modalContainer">
+                          <Link to={`/updateteam/${item.team_id}`}>
+                            <button className="btn btn-success mx-2 btn-sm">
+                              edit
+                            </button>
+                          </Link>
 
-                  <td>
-                    <div className="modalContainer">
-                      <Link to={`/updateteam/${item.team_id}`}>
-                        <button className="btn btn-success mx-2 btn-sm">
-                          edit
-                        </button>
-                      </Link>
-
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={(e) => handleDeleteTeamById(item.team_id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={(e) => handleDeleteTeamById(item.team_id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               ))}
             </tbody>

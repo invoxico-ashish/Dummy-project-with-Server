@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
+import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminSlider() {
   const id = localStorage.getItem("admin_id");
   const [slideimg, setSlideimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
-
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
-
     setUserPermissions(permissions);
     console.log(permissions, "ttttttttttttt");
   };
-
+  const permissiontwo = sessionStorage.getItem("permission two");
+  const moduleTwo = sessionStorage.getItem("moduleID two");
 
   const slideimages = async () => {
     try {
@@ -57,10 +56,13 @@ function AdminSlider() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Slides</h2>
-
-            <Link to={"/addslides"}>
-              <button className="btn btn-success">+Add</button>
-            </Link>
+            {id === "20" || (permissiontwo === "2" && moduleTwo === "2") ? (
+              <Link to={"/addslides"}>
+                <button className="btn btn-success">+Add</button>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
           <table className="table w-100">
             <thead>
@@ -83,7 +85,8 @@ function AdminSlider() {
                       className="tableImage"
                     />
                   </td>
-                  {id === "20" || hasPermission(userPermissions, 2) ? (
+                  {id === "20" ||
+                  (permissiontwo === "2" && moduleTwo === "2") ? (
                     <>
                       <td>
                         <Link

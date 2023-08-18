@@ -5,6 +5,8 @@ import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
 function AdminPortfolio() {
   const id = localStorage.getItem("admin_id");
+  const permissionOne = sessionStorage.getItem("permission");
+  const moduleOne = sessionStorage.getItem("moduleID");
   const [portfoimg, setPortfoimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
 
@@ -12,7 +14,7 @@ function AdminPortfolio() {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
     console.log(permissions, "ttttttttttttt");
-    // console.log(permissions, "ttttttttttttt");
+    // console.log(hasPermission, "FFFFF");
   };
 
   const FetchPortimg = async () => {
@@ -23,9 +25,11 @@ function AdminPortfolio() {
       console.log(error);
     }
   };
+  hasPermission(userPermissions);
   useEffect(() => {
     fetchPermissions();
     FetchPortimg();
+    hasPermission();
   }, []);
 
   const handleDelete = async (id) => {
@@ -50,7 +54,7 @@ function AdminPortfolio() {
               <h4>Our portfolio</h4>
             </div>
           </div>
-          {hasPermission(userPermissions, "2") ? (
+          {/* {hasPermission(userPermissions, "2") ? (
             <div className="d-flex justify-content-around">
               <Link to={"/addport"}>
                 <button className="btn btn-success">+Add</button>
@@ -58,7 +62,7 @@ function AdminPortfolio() {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
           <table className="table w-100">
             <thead>
@@ -82,7 +86,8 @@ function AdminPortfolio() {
                     />
                   </td>
 
-                  {id === "20" || hasPermission(userPermissions, "2") ? (
+                  {id === "20" ||
+                  (permissionOne === "2" && moduleOne === "1") ? (
                     <>
                       <td>
                         <Link to={`/updateport/${item.portF_id}`}>
