@@ -11,10 +11,9 @@ function AdminSlider() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
+    console.log(permissions, "ttttttttttttttt");
+    console.log(userPermissions, "sssssssssssss");
   };
-  const permissiontwo = sessionStorage.getItem("permission two");
-  const moduleTwo = sessionStorage.getItem("moduleID two");
-
   const slideimages = async () => {
     try {
       const slideres = await axios.get(
@@ -25,7 +24,6 @@ function AdminSlider() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetchPermissions();
     slideimages();
@@ -55,7 +53,7 @@ function AdminSlider() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Slides</h2>
-            {id === "20" || (permissiontwo === "2" && moduleTwo === "2") ? (
+            {id === "20" ? (
               <Link to={"/addslides"}>
                 <button className="btn btn-success">+Add</button>
               </Link>
@@ -75,44 +73,38 @@ function AdminSlider() {
             <tbody>
               {slideimg.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.slider_id}</td><td>{item.title}</td>
+                  <td>{item.slider_id}</td>
+                  <td>{item.title}</td>
                   <td>
                     <img
                       src={`http://localhost:8000/img/${item.image}`}
-                      alt=""className="tableImage"
+                      alt=""
+                      className="tableImage"
                     />
                   </td>
-                  {userPermissions.forEach((value) => {
-                    sessionStorage.setItem(
-                      "permission",
-                      value.permission_value
-                    );
-                    sessionStorage.setItem("module", value.module_id);
 
-                    // {
-                    //   value.permission_value === "2" &&
-                    //   value.module_id === "2" ? (
-                    //     <>
-                    //       <td>
-                    //         <Link
-                    //           to={`/updateslides/${item.slider_id}`}
-                    //           className="btn btn-success mx-2 btn-sm"
-                    //         >
-                    //           Edit
-                    //         </Link>
-                    //         <button
-                    //           className="btn btn-danger btn-sm"
-                    //           onClick={(e) => handleDelete(item.slider_id)}
-                    //         >
-                    //           Delete
-                    //         </button>
-                    //       </td>
-                    //     </>
-                    //   ) : (
-                    //     ""
-                    //   );
-                    // }
-                  })}
+                  {id === "20" ||
+                  (userPermissions[3].permission === 2 &&
+                    userPermissions[3].module === 2 ) ? (
+                    <>
+                      <td>
+                        <Link
+                          to={`/updateslides/${item.slider_id}`}
+                          className="btn btn-success mx-2 btn-sm"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={(e) => handleDelete(item.slider_id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               ))}
             </tbody>

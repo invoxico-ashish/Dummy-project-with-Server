@@ -1,35 +1,34 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
+import {
+  fetchUserPermissions,
+
+} from "../Permissions/Permission";
 
 function AdminPortfolio() {
   const id = localStorage.getItem("admin_id");
-  const permissionOne = sessionStorage.getItem("permission");
-  const moduleOne = sessionStorage.getItem("moduleID");
+
   const [portfoimg, setPortfoimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
 
-  const fetchPermissions = async () => {
-    const permissions = await fetchUserPermissions();
+  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
     console.log(permissions, "ttttttttttttt");
+    console.log(userPermissions, "FFFFF");
     // console.log(hasPermission, "FFFFF");
   };
 
   const FetchPortimg = async () => {
-    try {
-      const PortImg = await axios.get("http://localhost:8000/api/get/img/port");
+    try {const PortImg = await axios.get("http://localhost:8000/api/get/img/port");
       setPortfoimg(PortImg.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error);}
   };
-  hasPermission(userPermissions);
+
   useEffect(() => {
     fetchPermissions();
     FetchPortimg();
-    hasPermission();
+
   }, []);
 
   const handleDelete = async (id) => {
@@ -40,9 +39,7 @@ function AdminPortfolio() {
         .then((res) => {
           window.location.reload();
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {console.log(err)});
     }
   };
   return (
@@ -87,7 +84,8 @@ function AdminPortfolio() {
                   </td>
 
                   {id === "20" ||
-                  (permissionOne === "2" && moduleOne === "1") ? (
+                  (userPermissions[1].permission === 2 &&
+                    userPermissions[1].module === 1) ? (
                     <>
                       <td>
                         <Link to={`/updateport/${item.portF_id}`}>

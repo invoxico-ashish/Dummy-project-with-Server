@@ -7,8 +7,7 @@ function AdminTeam() {
   const id = localStorage.getItem("admin_id");
   const [team, setteam] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
-  const permission = sessionStorage.getItem("permission for");
-  const module = sessionStorage.getItem("moduleID for");
+
   const FetchTeam = async () => {
     try {
       const Teamres = await axios.get("http://localhost:8000/api/get/our/team");
@@ -20,7 +19,7 @@ function AdminTeam() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    console.log(permissions, "ttttttttttttt");
+    console.log(permissions, "3333333333333333");
     // console.log(hasPermission, "FFFFF");
   };
 
@@ -29,19 +28,11 @@ function AdminTeam() {
     fetchPermissions();
   }, []);
 
-  const handleDeleteTeamById = async (id) => {
-    const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {
-      axios
-        .delete(`http://localhost:8000/api/delete/team/${id}`)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  const handleDeleteTeamById = async (id) => {const confirm = window.confirm(`would you like to delete the ${id}`);
+    if (confirm) {axios.delete(`http://localhost:8000/api/delete/team/${id}`).then((res) => {window.location.reload();})
+        .catch((err) => {console.log(err)});
     }
-  };
+  }
   return (
     <>
       <div className="d-flex homeie ">
@@ -53,7 +44,7 @@ function AdminTeam() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Team</h2>
-            {id === "20" || (permission === "2" && module === "3") ? (
+            {id === "20" ? (
               <Link to={"/addteam"}>
                 <button className="btn btn-success">+Add</button>
               </Link>
@@ -82,7 +73,7 @@ function AdminTeam() {
                       className="tableImage"
                     />
                   </td>
-                  {id === "20" || (permission === "2" && module === "3") ? (
+                  {id === "20" ? (
                     <>
                       <td>
                         <div className="modalContainer">
