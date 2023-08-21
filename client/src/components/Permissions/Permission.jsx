@@ -7,18 +7,53 @@ export const fetchUserPermissions = async () => {
       `http://localhost:8000/api/permision/values/module/${id}`
     );
     const resTwo = response.data.result;
+    // console.log(resTwo, "hifuegfi");
 
-    {
-      const maping = Object.entries(resTwo).map(([key, value]) => {
-        let permission = value.permission_value;
-        let module = value.module_id;
-        // console.log("permission:", permission, "module_id", module);
-        const per = { permission, module };
-        return per;
-      });
+    const indexMapping = {};
 
-      return maping;
-    }
+    const newArr = resTwo.map((item) => {
+      const newIndex = item.module_id;
+      indexMapping[newIndex] = item.permission_value;
+      return newIndex;
+    });
+    // console.log(newArr, "oneeeeeeeeee");
+    // console.log(indexMapping, "newwwwwwwwwwww");
+    return indexMapping;
+
+  
+   
+
+    // {
+    //   let newArrr = resTwo.map((item, index) => ({
+    //     index: item.module_id,
+    //     permission: item.permission_value,
+    //   }));
+
+    //   console.log(newArrr[2], "zserybwET6W");
+    // }
+
+    // {
+    //   const newArr = resTwo.map((item, index) => {
+    //     return index = item.module_id
+
+    //   });
+    //   console.log(newArr);
+    // }
+    // return false;
+
+    // {
+    //   const maping = Object.entries(resTwo).map(([key, value]) => {
+    //     let permission = value.permission_value;
+    //     let module = value.module_id;
+    //     // console.log("permission:", permission, "module_id", module);
+    //     const per = { permission, module };
+    //     return per;
+    //     // const per = { permission: permission, module_id: module };
+    //     // console.log(per, "kjoihgolsea");
+    //   });
+
+    //   return maping;
+    // }
   } catch (error) {
     console.error("Error fetching permissions:", error);
   }

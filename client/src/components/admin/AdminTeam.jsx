@@ -22,17 +22,28 @@ function AdminTeam() {
     console.log(permissions, "3333333333333333");
     // console.log(hasPermission, "FFFFF");
   };
+  const valuesArray = Object.values(userPermissions);
+  const firstValue = valuesArray[2];
+  console.log(firstValue,"33333333");
 
   useEffect(() => {
     FetchTeam();
     fetchPermissions();
   }, []);
 
-  const handleDeleteTeamById = async (id) => {const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {axios.delete(`http://localhost:8000/api/delete/team/${id}`).then((res) => {window.location.reload();})
-        .catch((err) => {console.log(err)});
+  const handleDeleteTeamById = async (id) => {
+    const confirm = window.confirm(`would you like to delete the ${id}`);
+    if (confirm) {
+      axios
+        .delete(`http://localhost:8000/api/delete/team/${id}`)
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
+  };
   return (
     <>
       <div className="d-flex homeie ">
@@ -73,7 +84,7 @@ function AdminTeam() {
                       className="tableImage"
                     />
                   </td>
-                  {id === "20" ? (
+                  {id === "20" || firstValue === 2 ? (
                     <>
                       <td>
                         <div className="modalContainer">

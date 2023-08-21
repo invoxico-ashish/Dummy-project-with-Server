@@ -8,40 +8,32 @@ function AdminSlider() {
   const id = localStorage.getItem("admin_id");
   const [slideimg, setSlideimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
-  const fetchPermissions = async () => {
-    const permissions = await fetchUserPermissions();
+
+  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    console.log(permissions, "ttttttttttttttt");
-    console.log(userPermissions, "sssssssssssss");
+    console.log(userPermissions, "ttttttttttttttt");
+ 
   };
+  const valuesArray = Object.values(userPermissions);
+  const firstValue = valuesArray[1];
+  console.log(firstValue,"1111111");
+
   const slideimages = async () => {
-    try {
-      const slideres = await axios.get(
-        "http://localhost:8000/api/get/img/slide"
-      );
+    try {const slideres = await axios.get("http://localhost:8000/api/get/img/slide");
       setSlideimg(slideres.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error)}
   };
-  useEffect(() => {
-    fetchPermissions();
-    slideimages();
-  }, []);
+
+  useEffect(() => {fetchPermissions(); slideimages()}, []);
 
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {
-      axios
-        .delete("http://localhost:8000/api/delete/img/" + id)
-        .then((res) => {
+    if (confirm) {axios.delete("http://localhost:8000/api/delete/img/" + id).then((res) => {
           window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+        }).catch((err) => {console.log(err)});
+    }};
+
+
   return (
     <>
       <div className="d-flex homeie">
@@ -83,9 +75,7 @@ function AdminSlider() {
                     />
                   </td>
 
-                  {id === "20" ||
-                  (userPermissions[3].permission === 2 &&
-                    userPermissions[3].module === 2 ) ? (
+                  {id === "20" || firstValue === 2  ? (
                     <>
                       <td>
                         <Link
