@@ -9,41 +9,31 @@ function AdminPortfolio() {
   const [portfoimg, setPortfoimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState("");
 
-  const fetchPermissions = async () => {
-    const permissions = await fetchUserPermissions();
+  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
     console.log(permissions, "222222");
   };
+
   const valuesArray = Object.values(userPermissions);
   const firstValue = valuesArray[0];
   console.log(firstValue, "33333333");
+
+
   const FetchPortimg = async () => {
     try {
       const PortImg = await axios.get("http://localhost:8000/api/get/img/port");
       setPortfoimg(PortImg.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error);}
   };
 
-  useEffect(() => {
-    fetchPermissions();
-    FetchPortimg();
-  }, []);
+  useEffect(() => {fetchPermissions();FetchPortimg();}, []);
 
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {
-      await axios
-        .delete(`http://localhost:8000/api/delete/portfolio/${id}`)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+    if (confirm) {await axios.delete(`http://localhost:8000/api/delete/portfolio/${id}`)
+        .then((res) => {window.location.reload();})
+        .catch((err) => {console.log(err);});
+    }};
   return (
     <>
       <div className="d-flex homeie">
@@ -53,7 +43,7 @@ function AdminPortfolio() {
               <h4>Our portfolio</h4>
             </div>
           </div>
-          {/* {hasPermission(userPermissions, "2") ? (
+          { id === "20" || firstValue === 2 ? (
             <div className="d-flex justify-content-around">
               <Link to={"/addport"}>
                 <button className="btn btn-success">+Add</button>
@@ -61,7 +51,7 @@ function AdminPortfolio() {
             </div>
           ) : (
             ""
-          )} */}
+          )}
 
           <table className="table w-100">
             <thead>

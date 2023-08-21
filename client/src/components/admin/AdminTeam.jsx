@@ -9,39 +9,27 @@ function AdminTeam() {
   const [userPermissions, setUserPermissions] = useState([]);
 
   const FetchTeam = async () => {
-    try {
-      const Teamres = await axios.get("http://localhost:8000/api/get/our/team");
+    try {const Teamres = await axios.get("http://localhost:8000/api/get/our/team");
       setteam(Teamres.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error)}
   };
-  const fetchPermissions = async () => {
-    const permissions = await fetchUserPermissions();
+
+  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
     console.log(permissions, "3333333333333333");
-    // console.log(hasPermission, "FFFFF");
   };
+
   const valuesArray = Object.values(userPermissions);
   const firstValue = valuesArray[2];
   console.log(firstValue,"33333333");
 
-  useEffect(() => {
-    FetchTeam();
-    fetchPermissions();
-  }, []);
+
+  useEffect(() => {FetchTeam();fetchPermissions();}, []);
 
   const handleDeleteTeamById = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {
-      axios
-        .delete(`http://localhost:8000/api/delete/team/${id}`)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (confirm) {axios.delete(`http://localhost:8000/api/delete/team/${id}`).then((res) => {window.location.reload();})
+        .catch((err) => {console.log(err)});
     }
   };
   return (

@@ -45,7 +45,7 @@ function AdminSlider() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Slides</h2>
-            {id === "20" ? (
+            {id === "20" || firstValue === 2  ? (
               <Link to={"/addslides"}>
                 <button className="btn btn-success">+Add</button>
               </Link>

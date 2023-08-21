@@ -5,22 +5,11 @@ import AdminNavbar from "./AdminNavbar";
 
 function UpdateAdmin() {
   const Navigate = useNavigate();
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-  });
-  // const [email, setEmail] = useState("");
+  const [values, setValues] = useState({name: "",email: "",});
   const { id } = useParams();
 
-  const handleUpdate = async () => {
-    axios
-      .put(`http://localhost:8000/api/update/admin/det/${id}`, values)
-      .then((res) => {
-        setValues(res);
-      })
-      .then((res) => {
-        Navigate("/userlist");
-      });
+  const handleUpdate = async () => {axios.put(`http://localhost:8000/api/update/admin/det/${id}`, values).then((res) => {setValues(res)})
+      .then((res) => {Navigate("/userlist")});
   };
   return (
     <>

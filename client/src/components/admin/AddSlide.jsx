@@ -10,27 +10,21 @@ function AddSlide() {
   const [imgname, setimgname] = useState("");
   const [slideImage, setSlideImage] = useState([]);
 
-  const handelImageChange = (e) => {
-    const file = e.target.files[0];
-    setSlideImage(file);
-  };
+  const handelImageChange = (e) => {const file = e.target.files[0];
+    setSlideImage(file)};
 
   const fetchData = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("imgname", imgname);
     formData.append("slideImage", slideImage);
-    axios
-      .post("http://localhost:8000/api/img", formData)
-      .then((response) => {
-        setSlideImage(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    axios.post("http://localhost:8000/api/img", formData)
+      .then((response) => {setSlideImage(response);})
+      .catch((err) => {console.log(err)});
   };
-  const handleClick = (e) => {
-    e.preventDefault();
+
+  const handleClick = (e) => {e.preventDefault();
     fetchData();
     Navigate("/slideradmin");
   };

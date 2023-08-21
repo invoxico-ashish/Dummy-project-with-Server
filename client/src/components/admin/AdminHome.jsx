@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {RotateLoader} from "react-spinners"
 
 function AdminHome() {
   const id = localStorage.getItem("admin_id");
@@ -18,27 +19,21 @@ function AdminHome() {
       .min(6, "Password must be at least 6 characters"),
     // passwordConfirmation: Yup.string().oneOf([Yup.ref("password"), null],"Passwords must match"),
   });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm(formOptions);
 
+  const formOptions = { resolver: yupResolver(validationSchema) };
+  const {register,formState: { errors },handleSubmit} = useForm(formOptions);
   const Navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
-  const onSubmit = async (err, data) => {
-    await axios
+  const onSubmit = async (err, data) => {await axios
       .post("http://localhost:8000/api/login", values)
       .then((res) => {
-        console.log(res.data, "res");
+        // console.log(res.data, "res");  
         localStorage.setItem("token", res.data.token, res.data.admin_id);
         localStorage.setItem("admin_id", res.data.admin_id);
 
-        if (res.data.success === true) {
-          Navigate("/dashboard");
-        } else {
+        if (res.data.success === true) {Navigate("/dashboard")} 
+        else {
           toast.error("Invalid Credentials", {
             position: toast.POSITION.TOP_RIGHT,
             className: 'toast-message'

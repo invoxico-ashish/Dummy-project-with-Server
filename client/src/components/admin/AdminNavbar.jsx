@@ -59,7 +59,7 @@ function AdminNavbar() {
             </div>
           </div>
         </nav>
-        {location.pathname === "/admin" ? (
+        {location.pathname === "/admin" ||   location.pathname === "/newadmin" ? (
           ""
         ) : (
           <>

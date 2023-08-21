@@ -8,28 +8,19 @@ function AddPortfolio() {
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
 
-  const handleImgChange = (e) => {
-    const file = e.target.files[0];
-    setSlideImage(file);
-  };
+  const handleImgChange = (e) => {const file = e.target.files[0];setSlideImage(file)};
 
   const FetchData = async () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("slideImage", slideImage);
 
-    await axios
-      .post("http://localhost:8000/api/team/portfolio", formData)
-      .then((res) => {
-        setName(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await axios.post("http://localhost:8000/api/team/portfolio", formData)
+    .then((res) => {setName(res)})
+      .catch((err) => {console.log(err)});
   };
 
-  const handleAddPort = (e) => {
-    e.preventDefault();
+  const handleAddPort = (e) => {e.preventDefault();
     FetchData();
     Navigate("/adminport");
   };

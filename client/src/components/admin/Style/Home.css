@@ -77,7 +77,7 @@
   justify-content: space-evenly;
 }
 .dashonebox {
-  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
   width: 200px;
   height: 100px;
   font-size: 30px;

@@ -11,63 +11,30 @@ const Dashboard = () => {
   const [adminData, setAdminData] = useState([]);
   const [teamData, setTeamData] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState([]);
+
   const FetchPortImg = async () => {
-    try {
-      axios.get("http://localhost:8000/api/get/new/port").then((res) => {
-        setPortimg(res.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    try {axios.get("http://localhost:8000/api/get/new/port").then((res) => {setPortimg(res.data.data);});
+    } catch (error) {console.log(error)}
   };
   const FetchLetSlides = async () => {
-    try {
-      axios.get("http://localhost:8000/api/get/latest/slide").then((res) => {
-        setSlideData(res.data.data);
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    try {axios.get("http://localhost:8000/api/get/latest/slide").then((res) => {setSlideData(res.data.data);});
+    } catch (err) {console.log(err)}
   };
   const FetchAdminData = async () => {
-    try {
-      axios
-        .get("http://localhost:8000/api/get/latest/admin/user")
-        .then((res) => {
-          setAdminData(res.data.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    try {axios.get("http://localhost:8000/api/get/latest/admin/user").then((res) => {setAdminData(res.data.data);});
+    } catch (error) {console.log(error);}
   };
   const FetchTeamData = async () => {
-    try {
-      axios.get("http://localhost:8000/api/get/latest/team").then((res) => {
-        setTeamData(res.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    try {axios.get("http://localhost:8000/api/get/latest/team").then((res) => {setTeamData(res.data.data);});
+    } catch (error) {console.log(error)}
   };
   const FetchTotalUser = async () => {
-    try {
-      const totalUser = axios
-        .get("http://localhost:8000/api/admin/count")
-        .then((res) => {
-          setTotalAdmin(res.data.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    try {const totalUser = axios.get("http://localhost:8000/api/admin/count").then((res) => {setTotalAdmin(res.data.data);});
+    } catch (error) {console.log(error)}
   };
 
   useEffect(() => {
-    FetchTotalUser();
-    FetchTeamData();
-    FetchAdminData();
-    FetchLetSlides();
-    FetchPortImg();
-  }, []);
+    FetchTotalUser();FetchTeamData();FetchAdminData();FetchLetSlides();FetchPortImg()}, []);
   return (
     <>
       <div className="topDash ">
