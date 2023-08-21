@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminPortfolio() {
+  useEffect(() => {fetchPermissions();FetchPortimg();}, []);
   const id = localStorage.getItem("admin_id");
 
   const [portfoimg, setPortfoimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState("");
 
-  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
-    setUserPermissions(permissions);
+  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();    
+    setUserPermissions(permissions); 
     console.log(permissions, "222222");
   };
 
@@ -26,7 +27,7 @@ function AdminPortfolio() {
     } catch (error) {console.log(error);}
   };
 
-  useEffect(() => {fetchPermissions();FetchPortimg();}, []);
+
 
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
