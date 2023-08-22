@@ -5,26 +5,27 @@ import axios from "axios";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminSlider() {
+  const mod_id = 2;
   const id = localStorage.getItem("admin_id");
   const [slideimg, setSlideimg] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
 
   const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    console.log(userPermissions, "ttttttttttttttt");
- 
+    // console.log(userPermissions, "ttttttttttttttt");
   };
-  const valuesArray = Object.values(userPermissions);
-  const firstValue = valuesArray[1];
-  console.log(firstValue,"1111111");
+  // const valuesArray = Object.values(userPermissions);
+      const firstValue = userPermissions[mod_id];
+  // console.log(firstValue,"222222");
 
   const slideimages = async () => {
     try {const slideres = await axios.get("http://localhost:8000/api/get/img/slide");
       setSlideimg(slideres.data);
     } catch (error) {console.log(error)}
   };
+ 
 
-  useEffect(() => {fetchPermissions(); slideimages()}, []);
+  useEffect(() => {fetchPermissions();slideimages()}, []);
 
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);

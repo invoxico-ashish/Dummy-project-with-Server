@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { fetchUserPermissions, hasPermission } from "../Permissions/Permission";
 
 function AdminTeam() {
+  const mod_id = 3;
   const id = localStorage.getItem("admin_id");
   const [team, setteam] = useState([]);
   const [userPermissions, setUserPermissions] = useState([]);
@@ -16,12 +17,11 @@ function AdminTeam() {
 
   const fetchPermissions = async () => {const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    console.log(permissions, "3333333333333333");
+    // console.log(permissions, "3333333333333333");
   };
+  // const valuesArray = Object.values(userPermissions);
+  const firstValue = userPermissions[mod_id];
 
-  const valuesArray = Object.values(userPermissions);
-  const firstValue = valuesArray[2];
-  console.log(firstValue,"33333333");
 
 
   useEffect(() => {FetchTeam();fetchPermissions();}, []);

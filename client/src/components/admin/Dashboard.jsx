@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
 import "./Style/Home.css";
-import p1 from "../Images/p1.jpg";
 import axios from "axios";
+
 
 const Dashboard = () => {
   const [portimg, setPortimg] = useState([]);
@@ -11,6 +10,7 @@ const Dashboard = () => {
   const [adminData, setAdminData] = useState([]);
   const [teamData, setTeamData] = useState([]);
   const [totalAdmin, setTotalAdmin] = useState([]);
+
 
   const FetchPortImg = async () => {
     try {axios.get("http://localhost:8000/api/get/new/port").then((res) => {setPortimg(res.data.data);});
@@ -32,9 +32,9 @@ const Dashboard = () => {
     try {const totalUser = axios.get("http://localhost:8000/api/admin/count").then((res) => {setTotalAdmin(res.data.data);});
     } catch (error) {console.log(error)}
   };
-
+ 
   useEffect(() => {
-    FetchTotalUser();FetchTeamData();FetchAdminData();FetchLetSlides();FetchPortImg()}, []);
+    FetchTotalUser();FetchTeamData();FetchAdminData();FetchLetSlides();FetchPortImg();}, []);
   return (
     <>
       <div className="topDash ">

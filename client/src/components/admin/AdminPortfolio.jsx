@@ -1,24 +1,22 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Link } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminPortfolio() {
-  useEffect(() => {fetchPermissions();FetchPortimg();}, []);
+  const mod_id = 1;
   const id = localStorage.getItem("admin_id");
-
   const [portfoimg, setPortfoimg] = useState([]);
-  const [userPermissions, setUserPermissions] = useState("");
+  const [userPermissions, setUserPermissions] = useState([]);
 
-  const fetchPermissions = async () => {const permissions = await fetchUserPermissions();    
-    setUserPermissions(permissions); 
-    console.log(permissions, "222222");
+  const fetchPermissions = async () => {
+  const permissions = await fetchUserPermissions();   
+  setUserPermissions(permissions); 
+    // console.log(permissions, "222222");
   };
 
-  const valuesArray = Object.values(userPermissions);
-  const firstValue = valuesArray[0];
-  console.log(firstValue, "33333333");
-
+  // const valuesArray = Object.values(userPermissions);
+  const firstValue = userPermissions[mod_id];
 
   const FetchPortimg = async () => {
     try {
@@ -27,14 +25,15 @@ function AdminPortfolio() {
     } catch (error) {console.log(error);}
   };
 
-
-
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
     if (confirm) {await axios.delete(`http://localhost:8000/api/delete/portfolio/${id}`)
         .then((res) => {window.location.reload();})
         .catch((err) => {console.log(err);});
     }};
+
+    useEffect(() => {fetchPermissions();FetchPortimg();}, []);
+
   return (
     <>
       <div className="d-flex homeie">
