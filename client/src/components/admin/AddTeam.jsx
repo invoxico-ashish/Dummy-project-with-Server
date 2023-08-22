@@ -8,10 +8,8 @@ function AddTeam() {
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
 
-  const handleImagechange = (e) => {
-    const file = e.target.files[0];
-    setSlideImage(file);
-  };
+  const handleImagechange = (e) => {const file = e.target.files[0];
+    setSlideImage(file)};
 
   const FetchData = async () => {
     const formData = new FormData();
@@ -19,13 +17,8 @@ function AddTeam() {
     formData.append("slideImage", slideImage);
 
     await axios
-      .post("http://localhost:8000/api/our/team", formData)
-      .then((res) => {
-        setName(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .post("http://localhost:8000/api/our/team", formData).then((res) => {setName(res);})
+      .catch((err) => {console.log(err);});
   };
   const handleAddTeam = async (e) => {
     e.preventDefault();
