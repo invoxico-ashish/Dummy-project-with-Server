@@ -43,7 +43,7 @@ function AdminTeam() {
           </div>
           <div className="d-flex justify-content-around">
             <h2>Team</h2>
-            {id === "20" ? (
+            {id === "20" ||  firstValue === 2  ? (
               <Link to={"/addteam"}>
                 <button className="btn btn-success">+Add</button>
               </Link>

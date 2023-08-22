@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
 import { Link } from "react-router-dom";
-import NotAuth from "../NotAuth"
+import NotAuth from "../NotAuth";
 import axios from "axios";
 
 function UserList() {
@@ -58,8 +58,7 @@ function UserList() {
 
   return (
     <>
-    
-      {id === 20 ? (
+      {id === "20" ? (
         <>
           <div className="d-flex homeie">
             <div className="content container mt-3">
@@ -146,9 +145,8 @@ function UserList() {
         </>
       ) : (
         <div className="d-flex homeie">
-    <NotAuth/>
+          <NotAuth />
         </div>
-    
       )}
     </>
   );

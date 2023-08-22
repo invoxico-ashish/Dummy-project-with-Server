@@ -22,12 +22,11 @@ function Permissions() {
       permissions: permissions,
       module_id: module_id,
     };
-    console.log(data);
+
     await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
       .then((res) => console.log("success"))
-      .then((res) => {
-        toast.success("permisiion Successfully assigned", {
+      .then((res) => { toast.success("permission Successfuly assigned", {
           position: toast.POSITION.TOP_RIGHT,
           className: "toast-message",
         });

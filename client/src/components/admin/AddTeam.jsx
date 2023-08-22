@@ -44,7 +44,7 @@ function AddTeam() {
             </div>
           </Link>
           <div className="d-flex justify-content-around">
-            <h2> Slides</h2>
+            <h2> Team</h2>
           </div>
           <div className="slide-form">
             <div className="slideinput">

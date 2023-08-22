@@ -27,7 +27,7 @@ function AddNewAdmin() {
   };
   return (
     <>
-      {id === 20 ? (
+      {id === "20" ? (
         <>
           <div className="bodyDiv">
             <div className="Form-cont">
