@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
@@ -11,11 +11,26 @@ import axios from "axios";
 import { Outlet } from "react-router-dom";
 import "./Style/Home.css";
 import { useLocation } from "react-router-dom";
+import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminNavbar() {
+  const port_id = 1;
+  const Slider_id = 2;
+  const Team_id = 3;
+  
   const id = localStorage.getItem("admin_id");
   const location = useLocation();
-  const user = sessionStorage.getItem("user");
+  const [portPermission, setPortmission] = useState([]);
+
+  const FetchPermision = async () => {
+    const permission = await fetchUserPermissions();
+    console.log(permission,"sate")
+    setPortmission(permission);
+  };
+  const portValue = portPermission[port_id];
+  const slideValue = portPermission[Slider_id];
+  const TeamValue = portPermission[Team_id];
+
   const handleDelete = () => {
     axios
       .get("http://localhost:8000/api/logout")
@@ -27,6 +42,9 @@ function AdminNavbar() {
       })
       .catch((err) => console.log(err));
   };
+  useEffect(() => {
+    FetchPermision();
+  }, []);
 
   return (
     <>
@@ -59,7 +77,7 @@ function AdminNavbar() {
             </div>
           </div>
         </nav>
-        {location.pathname === "/admin" ||   location.pathname === "/newadmin" ? (
+        {location.pathname === "/admin" || location.pathname === "/newadmin" ? (
           ""
         ) : (
           <>
@@ -71,21 +89,34 @@ function AdminNavbar() {
                     <span className="ml-2">Dashboard</span>
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/adminport" className="nav-link text-white">
-                    <IoMdAlbums /> <span className="ml-2">Portfolio</span>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/slideradmin" className="nav-link text-white">
-                    <PiSlideshowBold /> <span className="ml-2">Slider</span>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/teamadmin" className="nav-link text-white">
-                    <RiTeamFill /> <span className="ml-2">Team</span>
-                  </Link>
-                </li>
+                {portValue === 0  ? (
+                  ""
+                 ) : ( 
+                  <li className="nav-item">
+                    <Link to="/adminport" className="nav-link text-white">
+                      <IoMdAlbums /> <span className="ml-2">Portfolio</span>
+                    </Link>
+                  </li>
+                  )} 
+                {slideValue === 0 ? (
+                  ""
+                ) : (
+                  <li className="nav-item">
+                    <Link to="/slideradmin" className="nav-link text-white">
+                      <PiSlideshowBold /> <span className="ml-2">Slider</span>
+                    </Link>
+                  </li>
+                )}
+                {TeamValue === 0 ? (
+                  ""
+                ) : (
+                  <li className="nav-item">
+                    <Link to="/teamadmin" className="nav-link text-white">
+                      <RiTeamFill /> <span className="ml-2">Team</span>
+                    </Link>
+                  </li>
+                )}
+
                 {id === "20" ? (
                   <>
                     <li className="nav-item">

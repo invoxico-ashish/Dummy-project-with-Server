@@ -28,6 +28,8 @@ import Permissions from "./components/admin/Permissions";
 import "./components/Header/Navbar/Navbar.css"
 function App() {
   const token = localStorage.getItem("token");
+  const id = localStorage.getItem("admin_id");
+ 
   return (
     <div>
       <BrowserRouter>
@@ -52,8 +54,7 @@ function App() {
           <Route path="/dashboard"element={<Protected><Dashboard /></Protected>}/>
           <Route path="/adminport"element={<Protected><AdminPortfolio /></Protected>}/>
           <Route path="/slideradmin"element={<Protected><AdminSlider /></Protected>}/>
-          <Route path="/teamadmin"element={<Protected><AdminTeam /></Protected>}/>
-          <Route path="/newadmin"element={<Protected><AddNewAdmin /></Protected>}/>
+          <Route path="/teamadmin"element={<Protected><AdminTeam /></Protected>}/>       
           <Route path="/updateadmin/:id"element={<Protected><UpdateAdmin /> </Protected>}/>
           <Route path="/addport"element={<Protected><AddPortfolio /></Protected>}/>
           <Route path="/addslides"element={<Protected><AddSlide /></Protected>}/>
@@ -61,7 +62,8 @@ function App() {
           <Route path="/addteam" element={<Protected><AddTeam /></Protected> } />
           <Route path="/updateteam/:id"element={ <Protected><UpdateTeam /></Protected> }/>
           <Route path="/updateport/:id"element={ <Protected><UpdatePortfolio /> </Protected>} />
-          <Route path="/userlist" element={<Protected><UserList /></Protected> } />
+          <Route path="/newadmin"element={<Protected><AddNewAdmin /></Protected>}/>
+          <Route path="/userlist" element={<Protected><UserList /></Protected> } /> 
           <Route path="/permission/:id" element={<Protected><Permissions /></Protected> } />
           </Route>
         </Routes>

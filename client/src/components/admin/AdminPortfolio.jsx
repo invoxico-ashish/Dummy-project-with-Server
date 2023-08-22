@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
@@ -10,8 +10,8 @@ function AdminPortfolio() {
   const [userPermissions, setUserPermissions] = useState([]);
 
   const fetchPermissions = async () => {
-  const permissions = await fetchUserPermissions();   
-  setUserPermissions(permissions); 
+    const permissions = await fetchUserPermissions();
+    setUserPermissions(permissions);
     // console.log(permissions, "222222");
   };
 
@@ -22,17 +22,29 @@ function AdminPortfolio() {
     try {
       const PortImg = await axios.get("http://localhost:8000/api/get/img/port");
       setPortfoimg(PortImg.data);
-    } catch (error) {console.log(error);}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async (id) => {
     const confirm = window.confirm(`would you like to delete the ${id}`);
-    if (confirm) {await axios.delete(`http://localhost:8000/api/delete/portfolio/${id}`)
-        .then((res) => {window.location.reload();})
-        .catch((err) => {console.log(err);});
-    }};
+    if (confirm) {
+      await axios
+        .delete(`http://localhost:8000/api/delete/portfolio/${id}`)
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
-    useEffect(() => {fetchPermissions();FetchPortimg();}, []);
+  useEffect(() => {
+    fetchPermissions();
+    FetchPortimg();
+  }, []);
 
   return (
     <>
@@ -43,7 +55,7 @@ function AdminPortfolio() {
               <h4>Our portfolio</h4>
             </div>
           </div>
-          { id === "20" || firstValue === 2 ? (
+          {id === "20" || firstValue === 2 ? (
             <div className="d-flex justify-content-around">
               <Link to={"/addport"}>
                 <button className="btn btn-success">+Add</button>
@@ -59,7 +71,11 @@ function AdminPortfolio() {
                 <th scope="col">id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Image</th>
-                <th scope="col">Actions</th>
+                {id === "20" || firstValue === 2 ? (
+                  <th scope="col">Actions</th>
+                ) : (
+                  ""
+                )}
               </tr>
             </thead>
             <tbody>

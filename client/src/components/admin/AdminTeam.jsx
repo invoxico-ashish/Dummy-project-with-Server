@@ -56,7 +56,10 @@ function AdminTeam() {
               <tr>
                 <th scope="col">Team id</th>
                 <th scope="col">name</th>
-                <th scope="col">image</th>
+                {id === "20" || firstValue === 2 ?
+                 <th scope="col">image</th>:""}
+               
+                
                 <th scope="col">Actions</th>
               </tr>
             </thead>

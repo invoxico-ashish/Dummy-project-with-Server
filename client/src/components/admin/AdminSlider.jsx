@@ -60,7 +60,9 @@ function AdminSlider() {
                 <th scope="col">Slider_id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Slide</th>
-                <th scope="col">Actions</th>
+                {id === "20" || firstValue === 2 ?
+                <th scope="col">Actions</th> :""}
+                
               </tr>
             </thead>
             <tbody>

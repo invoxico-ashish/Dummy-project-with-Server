@@ -1,33 +1,37 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Permissions() {
   const { id } = useParams();
   const [perData, setPerData] = useState([]);
 
-
   const GetPermisionData = async () => {
     try {
-      axios
-        .get("http://localhost:8000/api/get/module/data")
-        .then((res) => setPerData(res.data.result));
-    } catch (error) {
-      console.log(error);
-    }
+      axios.get("http://localhost:8000/api/get/module/data").then((res) => setPerData(res.data.result));
+    } catch (error) {console.log(error);}
   };
 
-  useEffect(() => {
-    GetPermisionData();
-  }, []);
+  useEffect(() => {GetPermisionData();}, []);
 
   const handleChange = async (admin_id, permissions, module_id) => {
-    const data= {"admin_id":admin_id,"permissions":permissions,"module_id":module_id}
+    const data = {
+      admin_id: admin_id,
+      permissions: permissions,
+      module_id: module_id,
+    };
     console.log(data);
     await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
-      .then((res)=>console.log("success"))
-    
+      .then((res) => console.log("success"))
+      .then((res) => {
+        toast.success("permisiion Successfully assigned", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
+      });
   };
 
   return (
@@ -39,9 +43,7 @@ function Permissions() {
               Permissions
             </div>
           </div>
-          <div className="d-flex justify-content-around">
-          
-          </div>
+          <div className="d-flex justify-content-around"></div>
           <table className="table w-50">
             <thead>
               <tr>
@@ -69,6 +71,7 @@ function Permissions() {
               ))}
             </tbody>
           </table>
+          <ToastContainer />
         </div>
       </div>
     </>
