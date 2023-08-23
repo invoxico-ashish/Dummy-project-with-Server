@@ -465,7 +465,7 @@ exports.PermissionModuleVal = async (req, res) => {
     await sqlconnect.query(sqlOne, (err, result) => {
       if (err) {
         res
-          .writeHead(400)
+          .status(400)
           .json({ success: false, message: "An Error Occorred", err });
         return;
       }
@@ -476,7 +476,7 @@ exports.PermissionModuleVal = async (req, res) => {
           if (err) {
             res.status(400).json({ success: false, message: "AN ERROR", err });
           }
-          res.writeHead(200).json({ success: true, message: "Updated", result });
+          res.status(200).json({ success: true, message: "Updated", result });
         });
       }
       const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
@@ -485,7 +485,7 @@ exports.PermissionModuleVal = async (req, res) => {
           res.status(400).json({ success: false, message: "Errorr", err });
           return;
         } else {
-          res.writeHead(201).json({ success: true, message: "Created", result });
+          res.status(201).json({ success: true, message: "Created", result });
         }
       });
 
@@ -494,7 +494,7 @@ exports.PermissionModuleVal = async (req, res) => {
     });
   } catch (error) {
     res
-      .writeHead(500)
+      .status(500)
       .json({ success: false, message: "An error occurred", error });
   }
 };
