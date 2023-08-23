@@ -14,18 +14,18 @@ import { useLocation } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminNavbar() {
-
+  const id = localStorage.getItem("admin_id");
   const port_id = 1;
   const Slider_id = 2;
   const Team_id = 3;
-  
-  const id = localStorage.getItem("admin_id");
+
+
   const location = useLocation();
   const [portPermission, setPortmission] = useState([]);
 
   const FetchPermision = async () => {
     const permission = await fetchUserPermissions();
-    console.log(permission,"sate")
+    // console.log(permission,"sate")
     setPortmission(permission);
   };
   const portValue = portPermission[port_id];
@@ -45,7 +45,7 @@ function AdminNavbar() {
   };
   useEffect(() => {
     FetchPermision();
-    // window.location.reload();
+
   }, []);
 
   return (

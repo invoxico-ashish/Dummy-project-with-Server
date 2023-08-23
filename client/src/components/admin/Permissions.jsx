@@ -15,23 +15,24 @@ function Permissions() {
       axios
         .get("http://localhost:8000/api/get/module/data")
         .then((res) => setPerData(res.data.result));
-      // .then((res)=>console.log(res,"hg"));
     } catch (error) {
       console.log(error);
     }
   };
-
   const assignedPermissionData = async () => {
     try {
-      axios
-        .get(`http://localhost:8000/api/permission/option/value/${id}`)
-        // .then((res) => console.log(res.data.result ))
-        .then((res) => setOptions(res.data.result));
+      const response = await axios.get(
+        `http://localhost:8000/api/permission/option/value/${id}`
+      );
+
+      const permissionResp = response.data.result;
+      setOptions(permissionResp);
+      console.log(options, "jiugl");
+      return false;
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     GetPermisionData();
     assignedPermissionData();
@@ -40,10 +41,11 @@ function Permissions() {
   const handleChange = async (admin_id, permissions, module_id) => {
     const data = {
       admin_id: admin_id,
-      permissions: permissions,
+      permission_value: permissions,
       module_id: module_id,
     };
-
+    console.log(data);
+    // return false
     await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
       .then((res) => console.log("success"))
@@ -84,7 +86,10 @@ function Permissions() {
                       }
                     >
                       {options.map((item) => (
-                        <option value={item.permission_value} key={item.permission_id}>
+                        <option
+                          value={item.permission_value}
+                          key={item.permission_id}
+                        >
                           {item.permission_value == "0"
                             ? "none"
                             : item.permission_value == "1"
