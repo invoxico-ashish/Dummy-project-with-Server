@@ -1,13 +1,24 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
+import {fetchUserPermissions} from "../Permissions/Permission"
+
 
 function UpdatePortfolio() {
+  const mod_id = 1;
   const Navigate = useNavigate();
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
+  const [userPermissions, setUserPermissions] = useState([]);
   const { id } = useParams();
+
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions(permissions);
+    console.log(permissions, "222222");
+  };
+  const firstValue = userPermissions[mod_id];
+  console.log(firstValue)
 
   const handelchange = (e) => {
     const file = e.target.files[0];
@@ -28,9 +39,10 @@ function UpdatePortfolio() {
         Navigate("/portfolio");
       });
   };
+  useEffect(()=>{fetchPermissions()},[])
   return (
     <>
-      <div className="d-flex home">
+      <div className="d-flex homeie">
         <div className="content container mt-3 ms-10">
           <Link to={"/adminport"}>
             <div className="row">

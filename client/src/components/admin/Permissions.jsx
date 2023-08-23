@@ -6,15 +6,36 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Permissions() {
   const { id } = useParams();
+  console.log(id, "this is id");
   const [perData, setPerData] = useState([]);
+  const [options, setOptions] = useState([]);
 
   const GetPermisionData = async () => {
     try {
-      axios.get("http://localhost:8000/api/get/module/data").then((res) => setPerData(res.data.result));
-    } catch (error) {console.log(error);}
+      axios
+        .get("http://localhost:8000/api/get/module/data")
+        .then((res) => setPerData(res.data.result));
+      // .then((res)=>console.log(res,"hg"));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  useEffect(() => {GetPermisionData();}, []);
+  const assignedPermissionData = async () => {
+    try {
+      axios
+        .get(`http://localhost:8000/api/permission/option/value/${id}`)
+        // .then((res) => console.log(res.data.result ))
+        .then((res) => setOptions(res.data.result));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    GetPermisionData();
+    assignedPermissionData();
+  }, []);
 
   const handleChange = async (admin_id, permissions, module_id) => {
     const data = {
@@ -26,7 +47,8 @@ function Permissions() {
     await axios
       .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
       .then((res) => console.log("success"))
-      .then((res) => { toast.success("permission Successfuly assigned", {
+      .then((res) => {
+        toast.success("permission Successfuly assigned", {
           position: toast.POSITION.TOP_RIGHT,
           className: "toast-message",
         });
@@ -61,9 +83,20 @@ function Permissions() {
                         handleChange(id, e.target.value, item.id)
                       }
                     >
-                      <option value="0">none</option>
+                      {options.map((item) => (
+                        <option value={item.permission_value} key={item.permission_id}>
+                          {item.permission_value == "0"
+                            ? "none"
+                            : item.permission_value == "1"
+                            ? "read"
+                            : item.permission_value == "2"
+                            ? "edit"
+                            : ""}
+                        </option>
+                      ))}
+                      {/* <option value="0">none</option>
                       <option value="1">view</option>
-                      <option value="2">edit</option>
+                      <option value="2">edit</option> */}
                     </select>
                   </td>
                 </tr>

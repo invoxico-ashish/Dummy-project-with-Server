@@ -477,7 +477,22 @@ exports.getPermissionValues = async (req, res) => {
 
   sqlconnect.query(sql, id, (err, result) => {
     // console.log(result);
-    if (!err) {res.status(200).json({success:true,message:"success",result})}
-       else{console.log(err)}
+    if (!err) {
+      res.status(200).json({ success: true, message: "success", result });
+    } else {
+      console.log(err);
+    }
   });
+};
+
+exports.getPermissionOption = async (req, res) => {
+  id = req.params.id
+  //  console.log(id)
+   const sql = `Select permission_id,module_id,admin_id,permission_value from permissions where admin_id =?`
+
+   sqlconnect.query(sql,id,(err,result)=>{
+    if(!err){
+      res.status(200).json({success:true,message:"Fetched",result})
+    }else{console.log(err)}
+   })
 };

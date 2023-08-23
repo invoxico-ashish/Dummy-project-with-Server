@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,6 @@ function AdminHome() {
       axios
         .post("http://localhost:8000/api/login", values)
         .then((res) => {
-          // console.log(res.data, "res");
           localStorage.setItem("token", res.data.token, res.data.admin_id);
           localStorage.setItem("admin_id", res.data.admin_id);
           if (res.data.success === true) {

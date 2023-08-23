@@ -2,7 +2,7 @@ import React from 'react'
 
 function NotAuth() {
   return (
-    <div>
+    <div className='homeie'>
         <h1>
             You are Not Authorized
         </h1>
