@@ -14,7 +14,7 @@ function Permissions() {
   const GetPermisionData = async () => {
     try {axios.get("http://localhost:8000/api/get/module/data")
         .then((res) => setPerData(res.data.result))
-        .then((res) => console.log(perData, "jmdfoiugh"));
+        // .then((res) => console.log(perData, "jmdfoiugh"));
     } catch (error) {console.log(error);}
   };
 
@@ -38,9 +38,7 @@ function Permissions() {
     const data = {admin_id: admin_id,permissions: permissions,module_id: module_id,
     };
     await axios.post(`http://localhost:8000/api/permission/module/value/${id}`, data)
-      .then((res) => {
-        toast.success("permission Successfuly assigned", {position: toast.POSITION.TOP_RIGHT});
-      });
+      .then((res) => {toast.success("permission Successfuly assigned", {position: toast.POSITION.TOP_RIGHT})});
   };
 
   return (
@@ -56,15 +54,14 @@ function Permissions() {
           <table className="table w-50">
             <thead>
               <tr>
-                <th scope="col">Module Name</th>
-                <th scope="col">Permissions</th>
+                <th>Module Name</th>
+                <th>Permissions</th>
               </tr>
             </thead>
             <tbody>
               {perData.map((item, index) => (
                 <tr key={index}>
                   <td>{item.module_name}</td>
-                  {console.log(item,"kdjUIOG")}
                   <td>
                     <select
                       name="permissions"
@@ -105,8 +102,4 @@ function Permissions() {
 
 export default Permissions;
 
-{
-  /* <option value="0" defaultValue={item.permission_value == "0"? 'selected':''}>none</option>
-                      <option value="1">view</option>
-                      <option value="2">edit</option> */
-}
+
