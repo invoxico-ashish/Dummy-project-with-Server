@@ -3,7 +3,7 @@ import axios from "axios";
 export const fetchUserPermissions = async () => {
   try {
     const id = localStorage.getItem("admin_id");
-    console.log(id);
+    // console.log(id);
     const response = await axios.get(
       `http://localhost:8000/api/permision/values/module/${id}`
     );

@@ -458,11 +458,11 @@ exports.PermissionModuleVal = async (req, res) => {
   let permissions = req.body.permissions;
   let module_id = req.body.module_id;
   console.log(req.body);
-  // return false;
+
   try {
     const sqlOne = `SELECT * FROM permissions WHERE admin_id = ${id}`;
 
-    await sqlconnect.query(sqlOne, (err, result) => {
+    sqlconnect.query(sqlOne, (err, result) => {
       if (err) {
         res
           .status(400)
@@ -471,25 +471,27 @@ exports.PermissionModuleVal = async (req, res) => {
       }
       if (result.length > 0) {
         // means some data is present in here
-        const sql = ` update permissions set module_id=${module_id}, permission_value=${permissions} where admin_id= ${id}   `;
+        console.log("duplicate");
+
+        const sql = `update permissions set module_id=${module_id}, permission_value=${permissions} where admin_id= ${id} And module_id=${module_id} `;
         sqlconnect.query(sql, (err, result) => {
           if (err) {
             res.status(400).json({ success: false, message: "AN ERROR", err });
           }
+          // return false;
           res.status(200).json({ success: true, message: "Updated", result });
         });
+      }else{
+        const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
+        sqlconnect.query(sqlTwo, (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: "Errorr", err });
+            return;
+          } else {
+            res.status(201).json({ success: true, message: "Created", result });
+          }
+        });
       }
-      const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
-      sqlconnect.query(sqlTwo, (err, result) => {
-        if (err) {
-          res.status(400).json({ success: false, message: "Errorr", err });
-          return;
-        } else {
-          res.status(201).json({ success: true, message: "Created", result });
-        }
-      });
-
-      console.log(result.length > 0);
       // return false;
     });
   } catch (error) {
@@ -525,35 +527,3 @@ exports.getPermissionOption = async (req, res) => {
     }
   });
 };
-// exports.PermissionModuleVal =async(req,res)=>{
-//   const id = req.params.id;
-//   const permissions = req.body.permissions;
-//   const module_id = req.body.module_id;
-
-//   try {
-//     const sqlOne = `SELECT * FROM permissions WHERE admin_id = ${id}`;
-//     const result = await sqlconnect.query(sqlOne);
-
-//     if (result.length > 0) {
-//       const updateSql = `UPDATE permissions SET module_id=${module_id}, permission_value=${permissions} WHERE admin_id=${id}`;
-//       sqlconnect.query(updateSql, (updateErr, updateResult) => {
-//         if (updateErr) {
-//           res.status(400).json({ success: false, message: "An error occurred during update", err: updateErr });
-//         } else {
-//           res.status(200).json({ success: true, message: "Updated", result: updateResult });
-//         }
-//       });
-//     } else {
-//       const insertSql = `INSERT INTO permissions (admin_id,module_id,permission_value) VALUES ("${id}","${module_id}","${permissions}")`;
-//       sqlconnect.query(insertSql, (insertErr, insertResult) => {
-//         if (insertErr) {
-//           res.status(400).json({ success: false, message: "An error occurred during insertion", err: insertErr });
-//         } else {
-//           res.status(201).json({ success: true, message: "Created", result: insertResult });
-//         }
-//       });
-//     }
-//   } catch (err) {
-//     res.status(500).json({ success: false, message: "An error occurred", err });
-//   }
-// }

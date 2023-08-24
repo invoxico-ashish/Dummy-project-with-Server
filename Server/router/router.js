@@ -39,7 +39,7 @@ router.get("/get/latest/admin/user", controller.GetLatestAdminDetails);
 router.get("/get/latest/team", controller.GetLatestTeam);
 router.get("/get/module/data", controller.ModuleData);
 router.post("/resgisert/admin", controller.RegisterAdmin);
-router.post("/permission/module/value/:id", controller.PermissionModuleVal  );
+router.post("/permission/module/value/:id", controller.PermissionModuleVal  );  //Give Permission
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
 
 //LOGIN ROUTE-------------------------------------------->

@@ -2,58 +2,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 
 function Permissions() {
   const { id } = useParams();
-  console.log(id, "this is id");
   const [perData, setPerData] = useState([]);
   const [options, setOptions] = useState([]);
 
+
   const GetPermisionData = async () => {
-    try {
-      axios
-        .get("http://localhost:8000/api/get/module/data")
-        .then((res) => setPerData(res.data.result));
-    } catch (error) {
-      console.log(error);
-    }
+    try {axios.get("http://localhost:8000/api/get/module/data")
+        .then((res) => setPerData(res.data.result))
+        .then((res) => console.log(perData, "jmdfoiugh"));
+    } catch (error) {console.log(error);}
   };
+
   const assignedPermissionData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/permission/option/value/${id}`
-      );
+    try {const response = await axios.get(`http://localhost:8000/api/permission/option/value/${id}`);
 
       const permissionResp = response.data.result;
-      setOptions(permissionResp);
-      console.log(options, "jiugl");
-      return false;
-    } catch (error) {
-      console.log(error);
-    }
+      const indexMapping = {};
+      const newArr = permissionResp.map((item) => {
+        const newIndex = item.module_id;
+        indexMapping[newIndex] = item.permission_value;
+        return newIndex;
+      });
+      setOptions(indexMapping);
+      return indexMapping;
+    } catch (error) {console.log(error)}
   };
-  useEffect(() => {
-    GetPermisionData();
-    assignedPermissionData();
-  }, []);
+  useEffect(() => {GetPermisionData();assignedPermissionData();}, []);
 
   const handleChange = async (admin_id, permissions, module_id) => {
-    const data = {
-      admin_id: admin_id,
-      permission_value: permissions,
-      module_id: module_id,
+    const data = {admin_id: admin_id,permissions: permissions,module_id: module_id,
     };
-    console.log(data);
-    // return false
-    await axios
-      .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
-      .then((res) => console.log("success"))
+    await axios.post(`http://localhost:8000/api/permission/module/value/${id}`, data)
       .then((res) => {
-        toast.success("permission Successfuly assigned", {
-          position: toast.POSITION.TOP_RIGHT,
-          className: "toast-message",
-        });
+        toast.success("permission Successfuly assigned", {position: toast.POSITION.TOP_RIGHT});
       });
   };
 
@@ -78,6 +64,7 @@ function Permissions() {
               {perData.map((item, index) => (
                 <tr key={index}>
                   <td>{item.module_name}</td>
+                  {console.log(item,"kdjUIOG")}
                   <td>
                     <select
                       name="permissions"
@@ -85,23 +72,24 @@ function Permissions() {
                         handleChange(id, e.target.value, item.id)
                       }
                     >
-                      {options.map((item) => (
-                        <option
-                          value={item.permission_value}
-                          key={item.permission_id}
-                        >
-                          {item.permission_value == "0"
-                            ? "none"
-                            : item.permission_value == "1"
-                            ? "read"
-                            : item.permission_value == "2"
-                            ? "edit"
-                            : ""}
-                        </option>
-                      ))}
-                      {/* <option value="0">none</option>
-                      <option value="1">view</option>
-                      <option value="2">edit</option> */}
+                      <option
+                        value="0"
+                        selected={options[item.id] === 0 ? "selected" : ""}
+                      >
+                        none
+                      </option>
+                      <option
+                        value="1"
+                        selected={options[item.id] === 1 ? "selected" : ""}
+                      >
+                        Read
+                      </option>
+                      <option
+                        value="2"
+                        selected={options[item.id] === 2 ? "selected" : ""}
+                      >
+                        Edit
+                      </option>
                     </select>
                   </td>
                 </tr>
@@ -116,3 +104,9 @@ function Permissions() {
 }
 
 export default Permissions;
+
+{
+  /* <option value="0" defaultValue={item.permission_value == "0"? 'selected':''}>none</option>
+                      <option value="1">view</option>
+                      <option value="2">edit</option> */
+}
