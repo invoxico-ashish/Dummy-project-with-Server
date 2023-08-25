@@ -3,15 +3,14 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation, Outlet } from "react-router-dom";
 import { TbUsersPlus } from "react-icons/tb";
 import { TbUsersGroup } from "react-icons/tb";
 import { FiLogOut } from "react-icons/fi";
 import axios from "axios";
-import { Outlet } from "react-router-dom";
 import "./Style/Home.css";
-import { useLocation } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { CgProfile } from "react-icons/cg";
 
 function AdminNavbar() {
   const id = localStorage.getItem("admin_id");
@@ -19,14 +18,13 @@ function AdminNavbar() {
   const Slider_id = 2;
   const Team_id = 3;
 
-
   const location = useLocation();
   const [portPermission, setPortmission] = useState([]);
 
   const FetchPermision = async () => {
     const permission = await fetchUserPermissions();
-    // console.log(permission,"sate")
     setPortmission(permission);
+    console.log(portPermission, "sate");
   };
   const portValue = portPermission[port_id];
   const slideValue = portPermission[Slider_id];
@@ -45,7 +43,6 @@ function AdminNavbar() {
   };
   useEffect(() => {
     FetchPermision();
-
   }, []);
 
   return (
@@ -63,8 +60,8 @@ function AdminNavbar() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse justify-content-md-center">
-              <ul className="navbar-nav">
+            <div className="collapse navbar-collapse justify-content-md-center lestOne ">
+              <ul className="navbar-nav newOne">
                 <li className="nav-item mx-2">
                   <Link to={"/dashboard"} className="nav-link text-white">
                     Home
@@ -75,6 +72,11 @@ function AdminNavbar() {
                     <span className="ml-2">LogOut</span>
                   </Link>
                 </li>
+                <div className="profile-div ">
+                  <li className="nav-item mx-2">
+                    <CgProfile size={20} color="white" />
+                  </li>
+                </div>
               </ul>
             </div>
           </div>
@@ -91,15 +93,15 @@ function AdminNavbar() {
                     <span className="ml-2">Dashboard</span>
                   </Link>
                 </li>
-                {portValue === 0  ? (
+                {portValue === 0 ? (
                   ""
-                 ) : ( 
+                ) : (
                   <li className="nav-item">
                     <Link to="/adminport" className="nav-link text-white">
                       <IoMdAlbums /> <span className="ml-2">Portfolio</span>
                     </Link>
                   </li>
-                  )} 
+                )}
                 {slideValue === 0 ? (
                   ""
                 ) : (
@@ -138,6 +140,11 @@ function AdminNavbar() {
                   ""
                 )}
 
+                <li className="nav-item">
+                  <Link to={"/useraccount"}className="nav-link text-white">
+                    <CgProfile /> <span className="ml-2">Account</span>
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link className="nav-link text-white" onClick={handleDelete}>
                     <FiLogOut /> <span className="ml-2">LogOut</span>

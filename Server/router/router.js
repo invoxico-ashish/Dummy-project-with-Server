@@ -69,10 +69,6 @@ router.put("/update/admin/det/:id", delcontroller.UpdateAdminDetails);
 
 module.exports = router;
 
-
-
-
-
 const verifyUser = (req, res, next) => {
   const token = req.cookie.token;
   if (!token) {

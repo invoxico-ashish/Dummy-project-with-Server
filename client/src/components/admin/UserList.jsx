@@ -3,6 +3,8 @@ import "./Style/Home.css";
 import { Link } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import axios from "axios";
+import { MdEdit, MdDeleteSweep } from "react-icons/md";
+import { BsKeyFill } from "react-icons/bs";
 
 function UserList() {
   const id = localStorage.getItem("admin_id");
@@ -118,19 +120,21 @@ function UserList() {
                         <td>{item.email}</td>
                         <td>
                           <Link to={`/updateadmin/${item.admin_id}`}>
-                            <button className="btn btn-success mx-2 btn-sm">
-                              Edit
-                            </button>
+                            <MdEdit
+                              color="black"
+                              size={30}
+                              className="btn btn-success mx-2 btn-sm"
+                            />
                           </Link>
                           <button
                             className="btn btn-danger btn-sm"
                             onClick={(e) => handleDelete(item.admin_id)}
                           >
-                            Delete
+                            <MdDeleteSweep />
                           </button>
                           <Link to={`/permission/${item.admin_id}`}>
                             <button className="btn btn-warning mx-2 btn-sm">
-                              Permission
+                              <BsKeyFill />
                             </button>
                           </Link>
                         </td>

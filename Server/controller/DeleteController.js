@@ -161,6 +161,11 @@ exports.UpdatePortFolio = async (req, res) => {
 };
 exports.RegisterAdmin = async (req, res) => {
   const email = req.body.email;
+  const name = req.body.name;
+
+  if (!name) {
+    res.status(400).json({ success: false, message: "enter the user Name" });
+  }
   const checkEmail =
     "SELECT COUNT(*) AS count FROM admin_details WHERE email = ?";
   sqlconnect.query(checkEmail, [email], (error, results) => {
@@ -171,43 +176,48 @@ exports.RegisterAdmin = async (req, res) => {
     if (count != 1) {
       let password = req.body.password;
       if (!password) {
-        return res.status(400).json({
-          success: false,
-          message: "Password is requried",
-        });
+        return res
+          .status(400)
+          .json({ success: false, message: "Password is requried" });
       } else if (password.length < 4) {
-        return res.status(400).json({
-          success: false,
-          message: "Passord is too short",
-        });
+        return res
+          .status(400)
+          .json({ success: false, message: "Passord is too short" });
       }
       if (password.length > 15) {
-        res.status(400).json({
-          success: false,
-          message: "Password is too Long",
-        });
+        res
+          .status(400)
+          .json({ success: false, message: "Password is too Long" });
       }
       const salt = 10;
       const sql =
-        "INSERT INTO admin_details (`name`,`email`,`password`) VALUES (?)";
+        "INSERT INTO admin_details (`name`,`email`,`password`,`contact_no`) VALUES (?)";
       bcrypt.hash(password.toString(), salt, (err, hash) => {
         if (err) {
           res.json("Error in hashing password");
           console.log(err);
         }
-        const values = [req.body.name, req.body.email, hash];
+        const Number = req.body.Number;
+        console.log(Number);
+        if (!Number) {
+          res
+            .status(400)
+            .json({ success: false, message: "Number is required" });
+          return;
+        } else if (Number.length < 8 || Number.length > 12) {
+          res
+            .status(400)
+            .json({ success: false, message: "Please Enter Correct Details" });
+          return;
+        }
+        const values = [req.body.name, req.body.email, hash, Number];
+        console.log(values);
+        // return false
         sqlconnect.query(sql, [values], (err, result) => {
           if (!err) {
-            res.status(200).json({
-              success: true,
-              message: "Success",
-              result,
-            });
+            res.status(200).json({ success: true, message: "Success", result });
           } else {
-            res.status(400).json({
-              success: false,
-              message: "Failed",
-            });
+            res.status(400).json({ success: false, message: "Failed" });
           }
           console.log(err);
         });
@@ -228,18 +238,36 @@ exports.LoginAdmin = async (req, res) => {
   const sql = " select * from admin_details where email=?";
   const queries = sqlconnect.query(sql, [email], (err, data) => {
     if (err) {
-      return res.status(400).json({ success: false, message: "Some error occured", err })}
-    if (data.length > 0) {bcrypt.compare(password.toString(), data[0].password, (err, response) => {
-        if (err) {return res.status(401).json({ success: false, message: "Password errror", err })}
-           if (response) {const name = data[0].name; const admin_id= data[0].admin_id;
+      return res
+        .status(400)
+        .json({ success: false, message: "Some error occured", err });
+    }
+    if (data.length > 0) {
+      bcrypt.compare(password.toString(), data[0].password, (err, response) => {
+        if (err) {
+          return res
+            .status(401)
+            .json({ success: false, message: "Password errror", err });
+        }
+        if (response) {
+          const name = data[0].name;
+          const admin_id = data[0].admin_id;
           console.log(admin_id, "ikjhgf");
           // return false;
-          const token = jwt.sign({ name }, "jwt-secret-key", {expiresIn: "1d"});
+          const token = jwt.sign({ name }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
           res.cookie("Bearer", token);
-          return res.status(200).json({success: true,message: "matched",token,admin_id});
-        }  else { res.json({ message: "Pass not matched" });}
+          return res
+            .status(200)
+            .json({ success: true, message: "matched", token, admin_id });
+        } else {
+          res.json({ message: "Pass not matched" });
+        }
       });
-    } else {return res.json({ message: "No email existed" });}
+    } else {
+      return res.json({ message: "No email existed" });
+    }
     console.log(data);
     return false;
   });

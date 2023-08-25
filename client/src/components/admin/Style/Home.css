@@ -90,3 +90,39 @@
   top: 0;
   z-index: 1;
 }
+.profile-div{
+/* border: 1px solid white; */
+/* width: 10; */
+/* margin-right:10px; */
+display: flex;
+align-items: center;
+
+}
+.newOne{
+  /* border: 1px solid white; */
+  display: flex;
+  justify-content:flex-end ;
+  margin-left: 70rem;
+}
+.lestOne{
+  /* border: 1px solid red;   */
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ------------------ Account Css ---------------------- */
+
+.info_con{
+  /* border: 1px solid black; */
+  width:auto;
+  height: 80vh;
+  margin-left: 14rem;
+  margin-top: 20px;
+}
+.buttons-section{
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+}
+.Grid-sys{
+  margin-top:20px ;}

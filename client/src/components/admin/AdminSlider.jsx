@@ -18,7 +18,7 @@ function AdminSlider() {
   };
   // const valuesArray = Object.values(userPermissions);
   const firstValue = userPermissions[mod_id];
-  console.log(firstValue, "222222");
+  // console.log(firstValue, "222222");
 
   const slideimages = async () => {
     try {
