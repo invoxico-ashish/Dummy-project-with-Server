@@ -27,6 +27,7 @@ import AdminNavbar from "./components/admin/AdminNavbar";
 import Permissions from "./components/admin/Permissions";
 import Account from "./components/admin/Account";
 import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
+import ChangePassword from "./components/admin/ChangePassword";
 import "./components/Header/Navbar/Navbar.css"
 function App() {
   const token = localStorage.getItem("token");
@@ -69,6 +70,7 @@ function App() {
           <Route path="/permission/:id" element={<Protected><Permissions /></Protected> } />
           <Route path="/useraccount" element={<Protected><Account /></Protected> } />
           <Route path="/personaldetail/:id" element={<Protected><UpdatePersonalDetel /></Protected> } />
+          <Route path="/changepassword/:id" element={<Protected><ChangePassword /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

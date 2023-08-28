@@ -332,18 +332,74 @@ exports.PutPersonalDetails = async (req, res) => {
     const file = req.file;
     const id = req.params.id;
     let name = req.body.name;
-    let ProfileImage = file.filename;
+    let image = file.filename;
     let email = req.body.email;
     let contact = req.body.contact;
 
     // console.log(req.params);return;
     const sql = `update admin_details set name=?, email=?, contact_no=?, Profile_pic=? where admin_id=${id}`;
-    sqlconnect.query(sql, [name, email, contact, ProfileImage], (err, data) => {
+    sqlconnect.query(sql, [name, email, contact, image], (err, data) => {
       if (err) {
         res.status(400).json({ success: false, message: "some Err" });
         console.log(err);
       } else {
         res.status(200).json({ success: true, message: "Updated", data });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.UpdateAccPassword = async (req, res) => {
+  const salt = 10;
+  const id = req.params.id;
+  const password = req.body.password;
+  const NewPassword = req.body.NewPassword;
+  const ConfirmPassword = req.body.ConfirmPassword;
+  console.log(password, NewPassword, ConfirmPassword);
+  try {
+    const sqlOne = `select * from  admin_details where admin_id = ${id}`;
+
+    await sqlconnect.query(sqlOne, (err, data) => {
+      if (err) {
+        res.status(400).json({ success: false, message: "An Error" });
+        console.log(err);
+      }
+      if (data.length > 0) {
+        bcrypt.compare(password.toString(),data[0].password,(err, response) => {
+            if (err) {
+              return res
+                .status(400)
+                .json({ success: false, message: "not found" });
+            }
+             else if (!err) {
+              if (NewPassword === ConfirmPassword) {
+                bcrypt.hash(NewPassword.toString(), salt, (err, hash) => {
+                  if (err) {
+                    return res
+                      .status(400)
+                      .json({ success: false, message: "some err" });
+                  } else {
+                    const sqlTwo = `update admin_details set password=? where admin_id=${id}`;
+                    sqlconnect.query(sqlTwo, hash, (err, result) => {
+                      if (err) {
+                        return res
+                          .status(400)
+                          .json({ success: false, message: "An ERRRRR" });
+                      } else {
+                        return res
+                          .status(200)
+                          .json({ success: true, message: "updated", result });
+                      }
+                    });
+                  }
+                });
+              } else {
+          return res.status(400).json({success:false,message:"not matched"})
+              }
+            }
+          }
+        );
       }
     });
   } catch (error) {

@@ -482,7 +482,7 @@ exports.PermissionModuleVal = async (req, res) => {
           res.status(200).json({ success: true, message: "Updated", result });
         });
       } else {
-        const sqlTwo = `insert into permissions (admin_id,module_id,permission_value,) values ("${id}","${module_id}","${permissions}")`;
+        const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
         sqlconnect.query(sqlTwo, (err, result) => {
           if (err) {
             res.status(400).json({ success: false, message: "Errorr", err });
@@ -538,6 +538,31 @@ exports.GetAdminDetailById = async (req, res) => {
       res.status(400).json({ success: false, message: "Some Err" });
     } else {
       res.status(200).json({ success: true, message: "Success", result });
+    }
+  });
+};
+exports.CheckPasswordForTest = async (req, res) => {
+  const id = req.params.id;
+  const ProvidedPassword = req.body.ProvidedPassword;
+
+  sql = `select password from admin_details where admin_id = ${id}`;
+
+  await sqlconnect.query(sql, (err, result) => {
+    if (err) {
+      return res.status(400).json({ success: false });
+    } else if (result.length > 0) {
+      const hashedPassword = result[0].password;
+      bcrypt.compare(ProvidedPassword, hashedPassword, (err, data) => {
+        if (err) {
+          return res.status(400).json({ success: false });
+        } else if (data) {
+          console.log("Password is correct");
+          return res.json({data});
+        } else {
+          return res.json({ success: false, messages: "Not MAtched" });
+          console.log("Password is incorrect");
+        }
+      });
     }
   });
 };

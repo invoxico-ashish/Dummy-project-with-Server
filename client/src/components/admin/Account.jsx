@@ -33,9 +33,9 @@ function Account() {
 
       <div className=" info_con">
         <div className="buttons-section">
-          <div>
+          {/* <div>
             <span className="btn btn-warning btn-sm"> User Info</span>
-          </div>
+          </div> */}
           <div>
             <Link to={`/personaldetail/${id}`}>
               <span className="btn btn-danger btn-sm">Update Info</span>
@@ -71,7 +71,7 @@ function Account() {
                   </tr>
                 </tbody>
               </table>
-              <div className="img-conatiner"  >
+              <div className="img-conatiner">
                 <img
                   src={`http://localhost:8000/img/${item.Profile_pic}`}
                   alt=""

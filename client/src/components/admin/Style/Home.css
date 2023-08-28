@@ -143,4 +143,56 @@
 }
 .img-conatiner img {
   width: 200px;
+  border-radius: 50px;
+}
+.slideinput {
+  /* border: 1px solid black; */
+  width: 30rem;
+  margin-left: 300px;
+  height: 70vh;
+  box-shadow: -2px 10px 48px -3px rgba(0, 0, 0, 0.76);
+  -webkit-box-shadow: -2px 10px 48px -3px rgba(0, 0, 0, 0.76);
+  -moz-box-shadow: -2px 10px 48px -3px rgba(0, 0, 0, 0.76);
+  border-radius: 20px;
+}
+.label-div {
+  /* border: 1px solid black; */
+  display: flex;
+  width: auto;
+  justify-content: space-between;
+  align-content: center;
+  margin-left: 10px;
+}
+.inp-btn {
+  /* border: 1px solid black; */
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: space-evenly;
+  width: 300px;
+  margin-left: 100px;
+  box-shadow: 24px 0px 34px -3px rgba(0, 0, 0, 0.1);
+}
+/* .chng-pass button { */
+/* border: 1px solid black; */
+/* width: 20px; */
+/* height: 20px; */
+/* background: none; */
+/* border: none; */
+/* color: blue; */
+/* } */
+
+.lab-cont {
+  /* border: 1px solid black; */
+}
+.formTable {
+  /* border: 1px solid black; */
+  /* display: flex; */
+}
+.fleci {
+  border: 1px solid black;
+}
+.loader {
+  margin-top: 200px;
+  margin-left: 50%;
 }

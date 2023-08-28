@@ -52,6 +52,7 @@ router.get("/admin/details", controller.GetAdminDetails);
 router.get("/admin/detail/:id", controller.GetAdminDetailById);
 router.get("/permision/values/module/:id", controller.getPermissionValues);
 router.get("/permission/option/value/:id", controller.getPermissionOption);
+router.get("/check/password/fortesting/:id", controller.CheckPasswordForTest);
 
 //DELETE ROUTES-------------------->
 
@@ -68,6 +69,7 @@ router.put("/update/Team/:id",upload.single("slideImage"),delcontroller.UpdateTe
 router.put("/update/portfolio/:id",upload.single("slideImage"),delcontroller.UpdatePortFolio );
 router.put("/update/personal/details/:id",upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
 router.put("/update/admin/det/:id", delcontroller.UpdateAdminDetails);
+router.put("/update/password/:id", delcontroller.UpdateAccPassword);
 
 module.exports = router;
 
