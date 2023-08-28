@@ -74,7 +74,9 @@ function AdminNavbar() {
                 </li>
                 <div className="profile-div ">
                   <li className="nav-item mx-2">
-                    <CgProfile size={20} color="white" />
+                    <Link to={"/useraccount"}>
+                      <CgProfile size={20} color="white" />
+                    </Link>
                   </li>
                 </div>
               </ul>
@@ -141,7 +143,7 @@ function AdminNavbar() {
                 )}
 
                 <li className="nav-item">
-                  <Link to={"/useraccount"}className="nav-link text-white">
+                  <Link to={"/useraccount"} className="nav-link text-white">
                     <CgProfile /> <span className="ml-2">Account</span>
                   </Link>
                 </li>

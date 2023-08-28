@@ -297,7 +297,7 @@ exports.PostPortImage = async (req, res) => {
 };
 
 exports.GetAdminDetails = async (rea, res) => {
-  const sql = `SELECT admin_id,name,email from admin_details`;
+  const sql = `SELECT admin_id,name,email,contact_no from admin_details`;
 
   sqlconnect.query(sql, (err, data) => {
     if (!err) {
@@ -481,8 +481,8 @@ exports.PermissionModuleVal = async (req, res) => {
           // return false;
           res.status(200).json({ success: true, message: "Updated", result });
         });
-      }else{
-        const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
+      } else {
+        const sqlTwo = `insert into permissions (admin_id,module_id,permission_value,) values ("${id}","${module_id}","${permissions}")`;
         sqlconnect.query(sqlTwo, (err, result) => {
           if (err) {
             res.status(400).json({ success: false, message: "Errorr", err });
@@ -524,6 +524,20 @@ exports.getPermissionOption = async (req, res) => {
       res.status(200).json({ success: true, message: "Fetched", result });
     } else {
       console.log(err);
+    }
+  });
+};
+
+exports.GetAdminDetailById = async (req, res) => {
+  const id = req.params.id;
+  const sql = `select * from admin_details where admin_id = ${id}`;
+
+  sqlconnect.query(sql, id, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ success: false, message: "Some Err" });
+    } else {
+      res.status(200).json({ success: true, message: "Success", result });
     }
   });
 };

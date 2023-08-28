@@ -160,8 +160,13 @@ exports.UpdatePortFolio = async (req, res) => {
   }
 };
 exports.RegisterAdmin = async (req, res) => {
+  const file = req.file;
+  console.log(file);
+  // return false
   const email = req.body.email;
   const name = req.body.name;
+
+  let image = file.filename;
 
   if (!name) {
     res.status(400).json({ success: false, message: "enter the user Name" });
@@ -170,9 +175,6 @@ exports.RegisterAdmin = async (req, res) => {
     "SELECT COUNT(*) AS count FROM admin_details WHERE email = ?";
   sqlconnect.query(checkEmail, [email], (error, results) => {
     const count = results[0].count;
-
-    // const emailExists = ;
-    // res.json({ success: false, message: "already Exist", error });
     if (count != 1) {
       let password = req.body.password;
       if (!password) {
@@ -191,7 +193,7 @@ exports.RegisterAdmin = async (req, res) => {
       }
       const salt = 10;
       const sql =
-        "INSERT INTO admin_details (`name`,`email`,`password`,`contact_no`) VALUES (?)";
+        "INSERT INTO admin_details (`name`,`email`,`password`,`contact_no`,`Profile_pic`) VALUES (?)";
       bcrypt.hash(password.toString(), salt, (err, hash) => {
         if (err) {
           res.json("Error in hashing password");
@@ -210,7 +212,7 @@ exports.RegisterAdmin = async (req, res) => {
             .json({ success: false, message: "Please Enter Correct Details" });
           return;
         }
-        const values = [req.body.name, req.body.email, hash, Number];
+        const values = [req.body.name, req.body.email, hash, Number, image];
         console.log(values);
         // return false
         sqlconnect.query(sql, [values], (err, result) => {
@@ -317,6 +319,31 @@ exports.DeleteAdminById = async (req, res) => {
         });
       } else {
         res.send(err);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.PutPersonalDetails = async (req, res) => {
+  // console.log(file);
+  try {
+    const file = req.file;
+    const id = req.params.id;
+    let name = req.body.name;
+    let ProfileImage = file.filename;
+    let email = req.body.email;
+    let contact = req.body.contact;
+
+    // console.log(req.params);return;
+    const sql = `update admin_details set name=?, email=?, contact_no=?, Profile_pic=? where admin_id=${id}`;
+    sqlconnect.query(sql, [name, email, contact, ProfileImage], (err, data) => {
+      if (err) {
+        res.status(400).json({ success: false, message: "some Err" });
+        console.log(err);
+      } else {
+        res.status(200).json({ success: true, message: "Updated", data });
       }
     });
   } catch (error) {

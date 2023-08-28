@@ -45,10 +45,11 @@ router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortIma
 //LOGIN ROUTE-------------------------------------------->
 
 router.post("/login",delcontroller.LoginAdmin);
-router.post("/register", delcontroller.RegisterAdmin);
+router.post("/register",upload.single("ProfileImage"), delcontroller.RegisterAdmin);
 // router.get("/checkAuth", verifyUser, delcontroller.VeriFiesUser);
 router.get("/logout", delcontroller.LogOut);
 router.get("/admin/details", controller.GetAdminDetails);
+router.get("/admin/detail/:id", controller.GetAdminDetailById);
 router.get("/permision/values/module/:id", controller.getPermissionValues);
 router.get("/permission/option/value/:id", controller.getPermissionOption);
 
@@ -64,7 +65,8 @@ router.delete("/delete/admin/:id", delcontroller.DeleteAdminById);
 
 router.put("/update/slide/:id",upload.single("slideImage"),delcontroller.UpdateImgById);
 router.put("/update/Team/:id",upload.single("slideImage"),delcontroller.UpdateTeamById);
-router.put("/update/portfolio/:id",upload.single("slideImage"),delcontroller.UpdatePortFolio);
+router.put("/update/portfolio/:id",upload.single("slideImage"),delcontroller.UpdatePortFolio );
+router.put("/update/personal/details/:id",upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
 router.put("/update/admin/det/:id", delcontroller.UpdateAdminDetails);
 
 module.exports = router;

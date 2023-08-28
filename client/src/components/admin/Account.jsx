@@ -1,6 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import "./Style/Home.css";
 function Account() {
+  const id = localStorage.getItem("admin_id");
+  // console.log(id);
+  const [personDetail, setPerSonDetails] = useState([]);
+
+  const FatchDetails = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const res = await axios.get(
+        `http://localhost:8000/api/admin/detail/${id}`
+      );
+      setPerSonDetails(res.data.result);
+      // console.log(personDetail, "staejkpersonDetail");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    FatchDetails();
+  }, []);
   return (
     <>
       <div className="d-flex homeie ">
@@ -16,36 +37,48 @@ function Account() {
             <span className="btn btn-warning btn-sm"> User Info</span>
           </div>
           <div>
-            <span className="btn btn-danger btn-sm">Update Info</span>
+            <Link to={`/personaldetail/${id}`}>
+              <span className="btn btn-danger btn-sm">Update Info</span>
+            </Link>
           </div>
         </div>
         <div className="Grid-sys">
-          <table className="table w-50">
-            <thead>
-              <tr>
-                <th scope="col">Details</th>
-                {/* <th scope="col">name</th>
-                <th scope="col">email</th>
-                <th scope="col">Actions</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td> USer </td>
-                <td>Jhon</td>
-              </tr>
+          {personDetail.map((item) => (
+            <>
+              <table className="table w-50" key={item.admin_id}>
+                <thead>
+                  <tr>
+                    <th scope="col">Personal Details</th>
+                  </tr>
+                </thead>
 
-              <tr>
-                <td>Email</td>
-                <td>houig</td>
-              </tr>
-              
-              <tr>
-                <td>Contact-No</td>
-                <td>895623</td>
-              </tr>
-            </tbody>
-          </table>
+                <tbody key={item.admin_id}>
+                  <tr>
+                    <th>Id </th>
+                    <td>{item.admin_id}</td>
+                  </tr>
+                  <tr>
+                    <th>Email </th>
+                    <td>{item.email}</td>
+                  </tr>
+                  <tr>
+                    <th>Name</th>
+                    <td> {item.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Contact</th>
+                    <td>{item.contact_no}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="img-conatiner"  >
+                <img
+                  src={`http://localhost:8000/img/${item.Profile_pic}`}
+                  alt=""
+                />
+              </div>
+            </>
+          ))}
         </div>
       </div>
     </>

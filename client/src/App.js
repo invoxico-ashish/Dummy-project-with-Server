@@ -26,6 +26,7 @@ import Missing from "./components/Missing";
 import AdminNavbar from "./components/admin/AdminNavbar";
 import Permissions from "./components/admin/Permissions";
 import Account from "./components/admin/Account";
+import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
 import "./components/Header/Navbar/Navbar.css"
 function App() {
   const token = localStorage.getItem("token");
@@ -67,9 +68,10 @@ function App() {
           <Route path="/updateadmin/:id"element={<Protected><UpdateAdmin /> </Protected>}/>
           <Route path="/permission/:id" element={<Protected><Permissions /></Protected> } />
           <Route path="/useraccount" element={<Protected><Account /></Protected> } />
+          <Route path="/personaldetail/:id" element={<Protected><UpdatePersonalDetel /></Protected> } />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> 
     </div>
   );
 }
