@@ -353,10 +353,10 @@ exports.PutPersonalDetails = async (req, res) => {
 exports.UpdateAccPassword = async (req, res) => {
   const salt = 10;
   const id = req.params.id;
-  const password = req.body.password;
-  const NewPassword = req.body.NewPassword;
-  const ConfirmPassword = req.body.ConfirmPassword;
-  console.log(password, NewPassword, ConfirmPassword);
+  const Password = req.body.Password;
+  const newPassword = req.body.newPassword;
+  const confirmPassword = req.body.confirmPassword;
+  console.log(Password, newPassword, confirmPassword);
   try {
     const sqlOne = `select * from  admin_details where admin_id = ${id}`;
 
@@ -366,40 +366,42 @@ exports.UpdateAccPassword = async (req, res) => {
         console.log(err);
       }
       if (data.length > 0) {
-        bcrypt.compare(password.toString(),data[0].password,(err, response) => {
-            if (err) {
+        bcrypt.compare(Password, data[0].password, (err, response) => {
+          if (err) {
+            return res
+              .status(400)
+              .json({ success: false, message: "not found" });
+          } else if (!err) {
+            if (newPassword === confirmPassword) {
+              console.log("password Matched")
+              // return false
+              bcrypt.hash(newPassword, salt, (err, hash) => {
+                if (err) {
+                  return res
+                    .status(400)
+                    .json({ success: false, message: "some err" });
+                } else {
+                  const sqlTwo = `update admin_details set password=? where admin_id=${id}`;
+                  sqlconnect.query(sqlTwo, hash, (err, result) => {
+                    if (err) {
+                      return res
+                        .status(400)
+                        .json({ success: false, message: "An ERRRRR" });
+                    } else {
+                      return res
+                        .status(200)
+                        .json({ success: true, message: "updated", result });
+                    }
+                  });
+                }
+              });
+            } else {
               return res
                 .status(400)
-                .json({ success: false, message: "not found" });
-            }
-             else if (!err) {
-              if (NewPassword === ConfirmPassword) {
-                bcrypt.hash(NewPassword.toString(), salt, (err, hash) => {
-                  if (err) {
-                    return res
-                      .status(400)
-                      .json({ success: false, message: "some err" });
-                  } else {
-                    const sqlTwo = `update admin_details set password=? where admin_id=${id}`;
-                    sqlconnect.query(sqlTwo, hash, (err, result) => {
-                      if (err) {
-                        return res
-                          .status(400)
-                          .json({ success: false, message: "An ERRRRR" });
-                      } else {
-                        return res
-                          .status(200)
-                          .json({ success: true, message: "updated", result });
-                      }
-                    });
-                  }
-                });
-              } else {
-          return res.status(400).json({success:false,message:"not matched"})
-              }
+                .json({ success: false, message: "not matched" });
             }
           }
-        );
+        });
       }
     });
   } catch (error) {

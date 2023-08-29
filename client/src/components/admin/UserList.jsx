@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import axios from "axios";
 import { MdEdit, MdDeleteSweep } from "react-icons/md";
-import { BsKeyFill } from "react-icons/bs";
+import { BsKeyFill,BsFillPlusCircleFill } from "react-icons/bs";
 
 function UserList() {
   const id = localStorage.getItem("admin_id");
@@ -65,7 +65,7 @@ function UserList() {
           <div className="d-flex homeie">
             <div className="content container mt-3">
               <div className="row">
-                <div className="col-md-3 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
+                <div className="col-md-3 text-white col bg-dark d-flex justify-content-around px-1 py-3 rounded">
                   {totalAdmin.map((i, index) => (
                     <p key={index}>Total User {i.Total_User}</p>
                   ))}
@@ -81,7 +81,8 @@ function UserList() {
                 />
                 {id === "20" ? (
                   <Link to={"/newadmin"}>
-                    <button className="btn btn-success">+Add</button>
+                    {/* <button className="btn btn-success">+ADD</button> */}
+                    <BsFillPlusCircleFill size={40} className="btn btn-success" />
                   </Link>
                 ) : (
                   ""
@@ -143,7 +144,6 @@ function UserList() {
                   })}
                 </tbody>
               </table>
-              <div className="dropdown"></div>
             </div>
           </div>
         </>

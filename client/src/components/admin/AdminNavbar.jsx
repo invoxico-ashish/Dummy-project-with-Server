@@ -60,29 +60,37 @@ function AdminNavbar() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse justify-content-md-center lestOne ">
-              <ul className="navbar-nav newOne">
-                <li className="nav-item mx-2">
-                  <Link to={"/dashboard"} className="nav-link text-white">
-                    Home
-                  </Link>
-                </li>
-                <li className="nav-item mx-2">
-                  <Link className="nav-link text-white" onClick={handleDelete}>
-                    <span className="ml-2">LogOut</span>
-                  </Link>
-                </li>
-                <div className="profile-div ">
+            <div className="collapse navbar-collapse lestOne ">
+              <div className="Home-sec">
+                <ul className="navbar-nav newOne">
+                  <li className="nav-item mx-2">
+                    <Link to={"/dashboard"} className="nav-link text-white">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <Link
+                      className="nav-link text-white"
+                      onClick={handleDelete}
+                    >
+                      <span className="ml-2">LogOut</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="profile-div ">
+                <ul className="navbar-nav newOne">
                   <li className="nav-item mx-2">
                     <Link to={"/useraccount"}>
                       <CgProfile size={20} color="white" />
                     </Link>
                   </li>
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
         </nav>
+
         {location.pathname === "/admin" || location.pathname === "/newadmin" ? (
           ""
         ) : (
@@ -95,32 +103,65 @@ function AdminNavbar() {
                     <span className="ml-2">Dashboard</span>
                   </Link>
                 </li>
-                {portValue === 0 ? (
-                  ""
-                ) : (
+                {id === "20" ? (
                   <li className="nav-item">
                     <Link to="/adminport" className="nav-link text-white">
                       <IoMdAlbums /> <span className="ml-2">Portfolio</span>
                     </Link>
                   </li>
-                )}
-                {slideValue === 0 ? (
-                  ""
                 ) : (
+                  <>
+                    {portValue === 0 || !portValue ? (
+                      ""
+                    ) : (
+                      <li className="nav-item">
+                        <Link to="/adminport" className="nav-link text-white">
+                          <IoMdAlbums /> <span className="ml-2">Portfolio</span>
+                        </Link>
+                      </li>
+                    )}
+                  </>
+                )}
+
+                {id === "20" ? (
                   <li className="nav-item">
                     <Link to="/slideradmin" className="nav-link text-white">
                       <PiSlideshowBold /> <span className="ml-2">Slider</span>
                     </Link>
                   </li>
-                )}
-                {TeamValue === 0 ? (
-                  ""
                 ) : (
+                  <>
+                    {slideValue === 0 || !slideValue ? (
+                      ""
+                    ) : (
+                      <li className="nav-item">
+                        <Link to="/slideradmin" className="nav-link text-white">
+                          <PiSlideshowBold />{" "}
+                          <span className="ml-2">Slider</span>
+                        </Link>
+                      </li>
+                    )}
+                  </>
+                )}
+
+                {id === "20" ? (
                   <li className="nav-item">
                     <Link to="/teamadmin" className="nav-link text-white">
                       <RiTeamFill /> <span className="ml-2">Team</span>
                     </Link>
                   </li>
+                ) : (
+                  <>
+                    {TeamValue === 0 || !TeamValue ? (
+                      ""
+                    ) : (
+                      <li className="nav-item">
+                        <Link to="/teamadmin" className="nav-link text-white">
+                          <RiTeamFill /> <span className="ml-2">Team</span>
+                        </Link>
+                      </li>
+                    )}
+                  </>
                 )}
 
                 {id === "20" ? (

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Style/Home.css";
+import { BsArrowLeft } from "react-icons/bs";
 import RotateLoader from "react-spinners/RotateLoader";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function UpdatePersonalDetel() {
   //   const id = localStorage.getItem("admin_id");
@@ -32,10 +35,20 @@ function UpdatePersonalDetel() {
       .put(`http://localhost:8000/api/update/personal/details/${id}`, formData)
       .then((res) => setLoading(true))
       .then((res) => {
+        toast.success("Updated Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      })
+      .then((res) => {
         setTimeout(() => {
           setLoading(false);
           Navigate("/useraccount");
-        }, 1000);
+        }, 2000);
+      })
+      .catch((err) => {
+        toast.error("Requesr Denied ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       });
   };
 
@@ -43,15 +56,15 @@ function UpdatePersonalDetel() {
     <>
       <div className="d-flex homeie">
         <div className="content container mt-3 ms-10">
-          <Link to={"/useraccount"}>
-            <div className="row">
-              <div className="col-md-3 text-white col bg-success d-flex justify-content-between px-1 py-3 rounded ">
-                <button className="btn btn-success">Back To User Info</button>
-              </div>
+          <div className="row">
+            <div className="col-md-1 text-white col bg-danger d-flex justify-content-center px-1 py-3 rounded back-button ">
+              <Link to={"/useraccount"}>
+                <BsArrowLeft size={30} color="white" />
+              </Link>
             </div>
-          </Link>
-          <div className="d-flex justify-content-around">
-            <h5> Update personal Information</h5>
+            <div className="d-flex justify-content-around mt-0">
+              <h5> Update personal Information</h5>
+            </div>
           </div>
           <div className="slide-form">
             <div className="slideinput">
@@ -113,12 +126,15 @@ function UpdatePersonalDetel() {
                       <button
                         type="submit"
                         onClick={handleUpdate}
-                        className="btn btn-success mx-2"
+                        className="btn btn-success mx-2 btn-sm"
                       >
                         Update
                       </button>
                       <div className="chng-pass">
-                        <Link to={`/changepassword/${id}`}>
+                        <Link
+                          to={`/changepassword/${id}`}
+                          className="btn btn-warning btn-sm"
+                        >
                           Change Password
                         </Link>
                       </div>
@@ -127,6 +143,7 @@ function UpdatePersonalDetel() {
                 </>
               )}
             </div>
+            <ToastContainer />
           </div>
         </div>
       </div>

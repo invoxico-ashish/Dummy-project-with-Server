@@ -48,12 +48,19 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-
 }
-.textdanger{
-    color: red;
+.textdanger {
+  color: red;
 }
 .toast-message {
   background: rgb(207, 12, 12);
+}
+/* .MoonLoader{
+  border: 1px solid black;
+} */
 
+.formTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

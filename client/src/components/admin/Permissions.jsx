@@ -37,7 +37,7 @@ function Permissions() {
   const handleChange = async (admin_id, permissions, module_id) => {
     const data = {admin_id: admin_id,permissions: permissions,module_id: module_id,
     };
-    await axios.post(`http://localhost:8000/api/permission/module/value/${id}`, data)
+    await axios.post(`http://localhost:8000/api/permission/module/value/${id}`, data).then((res)=>console.log(data))
       .then((res) => {toast.success("permission Successfuly assigned", {position: toast.POSITION.TOP_RIGHT})});
   };
 

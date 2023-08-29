@@ -460,7 +460,7 @@ exports.PermissionModuleVal = async (req, res) => {
   console.log(req.body);
 
   try {
-    const sqlOne = `SELECT * FROM permissions WHERE admin_id = ${id}`;
+    const sqlOne = `SELECT * FROM permissions WHERE admin_id = ${id} and module_id=${module_id}`;
 
     sqlconnect.query(sqlOne, (err, result) => {
       if (err) {
@@ -469,6 +469,8 @@ exports.PermissionModuleVal = async (req, res) => {
           .json({ success: false, message: "An Error Occorred", err });
         return;
       }
+      console.log(result,"jhuiobh");
+      // return false
       if (result.length > 0) {
         // means some data is present in here
         console.log("duplicate");
@@ -478,10 +480,12 @@ exports.PermissionModuleVal = async (req, res) => {
           if (err) {
             res.status(400).json({ success: false, message: "AN ERROR", err });
           }
+          // console.log(result)
           // return false;
           res.status(200).json({ success: true, message: "Updated", result });
         });
       } else {
+        console.log("insert");
         const sqlTwo = `insert into permissions (admin_id,module_id,permission_value) values ("${id}","${module_id}","${permissions}")`;
         sqlconnect.query(sqlTwo, (err, result) => {
           if (err) {
@@ -557,7 +561,7 @@ exports.CheckPasswordForTest = async (req, res) => {
           return res.status(400).json({ success: false });
         } else if (data) {
           console.log("Password is correct");
-          return res.json({data});
+          return res.json({ data });
         } else {
           return res.json({ success: false, messages: "Not MAtched" });
           console.log("Password is incorrect");

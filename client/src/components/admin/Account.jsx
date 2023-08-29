@@ -25,23 +25,12 @@ function Account() {
   return (
     <>
       <div className="d-flex homeie ">
-        <div className="col-md-3 text-white col bg-success d-flex justify-content-between px-1 py-3 rounded ">
+        <div className="col-md-2 text-white col bg-success d-flex justify-content-center px-1  py-1 rounded ">
           <p>Account</p>
         </div>
-        <div></div>
       </div>
 
       <div className=" info_con">
-        <div className="buttons-section">
-          {/* <div>
-            <span className="btn btn-warning btn-sm"> User Info</span>
-          </div> */}
-          <div>
-            <Link to={`/personaldetail/${id}`}>
-              <span className="btn btn-danger btn-sm">Update Info</span>
-            </Link>
-          </div>
-        </div>
         <div className="Grid-sys">
           {personDetail.map((item) => (
             <>
@@ -58,13 +47,14 @@ function Account() {
                     <td>{item.admin_id}</td>
                   </tr>
                   <tr>
-                    <th>Email </th>
-                    <td>{item.email}</td>
-                  </tr>
-                  <tr>
                     <th>Name</th>
                     <td> {item.name}</td>
                   </tr>
+                  <tr>
+                    <th>Email </th>
+                    <td>{item.email}</td>
+                  </tr>
+
                   <tr>
                     <th>Contact</th>
                     <td>{item.contact_no}</td>
@@ -79,6 +69,13 @@ function Account() {
               </div>
             </>
           ))}
+        </div>
+        <div className="buttons-section">
+          <div>
+            <Link to={`/personaldetail/${id}`}>
+              <span className="btn btn-danger btn-sm">Update Info</span>
+            </Link>
+          </div>
         </div>
       </div>
     </>
