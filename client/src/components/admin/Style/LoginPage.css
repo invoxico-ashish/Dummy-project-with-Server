@@ -1,66 +1,10 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-.bodyDiv {
-  background-color: whitesmoke;
-  /* width: 100vh; */
-  height: 100vh;
-  position: relative;
-}
-.Form-cont {
-  width: 90vh;
-  height: 90vh;
-  background-color: white;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  -webkit-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);
-}
-.logo {
-  /* border: 1px solid black; */
-  text-align: center;
-  margin-top: 10px;
-}
-.input-container {
-  /* border: 1px solid black; */
-  width: 300px;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* justify-content: space-between; */
-}
-.Form-cont {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-}
-.inp-cont {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-}
-.textdanger {
-  color: red;
-}
-.toast-message {
-  background: rgb(207, 12, 12);
-}
-/* .MoonLoader{
-  border: 1px solid black;
-} */
-
-.formTable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+* {margin: 0;padding: 0;}
+.bodyDiv {background-color: whitesmoke;height: 100vh;position: relative;}
+.Form-cont {width: 90vh;height: 90vh;background-color: white;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;-webkit-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);-moz-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);}
+.logo {text-align: center;margin-top: 10px;}
+.input-container {width: 300px;height: 300px;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.Form-cont {display: flex;flex-direction: column;align-items: center;justify-content: space-evenly;}
+.inp-cont {margin: 10px;padding: 10px;display: flex;flex-direction: column;}
+.textdanger {color: red;}
+.toast-message {background: rgb(207, 12, 12);}
+.formTable {display: flex;justify-content: center;align-items: center;margin-top: 30px;}

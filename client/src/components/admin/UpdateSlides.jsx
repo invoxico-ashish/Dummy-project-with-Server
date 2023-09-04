@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function UpdateSlides() {
+  const token = localStorage.getItem("token");
   const Navigate = useNavigate();
   const { id } = useParams();
-
   const [title, setTitle] = useState("");
   const [imgname, setimgname] = useState("");
   const [slideImage, setSlideImage] = useState([]);
@@ -17,13 +17,21 @@ function UpdateSlides() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("imagename", imgname);
     formData.append("slideImage", slideImage);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    console.log(config, "juipg");
+    // return false;
     axios
-      .put("http://localhost:8000/api/update/slide/" + id, formData)
+      .put("http://localhost:8000/api/update/slide/" + id, formData,config)
       .then((res) => {
         setTitle(res);
       })

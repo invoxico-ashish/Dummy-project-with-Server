@@ -4,8 +4,8 @@ import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
 import { Link, Navigate, useLocation, Outlet } from "react-router-dom";
-import { TbUsersPlus } from "react-icons/tb";
-import { TbUsersGroup } from "react-icons/tb";
+import { TbUsersPlus, TbUsersGroup } from "react-icons/tb";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { FiLogOut } from "react-icons/fi";
 import axios from "axios";
 import "./Style/Home.css";
@@ -20,6 +20,7 @@ function AdminNavbar() {
 
   const location = useLocation();
   const [portPermission, setPortmission] = useState([]);
+  const [profile, setProfile] = useState(false);
 
   const FetchPermision = async () => {
     const permission = await fetchUserPermissions();
@@ -44,6 +45,13 @@ function AdminNavbar() {
   useEffect(() => {
     FetchPermision();
   }, []);
+
+  const showProfile = () => {
+    setProfile(true);
+  };
+  const handleClose = () => {
+    setProfile(false);
+  };
 
   return (
     <>
@@ -81,9 +89,15 @@ function AdminNavbar() {
               <div className="profile-div ">
                 <ul className="navbar-nav newOne">
                   <li className="nav-item mx-2">
-                    <Link to={"/useraccount"}>
-                      <CgProfile size={20} color="white" />
-                    </Link>
+                    {profile === true ? (
+                      <Link onClick={handleClose}>
+                        <GiHamburgerMenu size={20} color="white" />
+                      </Link>
+                    ) : (
+                      <Link onClick={showProfile}>
+                        <CgProfile size={20} color="white" />
+                      </Link>
+                    )}
                   </li>
                 </ul>
               </div>
@@ -196,6 +210,23 @@ function AdminNavbar() {
               </ul>
             </div>
           </>
+        )}
+        {profile === true ? (
+          <div className="profile">
+            <div className="pages">
+              <Link to={"/useraccount"} className="text-white">
+                Profile
+              </Link>
+            </div>
+            <div className="pages" onClick={handleDelete}>
+              <Link className="text-white">Log-Out</Link>
+            </div>
+            <div className="pages" onClick={handleClose}>
+              <Link className="text-white">close</Link>
+            </div>
+          </div>
+        ) : (
+          ""
         )}
       </div>
       <Outlet />

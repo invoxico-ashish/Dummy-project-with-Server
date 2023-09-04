@@ -469,7 +469,7 @@ exports.PermissionModuleVal = async (req, res) => {
           .json({ success: false, message: "An Error Occorred", err });
         return;
       }
-      console.log(result,"jhuiobh");
+      console.log(result, "jhuiobh");
       // return false
       if (result.length > 0) {
         // means some data is present in here
@@ -563,8 +563,9 @@ exports.CheckPasswordForTest = async (req, res) => {
           console.log("Password is correct");
           return res.json({ data });
         } else {
-          return res.json({ success: false, messages: "Not MAtched" });
           console.log("Password is incorrect");
+          return res.json({ success: false, messages: "Not MAtched" });
+       
         }
       });
     }

@@ -371,9 +371,12 @@ exports.UpdateAccPassword = async (req, res) => {
             return res
               .status(400)
               .json({ success: false, message: "not found" });
-          } else if (!err) {
+          }
+          if (response == true) {
+            console.log(response);
+            // return false;
             if (newPassword === confirmPassword) {
-              console.log("password Matched")
+              console.log("password Matched");
               // return false
               bcrypt.hash(newPassword, salt, (err, hash) => {
                 if (err) {
@@ -400,6 +403,10 @@ exports.UpdateAccPassword = async (req, res) => {
                 .status(400)
                 .json({ success: false, message: "not matched" });
             }
+          } else {
+            return res
+              .status(403)
+              .json({ success: false, message: "old password is not matched" });
           }
         });
       }

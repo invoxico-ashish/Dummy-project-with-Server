@@ -10,44 +10,28 @@ import MoonLoader from "react-spinners/MoonLoader";
 
 function ChangePassword() {
   const { id } = useParams();
-  // console.log(id);
   const Navigate = useNavigate();
-
   let [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     Password: "",
     newPassword: "",
     confirmPassword: "",
   });
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = useForm();
+  const {register,formState: { errors },handleSubmit} = useForm();
 
   const handlePassword = async (e) => {
     e.preventDefault();
     try {
       console.log(values);
       const res = axios
-        .put(`http://localhost:8000/api/update/password/${id}`, values)
-        .then((res) => setValues(res))
-        .then((res) => {
-          toast.success("Updated Successfuly ", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        })
+        .put(`http://localhost:8000/api/update/password/${id}`, values).then((res) => setValues(res))
+        .then((res) => {toast.success("Updated Successfuly ", {position: toast.POSITION.TOP_RIGHT})})
         .then((res) => setLoading(true))
-        .then(() =>
-          setTimeout(() => {
-            setLoading(false);
-            Navigate("/useraccount");
-          }, 2000)
-        );
-    } catch (error) {
-      console.log(error);
-    }
+        .then(() =>setTimeout(() => {setLoading(false);
+            Navigate("/useraccount")}, 2000))
+        .catch((err) => {toast.error("Something went wrong ", {position: toast.POSITION.TOP_RIGHT});
+        });
+    } catch (error) {console.log(error)}
   };
 
   return (

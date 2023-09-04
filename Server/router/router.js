@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const verifyjwt = require("../Middleware/verifyJwt")
 const controller = require("../controller/imgController");
 const delcontroller = require("../controller/DeleteController");
 const path = require("path");
@@ -56,44 +57,44 @@ router.get("/check/password/fortesting/:id", controller.CheckPasswordForTest);
 
 //DELETE ROUTES-------------------->
 
-router.delete("/delete/img/:id", delcontroller.DeleteimgById);
-router.delete("/delete/team/:id", delcontroller.DeleteTeamById);
-router.delete("/delete/portfolio/:id", delcontroller.DeletePortFolioById);
-router.delete("/del/admin/det/:id", controller.DelAdminDetails);
-router.delete("/delete/admin/:id", delcontroller.DeleteAdminById);
+router.delete("/delete/img/:id",verifyjwt.verifytoken, delcontroller.DeleteimgById);
+router.delete("/delete/team/:id", verifyjwt.verifytoken,delcontroller.DeleteTeamById);
+router.delete("/delete/portfolio/:id",verifyjwt.verifytoken, delcontroller.DeletePortFolioById);
+router.delete("/del/admin/det/:id",verifyjwt.verifytoken, controller.DelAdminDetails);
+router.delete("/delete/admin/:id",verifyjwt.verifytoken, delcontroller.DeleteAdminById);
 
 //UPDATE ROUTE------------------------------->
 
-router.put("/update/slide/:id",upload.single("slideImage"),delcontroller.UpdateImgById);
-router.put("/update/Team/:id",upload.single("slideImage"),delcontroller.UpdateTeamById);
-router.put("/update/portfolio/:id",upload.single("slideImage"),delcontroller.UpdatePortFolio );
-router.put("/update/personal/details/:id",upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
-router.put("/update/admin/det/:id", delcontroller.UpdateAdminDetails);
+router.put("/update/slide/:id",verifyjwt.verifytoken,upload.single("slideImage"),delcontroller.UpdateImgById);
+router.put("/update/Team/:id",verifyjwt.verifytoken,upload.single("slideImage"),delcontroller.UpdateTeamById);
+router.put("/update/portfolio/:id",verifyjwt.verifytoken,upload.single("slideImage"),delcontroller.UpdatePortFolio );
+router.put("/update/personal/details/:id",verifyjwt.verifytoken,upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
+router.put("/update/admin/det/:id",verifyjwt.verifytoken,delcontroller.UpdateAdminDetails);
 router.put("/update/password/:id", delcontroller.UpdateAccPassword);
 
 module.exports = router;
 
-const verifyUser = (req, res, next) => {
-  const token = req.cookie.token;
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "you are not Athourized",
-    });
-  } else {
-    jwt.verify(token, "Jwt-secret-key", (err, decode) => {
-      if (err) {
-        return res.status(401).json({
-          success: false,
-          message: "Token is not ok",
-        });
-      } else {
-        req.name = decode.name;
-        next();
-      }
-    });
-  }
-};
+// const verifyUser = (req, res, next) => {
+//   const token = req.cookie.token;
+//   if (!token) {
+//     return res.status(401).json({
+//       success: false,
+//       message: "you are not Athourized",
+//     });
+//   } else {
+//     jwt.verify(token, "Jwt-secret-key", (err, decode) => {
+//       if (err) {
+//         return res.status(401).json({
+//           success: false,
+//           message: "Token is not ok",
+//         });
+//       } else {
+//         req.name = decode.name;
+//         next();
+//       }
+//     });
+//   }
+// };
 // const storage = multer.diskStorage({
 //   destination: "src/img/",
 //   filename: (req, file, cb) => {
