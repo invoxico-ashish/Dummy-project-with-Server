@@ -10,6 +10,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 
 function ChangePassword() {
   const { id } = useParams();
+  const token = localStorage.getItem("token")
   const Navigate = useNavigate();
   let [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
@@ -23,8 +24,14 @@ function ChangePassword() {
     e.preventDefault();
     try {
       console.log(values);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      console.log(config, "juipg");
       const res = axios
-        .put(`http://localhost:8000/api/update/password/${id}`, values).then((res) => setValues(res))
+        .put(`http://localhost:8000/api/update/password/${id}`, values,config).then((res) => setValues(res))
         .then((res) => {toast.success("Updated Successfuly ", {position: toast.POSITION.TOP_RIGHT})})
         .then((res) => setLoading(true))
         .then(() =>setTimeout(() => {setLoading(false);

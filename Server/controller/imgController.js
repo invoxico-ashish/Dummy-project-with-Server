@@ -565,9 +565,43 @@ exports.CheckPasswordForTest = async (req, res) => {
         } else {
           console.log("Password is incorrect");
           return res.json({ success: false, messages: "Not MAtched" });
-       
         }
       });
     }
   });
+};
+exports.GeneralSettings = async (req, res) => {
+  const files = req.files;
+  const data = {
+    email: req.body.email,
+    address: req.body.address,
+    websiteName: req.body.websiteName,
+    mobile: req.body.mobile,
+    fb: req.body.fb,
+    insta: req.body.insta,
+    linkedin: req.body.linkedin,
+    twitter: req.body.twitter,
+    webLogo: files[0].filename,
+    favLogo: files[1].filename,
+  };
+
+  const insertData = [];
+  const SqlOne = `INSERT INTO general_settings (Setting_key,Setting_value) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
+  const values = Object.entries(data).map(([key, value]) =>
+    insertData.push([key, value])
+  );
+
+  sqlconnect.query(SqlOne, [insertData], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .json({ success: false, message: "some Error occured", err });
+    } else {
+      console.log(result ,"dfoihg");
+      return res.status(200).json({success:true,message:"done",result})
+    }
+  });
+
+  console.log(data);
 };

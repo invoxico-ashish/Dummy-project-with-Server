@@ -28,6 +28,7 @@ import Permissions from "./components/admin/Permissions";
 import Account from "./components/admin/Account";
 import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
 import ChangePassword from "./components/admin/ChangePassword";
+import Settings from "./components/admin/Settings";
 import "./components/Header/Navbar/Navbar.css"
 function App() {
   const token = localStorage.getItem("token");
@@ -45,7 +46,6 @@ function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/portfolio" element={<Portfolio />} />
                   <Route path="/team" element={<OurTeam />} />
-                 
                 </Route>
               </Route>
             </Route>
@@ -71,6 +71,7 @@ function App() {
           <Route path="/useraccount" element={<Protected><Account /></Protected> } />
           <Route path="/personaldetail/:id" element={<Protected><UpdatePersonalDetel /></Protected> } />
           <Route path="/changepassword/:id" element={<Protected><ChangePassword /></Protected> } />
+          <Route path="/settings" element={<Protected><Settings /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

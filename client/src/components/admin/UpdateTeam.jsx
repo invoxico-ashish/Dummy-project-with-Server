@@ -5,6 +5,7 @@ import AdminNavbar from "./AdminNavbar";
 
 function UpdateTeam() {
   const [name, setName] = useState("");
+  const token = localStorage.getItem("token");
   const [slideImage, setSlideImage] = useState([]);
   const { id } = useParams();
   const Navigate = useNavigate();
@@ -19,8 +20,14 @@ function UpdateTeam() {
     formData.append("name", name);
     formData.append("slideImage", slideImage);
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(config, "juipg");
     axios
-      .put("http://localhost:8000/api/update/Team/" + id, formData)
+      .put("http://localhost:8000/api/update/Team/" + id, formData,config)
       .then((res) => {
         Navigate("/teamadmin");
       });

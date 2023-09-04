@@ -7,6 +7,8 @@ import axios from "axios";
 function AddPortfolio() {
   const mod_id = 1;
   const id = localStorage.getItem("admin_id");
+  const token = localStorage.getItem("token");
+
 
   const Navigate = useNavigate();
   const [name, setName] = useState("");
@@ -29,9 +31,13 @@ function AddPortfolio() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("slideImage", slideImage);
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
     await axios
-      .post("http://localhost:8000/api/team/portfolio", formData)
+      .post("http://localhost:8000/api/team/portfolio", formData,config)
       .then((res) => {
         setName(res);
       })

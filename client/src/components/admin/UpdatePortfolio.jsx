@@ -6,6 +6,7 @@ import {fetchUserPermissions} from "../Permissions/Permission"
 
 function UpdatePortfolio() {
   const mod_id = 1;
+  const token = localStorage.get("token")
   const Navigate = useNavigate();
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
@@ -29,9 +30,15 @@ function UpdatePortfolio() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("slideImage", slideImage);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    console.log(config, "juipg");
 
     await axios
-      .put(`http://localhost:8000/api/update/portfolio/${id}`, formData)
+      .put(`http://localhost:8000/api/update/portfolio/${id}`, formData,config)
       .then((res) => {
         setSlideImage(res);
       })

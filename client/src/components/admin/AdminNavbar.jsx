@@ -6,11 +6,12 @@ import { IoMdAlbums } from "react-icons/io";
 import { Link, Navigate, useLocation, Outlet } from "react-router-dom";
 import { TbUsersPlus, TbUsersGroup } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut,FiSettings } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 import "./Style/Home.css";
 import { fetchUserPermissions } from "../Permissions/Permission";
-import { CgProfile } from "react-icons/cg";
+
 
 function AdminNavbar() {
   const id = localStorage.getItem("admin_id");
@@ -68,40 +69,44 @@ function AdminNavbar() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse lestOne ">
-              <div className="Home-sec">
-                <ul className="navbar-nav newOne">
-                  <li className="nav-item mx-2">
-                    <Link to={"/dashboard"} className="nav-link text-white">
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item mx-2">
-                    <Link
-                      className="nav-link text-white"
-                      onClick={handleDelete}
-                    >
-                      <span className="ml-2">LogOut</span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="profile-div ">
-                <ul className="navbar-nav newOne">
-                  <li className="nav-item mx-2">
-                    {profile === true ? (
-                      <Link onClick={handleClose}>
-                        <GiHamburgerMenu size={20} color="white" />
+            {location.pathname === "/admin" ? (
+              ""
+            ) : (
+              <div className="collapse navbar-collapse lestOne ">
+                <div className="Home-sec">
+                  <ul className="navbar-nav newOne">
+                    <li className="nav-item mx-2">
+                      <Link to={"/dashboard"} className="nav-link text-white">
+                        Home
                       </Link>
-                    ) : (
-                      <Link onClick={showProfile}>
-                        <CgProfile size={20} color="white" />
+                    </li>
+                    <li className="nav-item mx-2">
+                      <Link
+                        className="nav-link text-white"
+                        onClick={handleDelete}
+                      >
+                        <span className="ml-2">LogOut</span>
                       </Link>
-                    )}
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div className="profile-div ">
+                  <ul className="navbar-nav newOne">
+                    <li className="nav-item mx-2">
+                      {profile === true ? (
+                        <Link onClick={handleClose}>
+                          <GiHamburgerMenu size={20} color="white" />
+                        </Link>
+                      ) : (
+                        <Link onClick={showProfile}>
+                          <CgProfile size={20} color="white" />
+                        </Link>
+                      )}
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </nav>
 
@@ -205,6 +210,11 @@ function AdminNavbar() {
                 <li className="nav-item">
                   <Link className="nav-link text-white" onClick={handleDelete}>
                     <FiLogOut /> <span className="ml-2">LogOut</span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/settings"} className="nav-link text-white">
+                    <FiSettings /> <span className="ml-2">Settings</span>
                   </Link>
                 </li>
               </ul>

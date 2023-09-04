@@ -7,23 +7,47 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotAuth from "../NotAuth";
 
-
 function AddNewAdmin() {
-
-  
   const id = localStorage.getItem("admin_id");
+  const token = localStorage.getItem("token");
   const Navigate = useNavigate();
-  const [values, setValues] = useState({name: "",email: "",password: "",role: "",});
-  const {register,formState: { errors },handleSubmit,watch} = useForm();
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm();
 
-  const onSubmit = async (err, data) => {await axios.post("http://localhost:8000/api/register", values)
-      .then((res) => {if (res.data.message === "already Exists") {console.log("alredy exist");
-          toast.error("user already exist!", {position: toast.POSITION.TOP_RIGHT});
-        } else {toast.success("user resgister!", {position: toast.POSITION.TOP_RIGHT,});
+  const onSubmit = async (err, data) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(config, "juipg");
+    await axios
+      .post("http://localhost:8000/api/register", values,config)
+      .then((res) => {
+        if (res.data.message === "already Exists") {
+          console.log("alredy exist");
+          toast.error("user already exist!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          toast.success("user resgister!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
           setValues(res);
           Navigate("/userlist");
         }
-      }).catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <>

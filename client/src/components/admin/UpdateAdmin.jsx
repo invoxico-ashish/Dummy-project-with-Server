@@ -1,14 +1,22 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
+
 
 function UpdateAdmin() {
   const Navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [values, setValues] = useState({name: "",email: "",});
   const { id } = useParams();
 
-  const handleUpdate = async () => {axios.put(`http://localhost:8000/api/update/admin/det/${id}`, values).then((res) => {setValues(res)})
+  const handleUpdate = async () => { 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    console.log(config, "juipg");
+    axios.put(`http://localhost:8000/api/update/admin/det/${id}`, values,config).then((res) => {setValues(res)})
       .then((res) => {Navigate("/userlist")});
   };
   return (

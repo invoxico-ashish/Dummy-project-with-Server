@@ -7,6 +7,7 @@ import { fetchUserPermissions } from "../Permissions/Permission";
 function AddTeam() {
   const mod_id = 3;
   const id = localStorage.getItem("admin_id");
+  const token = localStorage.getItem("token");
   const Navigate = useNavigate();
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
@@ -15,12 +16,8 @@ function AddTeam() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    //  console.log(permissions, "3333333333333333");
   };
-
   const firstValue = userPermissions[mod_id];
-  // console.log(firstValue,"first")
-
   const handleImagechange = (e) => {
     const file = e.target.files[0];
     setSlideImage(file);
@@ -30,9 +27,14 @@ function AddTeam() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("slideImage", slideImage);
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    console.log(config, "juipg");
     await axios
-      .post("http://localhost:8000/api/our/team", formData)
+      .post("http://localhost:8000/api/our/team", formData,config)
       .then((res) => {
         setName(res);
       })

@@ -34,7 +34,13 @@
 .loader {margin-top: 200px;margin-left: 50%;}
 .button-cont {display: flex;flex-direction: column;justify-content: center;padding: 20px;height: 100px;}
 
-
 /* --------------------User Profile -------------------- */
+
 .profile{margin-top: 5px; width: 150px;height: 10rem;margin-left: 74rem;position: absolute; z-index: 1;  display: flex; flex-direction: column;align-items: center; justify-content: space-evenly; background-color: #212529;border-radius: 10px;}
 .pages{ border-bottom: 1px solid #343a40 ; color: white;}
+
+ /* --------------------------Settings------------------ */
+
+.set-container{ width: auto; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+.input-cont{ display: flex;flex-direction: column; justify-content: space-between; padding: 20px;}
+.row_input{ padding: 10px;}

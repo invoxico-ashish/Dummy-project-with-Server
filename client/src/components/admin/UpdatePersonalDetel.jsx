@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 function UpdatePersonalDetel() {
-  //   const id = localStorage.getItem("admin_id");
+    const token = localStorage.getItem("token");
   const { id } = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,9 +30,15 @@ function UpdatePersonalDetel() {
     formData.append("email", email);
     formData.append("contact", contact);
     formData.append("ProfileImage", ProfileImage);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    console.log(config, "juipg");
 
     await axios
-      .put(`http://localhost:8000/api/update/personal/details/${id}`, formData)
+      .put(`http://localhost:8000/api/update/personal/details/${id}`, formData,config)
       .then((res) => setLoading(true))
       .then((res) => {
         toast.success("Updated Successfuly ", {
@@ -46,7 +52,7 @@ function UpdatePersonalDetel() {
         }, 2000);
       })
       .catch((err) => {
-        toast.error("Requesr Denied ", {
+        toast.error("Request Denied ", {
           position: toast.POSITION.TOP_RIGHT,
         });
       });

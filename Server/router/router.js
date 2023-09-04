@@ -42,6 +42,7 @@ router.get("/get/module/data", controller.ModuleData);
 router.post("/resgisert/admin", controller.RegisterAdmin);
 router.post("/permission/module/value/:id", controller.PermissionModuleVal  );  //Give Permission
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
+router.post("/general/settings",upload.array("logo",2),controller.GeneralSettings);
 
 //LOGIN ROUTE-------------------------------------------->
 
@@ -57,7 +58,7 @@ router.get("/check/password/fortesting/:id", controller.CheckPasswordForTest);
 
 //DELETE ROUTES-------------------->
 
-router.delete("/delete/img/:id",verifyjwt.verifytoken, delcontroller.DeleteimgById);
+router.delete("/delete/img/:id", delcontroller.DeleteimgById);
 router.delete("/delete/team/:id", verifyjwt.verifytoken,delcontroller.DeleteTeamById);
 router.delete("/delete/portfolio/:id",verifyjwt.verifytoken, delcontroller.DeletePortFolioById);
 router.delete("/del/admin/det/:id",verifyjwt.verifytoken, controller.DelAdminDetails);
@@ -70,7 +71,7 @@ router.put("/update/Team/:id",verifyjwt.verifytoken,upload.single("slideImage"),
 router.put("/update/portfolio/:id",verifyjwt.verifytoken,upload.single("slideImage"),delcontroller.UpdatePortFolio );
 router.put("/update/personal/details/:id",verifyjwt.verifytoken,upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
 router.put("/update/admin/det/:id",verifyjwt.verifytoken,delcontroller.UpdateAdminDetails);
-router.put("/update/password/:id", delcontroller.UpdateAccPassword);
+router.put("/update/password/:id",verifyjwt.verifytoken, delcontroller.UpdateAccPassword);
 
 module.exports = router;
 

@@ -7,6 +7,7 @@ import { fetchUserPermissions } from "../Permissions/Permission";
 function AddSlide() {
   const mod_id = 2;
   const id = localStorage.getItem("admin_id");
+  const token = localStorage.getItem("token");
   const Navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [imgname, setimgname] = useState("");
@@ -16,12 +17,8 @@ function AddSlide() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    // console.log(userPermissions, "ttttttttttttttt");
   };
-
   const firstValue = userPermissions[mod_id];
-  // console.log(firstValue, "222222");
-
   const handelImageChange = (e) => {
     const file = e.target.files[0];
     setSlideImage(file);
@@ -32,9 +29,14 @@ function AddSlide() {
     formData.append("title", title);
     formData.append("imgname", imgname);
     formData.append("slideImage", slideImage);
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(config, "juipg");
     axios
-      .post("http://localhost:8000/api/img", formData)
+      .post("http://localhost:8000/api/img", formData, config)
       .then((response) => {
         setSlideImage(response);
       })
