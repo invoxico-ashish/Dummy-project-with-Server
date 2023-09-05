@@ -6,12 +6,11 @@ import { IoMdAlbums } from "react-icons/io";
 import { Link, Navigate, useLocation, Outlet } from "react-router-dom";
 import { TbUsersPlus, TbUsersGroup } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FiLogOut,FiSettings } from "react-icons/fi";
+import { FiLogOut, FiSettings } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 import "./Style/Home.css";
 import { fetchUserPermissions } from "../Permissions/Permission";
-
 
 function AdminNavbar() {
   const id = localStorage.getItem("admin_id");
@@ -224,7 +223,11 @@ function AdminNavbar() {
         {profile === true ? (
           <div className="profile">
             <div className="pages">
-              <Link to={"/useraccount"} className="text-white">
+              <Link
+                to={"/useraccount"}
+                className="text-white"
+                onClick={handleClose}
+              >
                 Profile
               </Link>
             </div>

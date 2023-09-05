@@ -39,16 +39,19 @@ router.get("/get/latest/slide", controller.GetLatestSlideImage);
 router.get("/get/latest/admin/user", controller.GetLatestAdminDetails);
 router.get("/get/latest/team", controller.GetLatestTeam);
 router.get("/get/module/data", controller.ModuleData);
+router.get("/get/genral/settings", controller.getGenralSettings);
+
+
 router.post("/resgisert/admin", controller.RegisterAdmin);
-router.post("/permission/module/value/:id", controller.PermissionModuleVal  );  //Give Permission
+router.post("/permission/module/value/:id", controller.PermissionModuleVal  );  //Give Permission 
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
-router.post("/general/settings",upload.array("logo",2),controller.GeneralSettings);
+router.post("/register",upload.single("ProfileImage"), delcontroller.RegisterAdmin);
+router.post("/setting/images",upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.SettingImages);
+router.post("/general/settings",controller.GeneralSettings);
 
 //LOGIN ROUTE-------------------------------------------->
 
 router.post("/login",delcontroller.LoginAdmin);
-router.post("/register",upload.single("ProfileImage"), delcontroller.RegisterAdmin);
-// router.get("/checkAuth", verifyUser, delcontroller.VeriFiesUser);
 router.get("/logout", delcontroller.LogOut);
 router.get("/admin/details", controller.GetAdminDetails);
 router.get("/admin/detail/:id", controller.GetAdminDetailById);
@@ -59,7 +62,7 @@ router.get("/check/password/fortesting/:id", controller.CheckPasswordForTest);
 //DELETE ROUTES-------------------->
 
 router.delete("/delete/img/:id", delcontroller.DeleteimgById);
-router.delete("/delete/team/:id", verifyjwt.verifytoken,delcontroller.DeleteTeamById);
+router.delete("/delete/team/:id", verifyjwt.verifytoken, delcontroller.DeleteTeamById);
 router.delete("/delete/portfolio/:id",verifyjwt.verifytoken, delcontroller.DeletePortFolioById);
 router.delete("/del/admin/det/:id",verifyjwt.verifytoken, controller.DelAdminDetails);
 router.delete("/delete/admin/:id",verifyjwt.verifytoken, delcontroller.DeleteAdminById);

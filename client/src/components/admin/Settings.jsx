@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./Style/Home.css";
+import axios from "axios";
 
 function Settings() {
+  const token = localStorage.getItem("token");
+  const [webLogo, setWebLogo] = useState([]);
+  const [favLogo, setFavLogo] = useState([]);
   const [values, setValues] = useState({
     email: "",
     address: "",
@@ -12,6 +16,61 @@ function Settings() {
     linkedin: "",
     twitter: "",
   });
+  const handleImage1Change = (e) => {
+    const file = e.target.files[0];
+    setWebLogo(file);
+  };
+  const handleImage2Change = (e) => {
+    const file = e.target.files[0];
+    setFavLogo(file);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(values);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+    // Append the images if they exist
+    if (webLogo) {
+      formData.append("webLogo", webLogo);
+    }
+    if (favLogo) {
+      formData.append("favLogo", favLogo);
+    }
+
+    // const formData = new FormData();
+
+    // // Append each field of the values object
+    // Object.keys(values).forEach((key) => {
+    //   formData.append(key, values[key]);
+    // });
+
+    // // Append the webImages file if it exists
+    // if (webImages) {
+    //   formData.append("webImages", webImages);
+    // }
+
+    // const entries = [];
+    // for (const pair of formData.entries()) {
+    //   let entryObject = { name: pair[0], value: pair[1] };
+    //   entries.push(entryObject);
+    //   console.log(entryObject, "obj");
+    // }
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .post(`http://localhost:8000/api/general/settings`, formData, config)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="homeie">
@@ -20,7 +79,7 @@ function Settings() {
         <div>
           <h3>General Website Settings</h3>
         </div>
-        <form className="input-cont" enctype="multipart/form-data">
+        <form className="input-cont" encType="multipart/form-data">
           <div className="row_input row">
             <div className="col">
               <label>Email -</label>
@@ -134,15 +193,29 @@ function Settings() {
           <div className="row_input row">
             <div className="col">
               <label>Website Logo -</label>
-              <input type="File" name="logo" className="form-control" />
+              <input
+                type="file"
+                accept="image/*"
+                name="webLogo"
+                className="form-control"
+                onChange={handleImage1Change}
+              />
             </div>
             <div className="col">
               <label>Fav Icon -</label>
-              <input type="File" name="logo" className="form-control" />
+              <input
+                type="file"
+                accept="image/*"
+                name="favLogo"
+                className="form-control"
+                onChange={handleImage2Change}
+              />
             </div>
           </div>
         </form>
-        <button>submit</button>
+        <button onClick={handleClick} className="btn btn-danger btn-sm">
+          submit
+        </button>
       </div>
     </div>
   );

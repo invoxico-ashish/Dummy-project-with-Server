@@ -9,7 +9,7 @@ function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
 
   const location = useLocation();
-  console.log(location.pathname);
+  // console.log(location.pathname);
   return (
     <>
       {location.pathname === "/" ? (

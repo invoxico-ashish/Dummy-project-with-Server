@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { HiLocationMarker } from "react-icons/hi";
 import { MdCall } from "react-icons/md";
@@ -7,7 +7,22 @@ import { BiLogoFacebook } from "react-icons/bi";
 import { BsTwitter } from "react-icons/bs";
 import { BiLogoLinkedin } from "react-icons/bi";
 import { AiFillInstagram } from "react-icons/ai";
+import axios from "axios";
+
 function GetInTouch() {
+  const [data, setData] = useState([]);
+  const FetchData = async () => {
+    axios
+      .get(`http://localhost:8000/api/get/genral/settings`)
+      // .then((res) => console.log(res.data.result))
+      .then((res) => setData(res.data.result))
+      .catch((err) => console.log(err));
+  };
+  // console.log(data, "kiowuh");
+
+  useEffect(() => {
+    FetchData();
+  }, []);
   return (
     <>
       <Outlet />
@@ -46,7 +61,8 @@ function GetInTouch() {
                       <i className="fa fa-phone" aria-hidden="true">
                         <MdCall />
                       </i>
-                      <span>Call +01 1234567890</span>
+                      {/* {data.map((item,index) => console.log(index,item))} */}
+                      <span>Call +</span>
                     </Link>
                     <Link>
                       <i className="fa fa-envelope" aria-hidden="true">

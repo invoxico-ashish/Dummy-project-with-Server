@@ -16,7 +16,7 @@ function OurTeam() {
         const FetchApi = await axios.get(
           "http://localhost:8000/api/get/our/team"
         );
-        // console.log(FetchApi.data.data, "helooooooo");
+  
         setTeamImg(FetchApi.data.data);
       } catch (error) {
         console.log(error);
@@ -27,7 +27,7 @@ function OurTeam() {
         const TeamDataApi = await axios.get(
           "http://localhost:8000/api/get/team/data"
         );
-        // console.log(TeamDataApi.data.data);
+
         setTeamData(TeamDataApi.data.data);
       } catch (err) {
         console.log(err);
