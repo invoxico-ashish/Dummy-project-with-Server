@@ -47,7 +47,7 @@ router.post("/permission/module/value/:id", controller.PermissionModuleVal  );  
 router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortImage);
 router.post("/register",upload.single("ProfileImage"), delcontroller.RegisterAdmin);
 router.post("/setting/images",upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.SettingImages);
-router.post("/general/settings",controller.GeneralSettings);
+router.post("/general/settings", upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.GeneralSettings);
 
 //LOGIN ROUTE-------------------------------------------->
 

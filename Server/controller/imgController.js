@@ -572,9 +572,7 @@ exports.CheckPasswordForTest = async (req, res) => {
 };
 exports.GeneralSettings = async (req, res) => {
   const data = req.body;
-  const { webLogo, favLogo } = req.files;
   console.log(data);
-
   // Convert the data object into an array of arrays
   const valuesToInsert = [];
   for (const key in data) {
@@ -582,52 +580,48 @@ exports.GeneralSettings = async (req, res) => {
       valuesToInsert.push([key, data[key]]);
     }
   }
-  // Assuming you want to insert image filenames into the database as well
-  const image2Filename = favLogo ? favLogo[0].originalname : null;
-  const image1Filename = webLogo ? webLogo[0].originalname : null;
-  console.log(image2Filename, image1Filename);
-  // return false
-
-  // const SqlOne = `INSERT INTO general_settings (Setting_key,Setting_value) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
+  console.log(valuesToInsert);
   const SqlOne = `INSERT INTO general_settings (Setting_key, Setting_value ) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
 
-  await sqlconnect.query(
-    SqlOne,
-    [valuesToInsert, image2Filename, image1Filename],
-    (err, result) => {
-      if (!err) {
-        res.send("success");
-        console.log(result);
-      } else {
-        console.log(err);
-        res
-          .status(500)
-          .json({ success: false, message: "Some error occurred", error: err });
-      }
+  await sqlconnect.query(SqlOne, [valuesToInsert], (err, result) => {
+    if (!err) {
+      res.send("success");
+      console.log(result);
+    } else {
+      console.log(err);
+      res
+        .status(500)
+        .json({ success: false, message: "Some error occurred", error: err });
     }
-  );
+  });
 };
 exports.SettingImages = async (req, res) => {
-  const webLogoFile = req.files["webLogo"][0]; // Access the 'webLogo' file
-  const favLogoFile = req.files["favLogo"][0]; // Access the 'favLogo' file
-  if (webLogoFile && favLogoFile) {
-    const webLogo = webLogoFile.filename;
-    const favLogo = favLogoFile.filename;
-    // Now you can use the 'webLogo' and 'favLogo' variables as needed
-    console.log("Web Logo:", webLogo);
-    console.log("Fav Logo:", favLogo);
+  console.log(req.files);
+  try {
+    const webLogoFile = req.files["webLogo"];
+    const favLogoFile = req.files["favLogo"];
+    const webLogo = webLogoFile[0].filename;
+    // Save 'webLogo' to your database or handle it as needed
+
+    const favLogo = favLogoFile[0].filename;
+    // Save 'favLogo' to your database or handle it as needed
+    const dataToInsert = [
+      ["webLogo", webLogo],
+      ["favLogo", favLogo],
+    ];
     const sql = `INSERT INTO general_settings (Setting_key,Setting_value) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
 
-    await sqlconnect.query(sql, [webLogoFile, favLogoFile], (err, result) => {
+    await sqlconnect.query(sql, [dataToInsert], (err, result) => {
       if (!err) {
         res.status(200).json({ success: true, message: "Success", result });
       } else {
         res.status(400).json({ success: false, message: "failed", err });
       }
     });
-  } else {
+  } catch (err) {
     // Handle the case where one or both files were not uploaded
-    res.status(400).send("Both webLogo and favLogo files are required.");
+    console.log(err);
+    res.status(400).send("Some Error Occured");
   }
 };
 exports.getGenralSettings = async (req, res) => {
@@ -635,7 +629,12 @@ exports.getGenralSettings = async (req, res) => {
 
   await sqlconnect.query(sql, (err, result) => {
     if (!err) {
-      res.status(200).json({ success: true, message: "Success", result });
+      const keyValuePairs = {}
+      for (const item of result) {
+        keyValuePairs[item.Setting_key] = item.Setting_value;
+      }
+      console.log(keyValuePairs,"result");
+      res.status(200).json({ success: true, message: "Success", keyValuePairs });
     } else {
       res.status(400).json({ success: false, message: "failed", err });
     }

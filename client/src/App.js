@@ -30,10 +30,28 @@ import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
 import ChangePassword from "./components/admin/ChangePassword";
 import Settings from "./components/admin/Settings";
 import "./components/Header/Navbar/Navbar.css"
+import { useEffect } from "react";
+import axios from "axios";
 function App() {
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("admin_id");
- 
+
+useEffect(()=>{
+  axios.get(`http://localhost:8000/api/get/genral/settings`)
+  // .then((res)=>console.log(res.data.keyValuePairs.favLogo,"res"))
+  .then((res)=>{
+    const link  = document.createElement("link");
+    link.type = "image/x-icon";
+    link.rel = "icon";
+
+    const blob = new Blob([res.data.keyValuePairs.favLogo],{type:"image/x-icon"});
+    const blobUrl = URL.createObjectURL(blob);
+
+    link.href = blobUrl;
+    document.head.appendChild(link);
+  }).catch((error)=>console.error(error))
+},[])
+
+
+
   return (
     <div>
       <BrowserRouter>

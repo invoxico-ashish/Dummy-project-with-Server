@@ -211,11 +211,13 @@ function AdminNavbar() {
                     <FiLogOut /> <span className="ml-2">LogOut</span>
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to={"/settings"} className="nav-link text-white">
-                    <FiSettings /> <span className="ml-2">Settings</span>
-                  </Link>
-                </li>
+                {id === "20" ? (
+                  <li className="nav-item">
+                    <Link to={"/settings"} className="nav-link text-white">
+                      <FiSettings /> <span className="ml-2">Settings</span>
+                    </Link>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </>

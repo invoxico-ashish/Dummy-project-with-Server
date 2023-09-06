@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Style/Home.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function Settings() {
+  const Navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [inputField, setInputField] = useState([]);
   const [webLogo, setWebLogo] = useState([]);
   const [favLogo, setFavLogo] = useState([]);
   const [values, setValues] = useState({
@@ -22,43 +27,19 @@ function Settings() {
   };
   const handleImage2Change = (e) => {
     const file = e.target.files[0];
+    // console.log(file, "file");
     setFavLogo(file);
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(values);
+    // console.log(values, "values");
     const formData = new FormData();
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
-    // Append the images if they exist
-    if (webLogo) {
-      formData.append("webLogo", webLogo);
-    }
-    if (favLogo) {
-      formData.append("favLogo", favLogo);
-    }
-
-    // const formData = new FormData();
-
-    // // Append each field of the values object
-    // Object.keys(values).forEach((key) => {
-    //   formData.append(key, values[key]);
-    // });
-
-    // // Append the webImages file if it exists
-    // if (webImages) {
-    //   formData.append("webImages", webImages);
-    // }
-
-    // const entries = [];
-    // for (const pair of formData.entries()) {
-    //   let entryObject = { name: pair[0], value: pair[1] };
-    //   entries.push(entryObject);
-    //   console.log(entryObject, "obj");
-    // }
-
+    const formDataObject = Object.fromEntries(formData.entries());
+    // console.log(formDataObject, "form data");
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -68,13 +49,75 @@ function Settings() {
 
     axios
       .post(`http://localhost:8000/api/general/settings`, formData, config)
-      .then((res) => console.log(res))
+      // .then((res) => console.log(res, "fjuowgh"))
       .catch((err) => console.log(err));
+
+    try {
+      // Handle image uploads
+      if (webLogo || favLogo) {
+        const imageFormData = new FormData();
+        if (webLogo) {
+          imageFormData.append("webLogo", webLogo);
+        }
+        if (favLogo) {
+          imageFormData.append("favLogo", favLogo);
+        }
+        const imageResponse = axios
+          .post(
+            "http://localhost:8000/api/setting/images",
+            imageFormData,
+            config
+          )
+          .then((res) =>
+            toast.success("Updated Successfuly ", {
+              position: toast.POSITION.TOP_RIGHT,
+            })
+          )
+          .then((res) =>
+            setTimeout(() => {
+              Navigate("/settings");
+            }, 1000)
+          );
+
+        // Handle the image response as needed
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const inputfilled = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:8000/api/get/genral/settings`
+      );
+      const data = result.data.keyValuePairs;
+      console.log(data, "data");
+      // Set the email field with data from the database
+      setValues({
+        ...values,
+        email: data.email,
+        address: data.address,
+        websiteName: data.websiteName,
+        mobile: data.mobile,
+        fb: data.fb,
+        insta: data.insta,
+        linkedin: data.linkedin,
+        twitter: data.twitter,
+        webLogo: data.webLogo,
+        favLogo: data.favLogo,
+      });
+      console.log(values);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  useEffect(() => {
+    inputfilled();
+  }, []);
+
   return (
-    <div className="homeie">
-      Settings
+    <div className="homeie setting">
       <div className="set-container">
         <div>
           <h3>General Website Settings</h3>
@@ -89,6 +132,7 @@ function Settings() {
                 className="form-control"
                 placeholder="Email"
                 aria-label="Email"
+                value={values.email}
                 onChange={(e) =>
                   setValues({ ...values, email: e.target.value })
                 }
@@ -102,6 +146,7 @@ function Settings() {
                 className="form-control"
                 placeholder="Address"
                 aria-label="Address"
+                value={values.address}
                 onChange={(e) =>
                   setValues({ ...values, address: e.target.value })
                 }
@@ -117,6 +162,7 @@ function Settings() {
                 className="form-control"
                 placeholder="Website name"
                 aria-label="Website name"
+                value={values.websiteName}
                 onChange={(e) =>
                   setValues({ ...values, websiteName: e.target.value })
                 }
@@ -130,6 +176,7 @@ function Settings() {
                 className="form-control"
                 placeholder="Contact number"
                 aria-label="AdContact numberdress"
+                value={values.mobile}
                 onChange={(e) =>
                   setValues({ ...values, mobile: e.target.value })
                 }
@@ -145,6 +192,7 @@ function Settings() {
                 className="form-control"
                 placeholder="fb"
                 aria-label="fb"
+                value={values.fb}
                 onChange={(e) => setValues({ ...values, fb: e.target.value })}
               />
             </div>
@@ -156,6 +204,7 @@ function Settings() {
                 className="form-control"
                 placeholder="insta"
                 aria-label="insta"
+                value={values.insta}
                 onChange={(e) =>
                   setValues({ ...values, insta: e.target.value })
                 }
@@ -171,6 +220,7 @@ function Settings() {
                 className="form-control"
                 placeholder="LinkedIn"
                 aria-label="LinkedIn"
+                value={values.linkedin}
                 onChange={(e) =>
                   setValues({ ...values, linkedin: e.target.value })
                 }
@@ -184,6 +234,7 @@ function Settings() {
                 className="form-control"
                 placeholder="twitter"
                 aria-label="twitter"
+                value={values.twitter}
                 onChange={(e) =>
                   setValues({ ...values, twitter: e.target.value })
                 }
@@ -200,7 +251,17 @@ function Settings() {
                 className="form-control"
                 onChange={handleImage1Change}
               />
+              {values.webLogo && (
+                <>
+                  <img
+                    src={`http://localhost:8000/img/${values.webLogo}`}
+                    width="100"
+                  />
+                  <div>Selected file: {values.webLogo}</div>
+                </>
+              )}
             </div>
+
             <div className="col">
               <label>Fav Icon -</label>
               <input
@@ -210,12 +271,22 @@ function Settings() {
                 className="form-control"
                 onChange={handleImage2Change}
               />
+              {values.favLogo && (
+                <>
+                  <img
+                    src={`http://localhost:8000/img/${values.favLogo}`}
+                    width="100"
+                  />
+                  <div>Selected file: {values.favLogo}</div>
+                </>
+              )}
             </div>
           </div>
         </form>
         <button onClick={handleClick} className="btn btn-danger btn-sm">
           submit
         </button>
+        <ToastContainer />
       </div>
     </div>
   );

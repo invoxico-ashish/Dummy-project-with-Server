@@ -14,11 +14,10 @@ function GetInTouch() {
   const FetchData = async () => {
     axios
       .get(`http://localhost:8000/api/get/genral/settings`)
-      // .then((res) => console.log(res.data.result))
-      .then((res) => setData(res.data.result))
+      .then((res) => setData(res.data.keyValuePairs))
       .catch((err) => console.log(err));
   };
-  // console.log(data, "kiowuh");
+
 
   useEffect(() => {
     FetchData();
@@ -55,39 +54,39 @@ function GetInTouch() {
                       <i className="fa fa-map-marker" aria-hidden="true">
                         <HiLocationMarker />
                       </i>
-                      <span>Location</span>
+                      <span>{data.address}</span>
                     </Link>
                     <Link>
                       <i className="fa fa-phone" aria-hidden="true">
                         <MdCall />
                       </i>
-                      {/* {data.map((item,index) => console.log(index,item))} */}
-                      <span>Call +</span>
+
+                      <span>Call + {data.mobile}</span>
                     </Link>
                     <Link>
                       <i className="fa fa-envelope" aria-hidden="true">
                         <HiMail />
                       </i>
-                      <span>demo@gmail.com</span>
+                      <span>{data.email}</span>
                     </Link>
                   </div>
                   <div className="info_social">
-                    <Link>
+                    <Link to={data.fb}>
                       <i className="fa fa-facebook" aria-hidden="true">
                         <BiLogoFacebook />
                       </i>
                     </Link>
-                    <Link>
+                    <Link to={data.twitter}>
                       <i className="fa fa-twitter" aria-hidden="true">
                         <BsTwitter />
                       </i>
                     </Link>
-                    <Link>
+                    <Link to={data.linkedin}>
                       <i className="fa fa-linkedin" aria-hidden="true">
                         <BiLogoLinkedin />
                       </i>
                     </Link>
-                    <Link>
+                    <Link to={data.insta}>
                       <i className="fa fa-instagram" aria-hidden="true">
                         <AiFillInstagram />
                       </i>
