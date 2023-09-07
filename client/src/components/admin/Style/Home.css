@@ -3,7 +3,7 @@
 .sidebar {width: 200px;height: 100vh;position: fixed;}
 .content {overflow: auto;margin-left: 205px;}
 .tableImage {width: 50px;}
-.searchTerm {width: 300px;border: 3px solid #333533;padding: 10px;height: 20px;border-radius: 10px;outline: none;color: #dc3545;}
+.searchTerm {width: 300px;border: 3px solid #151816;padding: 10px;height: 20px;border-radius: 10px;outline: none;color: #dc3545;}
 .cardSection {margin-top: 10px;width: 70rem;margin-left: 200px;  display: flex;justify-content: space-evenly;align-items: flex-start;margin-bottom: 20px;}
 .card {box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;overflow: hidden;}
 .image-zoom {width: 100%;height: 100%;background-position: center;background-size: cover;transition: transform ease 0.3s;}
@@ -19,12 +19,16 @@
 .profile-div {display: flex;  justify-content: flex-end;}
 .lestOne {display: flex;align-items: center;justify-content: space-between;}
 .Home-sec {display: flex;margin-left: 170px;}
+.userListing{ width:600px; height: 50vh; margin-left: 20px;}
+/* .userlist-cont{border: 1px solid black;} */
 .user-heading{ width: auto;margin-left: 20px;}
+.secParent{ width: auto;height: 30rem; display: flex; justify-content: space-between; } 
 .secChildone{ width: 600px ; height: auto;  margin-left: 400px;}
 .secChildtwo{ width: 600px ; height: auto; margin-left: 400px;}
 .thirParent{ width:600px; height: auto; margin-left: 400px;  }
 .thirdChild{ width: auto; height: auto;}
 .firstParent{ margin-left: 400px;width: auto; }
+
 
 /* ------------------ Account Css ---------------------- */
 
@@ -59,5 +63,6 @@
 .top{margin-left: 200px;width: 75rem;  height: 100vh; background-color: #e6e1d5;}
 .navigate-home{ width:50rem; height: auto; margin-top: 100px;}
 .buttons{ display: flex; width:80px; justify-content: space-between;margin-top:none;}
+/* .first-top{ background-color: #e6e1d5;} */
 .main-cont{ width: 70rem; height:70vh; display: flex; justify-content: center; }
-.logo{ width: 30px; background-color: #343a40;}
+.logoo{ width: 30px; background-color: #343a40;}

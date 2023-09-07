@@ -43,7 +43,7 @@ function NavigateHeader() {
                     <td>button</td>
                     <td>
                       <div className="buttons">
-                        <div className="logo">
+                        <div className="logoo">
                           <Link>
                             <BiEdit color="white" size={20} />
                           </Link>
