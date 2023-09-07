@@ -8,8 +8,9 @@ import { TbUsersPlus, TbUsersGroup } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import axios from "axios";
+import { IoNavigate } from "react-icons/io5";
 import "./Style/Home.css";
+import axios from "axios";
 import { fetchUserPermissions } from "../Permissions/Permission";
 
 function AdminNavbar() {
@@ -21,11 +22,12 @@ function AdminNavbar() {
   const location = useLocation();
   const [portPermission, setPortmission] = useState([]);
   const [profile, setProfile] = useState(false);
+  const [profilepicture, setProfilePicture] = useState("");
 
   const FetchPermision = async () => {
     const permission = await fetchUserPermissions();
     setPortmission(permission);
-    console.log(portPermission, "sate");
+    // console.log(portPermission, "sate");
   };
   const portValue = portPermission[port_id];
   const slideValue = portPermission[Slider_id];
@@ -42,6 +44,7 @@ function AdminNavbar() {
       })
       .catch((err) => console.log(err));
   };
+
   useEffect(() => {
     FetchPermision();
   }, []);
@@ -52,6 +55,7 @@ function AdminNavbar() {
   const handleClose = () => {
     setProfile(false);
   };
+  // console.log(profilepicture, "koiqhdiyg");
 
   return (
     <>
@@ -208,11 +212,18 @@ function AdminNavbar() {
                 </li>
 
                 {id === "20" ? (
-                  <li className="nav-item">
-                    <Link to={"/settings"} className="nav-link text-white">
-                      <FiSettings /> <span className="ml-2">Settings</span>
-                    </Link>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <Link to={"/settings"} className="nav-link text-white">
+                        <FiSettings /> <span className="ml-2">Settings</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to={"/navigation"} className="nav-link text-white">
+                        <IoNavigate /> <span className="ml-2">Navigation</span>
+                      </Link>
+                    </li>
+                  </>
                 ) : null}
                 <li className="nav-item">
                   <Link className="nav-link text-white" onClick={handleDelete}>
@@ -225,6 +236,13 @@ function AdminNavbar() {
         )}
         {profile === true ? (
           <div className="profile">
+            {/* <div className="pages">
+              <img
+                src={`http://localhost:8000/img/${profilepicture}`}
+                alt=""
+                className="ProfilePic"
+              />
+            </div> */}
             <div className="pages">
               <Link
                 to={"/useraccount"}

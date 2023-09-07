@@ -40,6 +40,7 @@ router.get("/get/latest/admin/user", controller.GetLatestAdminDetails);
 router.get("/get/latest/team", controller.GetLatestTeam);
 router.get("/get/module/data", controller.ModuleData);
 router.get("/get/genral/settings", controller.getGenralSettings);
+router.get("/get/navigate/modules", delcontroller.GetNavigateModule);
 
 
 router.post("/resgisert/admin", controller.RegisterAdmin);

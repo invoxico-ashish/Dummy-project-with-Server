@@ -29,25 +29,35 @@ import Account from "./components/admin/Account";
 import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
 import ChangePassword from "./components/admin/ChangePassword";
 import Settings from "./components/admin/Settings";
+import NavigationSystem from "./components/admin/NavigationSystem"
+import NavigateHeader from "./components/admin/NavigateHeader";
 import "./components/Header/Navbar/Navbar.css"
 import { useEffect,useState } from "react";
 import axios from "axios";
 import {Helmet} from "react-helmet";
 function App() {
   const [faviconUrl, setFaviconUrl] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
 
 useEffect(()=>{
   axios.get(`http://localhost:8000/api/get/genral/settings`)
-  // .then((res)=>console.log(res.data.keyValuePairs,"res"))
   .then((res)=>{
     const faviconUrlFromAPI = res.data.keyValuePairs.favLogo;
     setFaviconUrl(faviconUrlFromAPI);
   })
-  // .then((res)=>setFaviconUrl(res.data.keyValuePairs.favLogo))
   .catch((error)=>console.error(error))
+  // const getData = async () => {
+  //   const response = await axios
+  //     .get(`http://localhost:8000/api/admin/detail/${id}`)
+  //     .then((res) => {
+
+  //       // setProfilePicture(res.data.result[0].Profile_pic);
+  //     });
+  // };
+  // getData
 },[])
 
-console.log(faviconUrl,"url")
+
 
 
   return (
@@ -93,6 +103,8 @@ console.log(faviconUrl,"url")
           <Route path="/personaldetail/:id" element={<Protected><UpdatePersonalDetel /></Protected> } />
           <Route path="/changepassword/:id" element={<Protected><ChangePassword /></Protected> } />
           <Route path="/settings" element={<Protected><Settings /></Protected> } />
+          <Route path="/navigation" element={<Protected><NavigationSystem /></Protected> } />
+          <Route path="/navigateheader" element={<Protected><NavigateHeader /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

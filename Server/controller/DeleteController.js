@@ -203,8 +203,8 @@ exports.RegisterAdmin = async (req, res) => {
           console.log(err);
           return res.json("Error in hashing password");
         }
-  
-        console.log(number,"jukguif");
+
+        console.log(number, "jukguif");
         if (!number) {
           return res
             .status(400)
@@ -418,4 +418,15 @@ exports.UpdateAccPassword = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+exports.GetNavigateModule = async (reqs, res) => {
+  const sql = `SELECT * FROM navigation_module`;
+
+  await sqlconnect.query(sql, (err, data) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "Success", data });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
 };
