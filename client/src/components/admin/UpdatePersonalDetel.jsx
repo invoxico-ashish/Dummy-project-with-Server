@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 function UpdatePersonalDetel() {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const { id } = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,22 +32,26 @@ function UpdatePersonalDetel() {
     formData.append("ProfileImage", ProfileImage);
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
     console.log(config, "juipg");
 
     await axios
-      .put(`http://localhost:8000/api/update/personal/details/${id}`, formData,config)
+      .put(
+        `http://localhost:8000/api/update/personal/details/${id}`,
+        formData,
+        config
+      )
       .then((res) => setLoading(true))
       .then((res) => {
-        toast.success("Updated Successfuly ", {
+        toast.success("Updated Successfully", {
           position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
         });
-      })
-      .then((res) => {
         setTimeout(() => {
           setLoading(false);
+
           Navigate("/useraccount");
         }, 2000);
       })

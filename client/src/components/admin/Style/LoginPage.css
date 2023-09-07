@@ -2,9 +2,16 @@
 .bodyDiv {background-color: whitesmoke;height: 100vh;position: relative;}
 .Form-cont {width: 90vh;height: 90vh;background-color: white;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;-webkit-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);-moz-box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);box-shadow: 0px 0px 61px -24px rgba(0, 0, 0, 0.75);}
 .logo {text-align: center;margin-top: 10px;}
-.input-container {width: 300px;height: 300px;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.input-container {height: auto;display: flex;flex-direction: column;justify-content: center;align-items: center;}
 .Form-cont {display: flex;flex-direction: column;align-items: center;justify-content: space-evenly;}
-.inp-cont {margin: 10px;padding: 10px;display: flex;flex-direction: column;}
+.inp-cont { margin: 10px;padding: 10px;display: flex; justify-content: space-between; }
 .textdanger {color: red;}
 .toast-message {background: rgb(207, 12, 12);}
 .formTable {display: flex;justify-content: center;align-items: center;margin-top: 30px;}
+.increwidth{width: 50rem; ;height: auto;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.login{width: fit-content;}
+.newcont{width: 40rem; margin: 10px;padding: 10px;display: flex; justify-content: space-between;}
+.logo{ width: 300px;height: auto; display:flex; flex-direction: column; align-items: center; }
+.loginlogo{width: 150px;}
+.logo h1{font-size:xx-large; font-weight: 500;}
+

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import NotAuth from "../NotAuth";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminSlider() {
   const mod_id = 2;
@@ -14,12 +16,8 @@ function AdminSlider() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    // console.log(userPermissions, "ttttttttttttttt");
   };
-  // const valuesArray = Object.values(userPermissions);
   const firstValue = userPermissions[mod_id];
-  // console.log(firstValue, "222222");
-
   const slideimages = async () => {
     try {
       const slideres = await axios.get(
@@ -41,12 +39,14 @@ function AdminSlider() {
     if (confirm) {
       axios
         .delete("http://localhost:8000/api/delete/img/" + id)
-        .then((res) => {
-          window.location.reload();
+        .then(() => {
+          toast.success("Deleted Successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
+          setTimeout(() => {window.location.reload();}, 2000);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {console.log(err)});
     }
   };
 
@@ -123,6 +123,7 @@ function AdminSlider() {
                   ))}
                 </tbody>
               </table>
+              <ToastContainer />
             </div>
           </div>
         </>

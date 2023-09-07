@@ -3,6 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminPortfolio() {
   const mod_id = 1;
@@ -13,7 +15,6 @@ function AdminPortfolio() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-  
   };
   const firstValue = userPermissions[mod_id];
   const FetchPortimg = async () => {
@@ -31,9 +32,19 @@ function AdminPortfolio() {
       await axios
         .delete(`http://localhost:8000/api/delete/portfolio/${id}`)
         .then((res) => {
-          window.location.reload();
+          toast.success("Deleted Successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
         .catch((err) => {
+          toast.error("Request Denied", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
           console.log(err);
         });
     }
@@ -117,6 +128,7 @@ function AdminPortfolio() {
                   ))}
                 </tbody>
               </table>
+              <ToastContainer />
             </div>
           </div>
         </>

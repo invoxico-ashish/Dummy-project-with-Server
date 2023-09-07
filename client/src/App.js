@@ -30,30 +30,33 @@ import UpdatePersonalDetel from "./components/admin/UpdatePersonalDetel";
 import ChangePassword from "./components/admin/ChangePassword";
 import Settings from "./components/admin/Settings";
 import "./components/Header/Navbar/Navbar.css"
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import axios from "axios";
+import {Helmet} from "react-helmet";
 function App() {
+  const [faviconUrl, setFaviconUrl] = useState('');
 
 useEffect(()=>{
   axios.get(`http://localhost:8000/api/get/genral/settings`)
-  // .then((res)=>console.log(res.data.keyValuePairs.favLogo,"res"))
+  // .then((res)=>console.log(res.data.keyValuePairs,"res"))
   .then((res)=>{
-    const link  = document.createElement("link");
-    link.type = "image/x-icon";
-    link.rel = "icon";
-
-    const blob = new Blob([res.data.keyValuePairs.favLogo],{type:"image/x-icon"});
-    const blobUrl = URL.createObjectURL(blob);
-
-    link.href = blobUrl;
-    document.head.appendChild(link);
-  }).catch((error)=>console.error(error))
+    const faviconUrlFromAPI = res.data.keyValuePairs.favLogo;
+    setFaviconUrl(faviconUrlFromAPI);
+  })
+  // .then((res)=>setFaviconUrl(res.data.keyValuePairs.favLogo))
+  .catch((error)=>console.error(error))
 },[])
 
+console.log(faviconUrl,"url")
 
 
   return (
     <div>
+         <Helmet>
+            <meta charSet="utf-8" />
+            <title>Photo sec</title>
+              {faviconUrl && (<link rel="icon" href={`http://localhost:8000/img/${faviconUrl}`} />)}
+         </Helmet>
       <BrowserRouter>
         <Routes>
           <Route element={<Footer />}>
@@ -71,7 +74,7 @@ useEffect(()=>{
           <Route path="*" element={ <Missing />} />
           {/* ADMIN-ROUTES-------------------------------------------------------------> */}
           <Route  element={<AdminNavbar/>}>
-          <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin" element={<AdminHome  faviconUrl={faviconUrl}/>} />
           <Route path="/dashboard"element={<Protected><Dashboard /></Protected>}/>
           <Route path="/adminport"element={<Protected><AdminPortfolio /></Protected>}/>
           <Route path="/addport"element={<Protected><AddPortfolio /></Protected>}/>

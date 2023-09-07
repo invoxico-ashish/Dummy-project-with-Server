@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddTeam() {
   const mod_id = 3;
@@ -29,23 +31,33 @@ function AddTeam() {
     formData.append("slideImage", slideImage);
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
     console.log(config, "juipg");
     await axios
-      .post("http://localhost:8000/api/our/team", formData,config)
+      .post("http://localhost:8000/api/our/team", formData, config)
       .then((res) => {
         setName(res);
+        toast.success("Updated Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
+        setTimeout(() => {
+          Navigate("/teamadmin");
+        }, 2000);
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Request Denied", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
       });
   };
   const handleAddTeam = async (e) => {
     e.preventDefault();
     FetchData();
-    Navigate("/teamadmin");
   };
   useEffect(() => {
     fetchPermissions();
@@ -96,6 +108,7 @@ function AddTeam() {
                       </button>
                     </div>
                   </form>
+                  <ToastContainer />
                 </div>
               </div>
             </div>

@@ -75,7 +75,7 @@ function Settings() {
           )
           .then((res) =>
             setTimeout(() => {
-              Navigate("/settings");
+              window.location.reload();
             }, 1000)
           );
 
@@ -91,7 +91,7 @@ function Settings() {
         `http://localhost:8000/api/get/genral/settings`
       );
       const data = result.data.keyValuePairs;
-      console.log(data, "data");
+      // console.log(data, "data");
       // Set the email field with data from the database
       setValues({
         ...values,
@@ -106,7 +106,7 @@ function Settings() {
         webLogo: data.webLogo,
         favLogo: data.favLogo,
       });
-      console.log(values);
+      // console.log(values);
     } catch (error) {
       console.log(error);
     }

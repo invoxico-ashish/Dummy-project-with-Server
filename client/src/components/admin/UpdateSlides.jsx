@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UpdateSlides() {
   const token = localStorage.getItem("token");
@@ -25,18 +27,24 @@ function UpdateSlides() {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
     console.log(config, "juipg");
     // return false;
     axios
-      .put("http://localhost:8000/api/update/slide/" + id, formData,config)
+      .put("http://localhost:8000/api/update/slide/" + id, formData, config)
       .then((res) => {
         setTitle(res);
       })
       .then((res) => {
-        Navigate("/slideradmin");
+        toast.success("Updated Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
+        setTimeout(() => {
+          Navigate("/slideradmin");
+        }, 2000);
       });
   };
 
@@ -92,6 +100,7 @@ function UpdateSlides() {
                   </button>
                 </div>
               </form>
+              <ToastContainer />
             </div>
           </div>
         </div>

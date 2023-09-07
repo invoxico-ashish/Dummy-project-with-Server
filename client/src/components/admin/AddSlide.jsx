@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddSlide() {
   const mod_id = 2;
@@ -40,7 +42,17 @@ function AddSlide() {
       .then((response) => {
         setSlideImage(response);
       })
+      .then(() =>
+        toast.success("Updated Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        })
+      )
       .catch((err) => {
+        toast.error("Request Denied", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
         console.log(err);
       });
   };
@@ -48,7 +60,9 @@ function AddSlide() {
   const handleClick = (e) => {
     e.preventDefault();
     fetchData();
-    Navigate("/slideradmin");
+    setTimeout(() => {
+      Navigate("/slideradmin");
+    }, 3000);
   };
   useEffect(() => {
     fetchPermissions();
@@ -110,6 +124,7 @@ function AddSlide() {
                       </button>
                     </div>
                   </form>
+                  <ToastContainer />
                 </div>
               </div>
             </div>

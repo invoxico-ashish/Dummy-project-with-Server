@@ -62,10 +62,10 @@ router.get("/check/password/fortesting/:id", controller.CheckPasswordForTest);
 //DELETE ROUTES-------------------->
 
 router.delete("/delete/img/:id", delcontroller.DeleteimgById);
-router.delete("/delete/team/:id", verifyjwt.verifytoken, delcontroller.DeleteTeamById);
-router.delete("/delete/portfolio/:id",verifyjwt.verifytoken, delcontroller.DeletePortFolioById);
+router.delete("/delete/team/:id",  delcontroller.DeleteTeamById);
+router.delete("/delete/portfolio/:id", delcontroller.DeletePortFolioById);
 router.delete("/del/admin/det/:id",verifyjwt.verifytoken, controller.DelAdminDetails);
-router.delete("/delete/admin/:id",verifyjwt.verifytoken, delcontroller.DeleteAdminById);
+router.delete("/delete/admin/:id", delcontroller.DeleteAdminById);
 
 //UPDATE ROUTE------------------------------->
 

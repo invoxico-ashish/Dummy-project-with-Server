@@ -2,11 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {fetchUserPermissions} from "../Permissions/Permission"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function UpdatePortfolio() {
   const mod_id = 1;
-  const token = localStorage.get("token")
+  const token = localStorage.getItem("token")
   const Navigate = useNavigate();
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
@@ -38,13 +40,22 @@ function UpdatePortfolio() {
     console.log(config, "juipg");
 
     await axios
-      .put(`http://localhost:8000/api/update/portfolio/${id}`, formData,config)
+      .put(`http://localhost:8000/api/update/portfolio/${id}`, formData, config)
       .then((res) => {
         setSlideImage(res);
+        toast.success("Updated Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
+        setTimeout(() => {
+          Navigate("/adminport");
+        }, 2000);
+      }).catch((err)=>{
+        toast.error("Request Denied", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
       })
-      .then((res) => {
-        Navigate("/portfolio");
-      });
   };
   useEffect(()=>{fetchPermissions()},[])
   return (
@@ -88,6 +99,7 @@ function UpdatePortfolio() {
                   Update
                 </Link>
               </form>
+              <ToastContainer/>
             </div>
           </div>
         </div>

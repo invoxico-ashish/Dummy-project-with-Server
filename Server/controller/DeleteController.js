@@ -161,15 +161,19 @@ exports.UpdatePortFolio = async (req, res) => {
 };
 exports.RegisterAdmin = async (req, res) => {
   const file = req.file;
-  console.log(file);
-  // return false
+  console.log(file, "file");
+
   const email = req.body.email;
   const name = req.body.name;
-
+  console.log(name);
+  const number = req.body.number;
+  // return false;
   let image = file.filename;
 
   if (!name) {
-    res.status(400).json({ success: false, message: "enter the user Name" });
+    return res
+      .status(400)
+      .json({ success: false, message: "enter the user Name" });
   }
   const checkEmail =
     "SELECT COUNT(*) AS count FROM admin_details WHERE email = ?";
@@ -187,7 +191,7 @@ exports.RegisterAdmin = async (req, res) => {
           .json({ success: false, message: "Passord is too short" });
       }
       if (password.length > 15) {
-        res
+        return res
           .status(400)
           .json({ success: false, message: "Password is too Long" });
       }
@@ -196,36 +200,36 @@ exports.RegisterAdmin = async (req, res) => {
         "INSERT INTO admin_details (`name`,`email`,`password`,`contact_no`,`Profile_pic`) VALUES (?)";
       bcrypt.hash(password.toString(), salt, (err, hash) => {
         if (err) {
-          res.json("Error in hashing password");
           console.log(err);
+          return res.json("Error in hashing password");
         }
-        const Number = req.body.Number;
-        console.log(Number);
-        if (!Number) {
-          res
+  
+        console.log(number,"jukguif");
+        if (!number) {
+          return res
             .status(400)
-            .json({ success: false, message: "Number is required" });
-          return;
-        } else if (Number.length < 8 || Number.length > 12) {
-          res
+            .json({ success: false, message: "number is required" });
+        } else if (number.length < 8 || number.length > 12) {
+          return res
             .status(400)
             .json({ success: false, message: "Please Enter Correct Details" });
-          return;
         }
-        const values = [req.body.name, req.body.email, hash, Number, image];
+        const values = [req.body.name, req.body.email, hash, number, image];
         console.log(values);
         // return false
         sqlconnect.query(sql, [values], (err, result) => {
           if (!err) {
-            res.status(200).json({ success: true, message: "Success", result });
+            return res
+              .status(200)
+              .json({ success: true, message: "Success", result });
           } else {
-            res.status(400).json({ success: false, message: "Failed" });
+            returnres.status(400).json({ success: false, message: "Failed" });
           }
           console.log(err);
         });
       });
     } else {
-      res.json({
+      return res.json({
         success: false,
         message: "already Exists",
       });

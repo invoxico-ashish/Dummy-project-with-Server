@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UpdateTeam() {
   const [name, setName] = useState("");
@@ -27,9 +28,22 @@ function UpdateTeam() {
     };
     console.log(config, "juipg");
     axios
-      .put("http://localhost:8000/api/update/Team/" + id, formData,config)
+      .put("http://localhost:8000/api/update/Team/" + id, formData, config)
       .then((res) => {
-        Navigate("/teamadmin");
+        toast.success("Updated Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
+        setTimeout(() => {
+          Navigate("/teamadmin");
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Request Denied", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
       });
   };
   return (
@@ -74,6 +88,7 @@ function UpdateTeam() {
                   Update
                 </Link>
               </form>
+              <ToastContainer />
             </div>
           </div>
         </div>

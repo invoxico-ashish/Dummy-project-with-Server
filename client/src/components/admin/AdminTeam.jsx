@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NotAuth from "../NotAuth";
-import { fetchUserPermissions} from "../Permissions/Permission";
+import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminTeam() {
   const mod_id = 3;
@@ -22,12 +24,8 @@ function AdminTeam() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-    // console.log(permissions, "3333333333333333");
   };
-  // const valuesArray = Object.values(userPermissions);
   const firstValue = userPermissions[mod_id];
-  // console.log(firstValue,"first")
-
   useEffect(() => {
     FetchTeam();
     fetchPermissions();
@@ -39,10 +37,20 @@ function AdminTeam() {
       axios
         .delete(`http://localhost:8000/api/delete/team/${id}`)
         .then((res) => {
-          window.location.reload();
+          toast.success("Deleted Successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
         .catch((err) => {
           console.log(err);
+          toast.error("Request Denied", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
         });
     }
   };
@@ -123,6 +131,7 @@ function AdminTeam() {
                   ))}
                 </tbody>
               </table>
+              <ToastContainer />
             </div>
           </div>
         </>

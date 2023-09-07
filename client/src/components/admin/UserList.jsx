@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import NotAuth from "../NotAuth";
 import axios from "axios";
 import { MdEdit, MdDeleteSweep } from "react-icons/md";
-import { BsKeyFill,BsFillPlusCircleFill } from "react-icons/bs";
+import { BsKeyFill, BsFillPlusCircleFill } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserList() {
   const id = localStorage.getItem("admin_id");
@@ -45,10 +47,20 @@ function UserList() {
       axios
         .delete("http://localhost:8000/api/delete/admin/" + id)
         .then((res) => {
-          window.location.reload();
+          toast.success("Deleted Successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
         .catch((err) => {
           console.log(err);
+          toast.error("Request Denied", {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+          });
         });
     }
   };
@@ -82,7 +94,10 @@ function UserList() {
                 {id === "20" ? (
                   <Link to={"/newadmin"}>
                     {/* <button className="btn btn-success">+ADD</button> */}
-                    <BsFillPlusCircleFill size={40} className="btn btn-success" />
+                    <BsFillPlusCircleFill
+                      size={40}
+                      className="btn btn-success"
+                    />
                   </Link>
                 ) : (
                   ""
@@ -144,6 +159,7 @@ function UserList() {
                   })}
                 </tbody>
               </table>
+              <ToastContainer />
             </div>
           </div>
         </>

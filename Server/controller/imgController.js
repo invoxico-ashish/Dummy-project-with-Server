@@ -596,28 +596,48 @@ exports.GeneralSettings = async (req, res) => {
   });
 };
 exports.SettingImages = async (req, res) => {
-  console.log(req.files);
   try {
     const webLogoFile = req.files["webLogo"];
     const favLogoFile = req.files["favLogo"];
-    const webLogo = webLogoFile[0].filename;
-    // Save 'webLogo' to your database or handle it as needed
-
-    const favLogo = favLogoFile[0].filename;
-    // Save 'favLogo' to your database or handle it as needed
-    const dataToInsert = [
-      ["webLogo", webLogo],
-      ["favLogo", favLogo],
-    ];
-    const sql = `INSERT INTO general_settings (Setting_key,Setting_value) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
-
-    await sqlconnect.query(sql, [dataToInsert], (err, result) => {
+    sqlOne = `SELECT * FROM general_settings`;
+    sqlconnect.query(sqlOne, (err, response) => {
       if (!err) {
-        res.status(200).json({ success: true, message: "Success", result });
-      } else {
-        res.status(400).json({ success: false, message: "failed", err });
+        const keyValuePairs = {};
+        for (const item of response) {
+          keyValuePairs[item.Setting_key] = item.Setting_value;
+        }
+        // console.log(keyValuePairs.favLogo);
+        let webLogo = "";
+        let favLogo = "";
+        if (webLogoFile) {
+          webLogo = webLogoFile[0].filename;
+        } else {
+          const defaultWebLogo = keyValuePairs.webLogo; // Change this to fetch from your database
+          webLogo = defaultWebLogo;
+        }
+        if (favLogoFile) {
+          favLogo = favLogoFile[0].filename;
+        } else {
+          const defaultfavLogo = keyValuePairs.favLogo; // Change this to fetch from your database
+          favLogo  = defaultfavLogo;
+        }
+
+        const dataToInsert = [
+          ["webLogo", webLogo],
+          ["favLogo", favLogo],
+        ];
+        const sql = `INSERT INTO general_settings (Setting_key,Setting_value) VALUES ? ON DUPLICATE KEY UPDATE Setting_value = VALUES(Setting_value)`;
+
+        sqlconnect.query(sql, [dataToInsert], (err, result) => {
+          if (!err) {
+            res.status(200).json({ success: true, message: "Success", result });
+          } else {
+            res.status(400).json({ success: false, message: "failed", err });
+          }
+        });
       }
     });
+    return;
   } catch (err) {
     // Handle the case where one or both files were not uploaded
     console.log(err);
@@ -629,12 +649,14 @@ exports.getGenralSettings = async (req, res) => {
 
   await sqlconnect.query(sql, (err, result) => {
     if (!err) {
-      const keyValuePairs = {}
+      const keyValuePairs = {};
       for (const item of result) {
         keyValuePairs[item.Setting_key] = item.Setting_value;
       }
-      console.log(keyValuePairs,"result");
-      res.status(200).json({ success: true, message: "Success", keyValuePairs });
+
+      res
+        .status(200)
+        .json({ success: true, message: "Success", keyValuePairs });
     } else {
       res.status(400).json({ success: false, message: "failed", err });
     }

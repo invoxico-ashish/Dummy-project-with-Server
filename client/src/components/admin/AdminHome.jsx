@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Style/LoginPage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -10,16 +10,16 @@ import "react-toastify/dist/ReactToastify.css";
 import RotateLoader from "react-spinners/RotateLoader";
 // import airplane from "airplane";
 
-function AdminHome() {
+function AdminHome({ faviconUrl }) {
   const id = localStorage.getItem("admin_id");
   const [values, setValues] = useState({ email: "", password: "" });
   let [loading, setLoading] = useState(false);
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("email is required"),
     password: Yup.string()
       .required("Password is required")
       .min(6, "Password must be at least 6 characters"),
-    // passwordConfirmation: Yup.string().oneOf([Yup.ref("password"), null],"Passwords must match"),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -43,7 +43,6 @@ function AdminHome() {
           if (res.data.success === true) {
             Navigate("/dashboard");
           } else {
-            // showNotification({ message: "I am a notification" });
             toast.error("Invalid Credentials", {
               position: toast.POSITION.TOP_RIGHT,
               className: "toast-message",
@@ -72,15 +71,26 @@ function AdminHome() {
               <>
                 <div className="logo">
                   <h1>Login Page</h1>
+                  <br />
+                  <img
+                    src={`http://localhost:8000/img/${faviconUrl}`}
+                    alt=""
+                    className="loginlogo"
+                  />
                 </div>
                 <div className="input-container">
-                  <form action="" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="inp-cont">
+                  <form
+                    action=""
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="loginform"
+                  >
+                    <div className="inp-cont login">
                       <label className="form-lable">
                         Email<span className="textdanger">*</span>
                       </label>
                       <input
                         type="email"
+                        s
                         name="email"
                         {...register("email", {
                           required: true,
@@ -99,7 +109,7 @@ function AdminHome() {
                           "email format is wrong"}
                       </span>
                     </div>
-                    <div className="inp-cont">
+                    <div className="inp-cont login">
                       <label className="form-lable">
                         Password<span className="textdanger">*</span>
                       </label>
@@ -125,7 +135,7 @@ function AdminHome() {
                           "password is too long"}
                       </span>
                     </div>
-                    <div className="inp-cont">
+                    <div className="inp-cont login">
                       <button className="btn btn-success">Submit</button>
                     </div>
                     <ToastContainer />

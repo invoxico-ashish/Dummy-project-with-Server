@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchUserPermissions } from "../Permissions/Permission";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import NotAuth from "../NotAuth";
 import axios from "axios";
 
@@ -9,7 +11,6 @@ function AddPortfolio() {
   const id = localStorage.getItem("admin_id");
   const token = localStorage.getItem("token");
 
-
   const Navigate = useNavigate();
   const [name, setName] = useState("");
   const [slideImage, setSlideImage] = useState([]);
@@ -17,7 +18,6 @@ function AddPortfolio() {
   const fetchPermissions = async () => {
     const permissions = await fetchUserPermissions();
     setUserPermissions(permissions);
-
   };
   const firstValue = userPermissions[mod_id];
   console.log(firstValue);
@@ -33,14 +33,19 @@ function AddPortfolio() {
     formData.append("slideImage", slideImage);
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
     await axios
-      .post("http://localhost:8000/api/team/portfolio", formData,config)
+      .post("http://localhost:8000/api/team/portfolio", formData, config)
       .then((res) => {
         setName(res);
+        toast.success("Added Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          className: "toast-message",
+        });
       })
+
       .catch((err) => {
         console.log(err);
       });
@@ -49,7 +54,9 @@ function AddPortfolio() {
   const handleAddPort = (e) => {
     e.preventDefault();
     FetchData();
-    Navigate("/adminport");
+    setTimeout(() => {
+      Navigate("/adminport");
+    }, 2000);
   };
   useEffect(() => {
     fetchPermissions();
@@ -70,7 +77,7 @@ function AddPortfolio() {
                 </div>
               </Link>
               <div className="d-flex justify-content-around">
-                <h2> Update Portfolio</h2>
+                <h2> Add  name Portfolio</h2>
               </div>
               <div className="slide-form">
                 <div className="slideinput">
@@ -102,6 +109,7 @@ function AddPortfolio() {
                       </button>
                     </div>
                   </form>
+                  <ToastContainer />
                 </div>
               </div>
             </div>
