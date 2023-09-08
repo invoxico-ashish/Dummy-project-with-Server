@@ -212,12 +212,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="d-flex home">
-        <div className="col-md-2 text-white col bg-success d-flex justify-content-around px-1 py-3 rounded">
-          <p>Latest Portfolio</p>
-        </div>
-      </div>
-      <div className="cardSection">
+      {/* <div className="cardSection">
         {portimg.map((item, index) => (
           <div className="card" style={{ width: "18rem" }} key={index}>
             <img
@@ -227,7 +222,7 @@ const Dashboard = () => {
             />
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };

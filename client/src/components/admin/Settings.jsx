@@ -27,33 +27,27 @@ function Settings() {
   };
   const handleImage2Change = (e) => {
     const file = e.target.files[0];
-    // console.log(file, "file");
     setFavLogo(file);
   };
-
   const handleClick = (e) => {
     e.preventDefault();
-    // console.log(values, "values");
     const formData = new FormData();
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
     const formDataObject = Object.fromEntries(formData.entries());
-    // console.log(formDataObject, "form data");
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
-
     axios
       .post(`http://localhost:8000/api/general/settings`, formData, config)
-      // .then((res) => console.log(res, "fjuowgh"))
+
       .catch((err) => console.log(err));
 
     try {
-      // Handle image uploads
       if (webLogo || favLogo) {
         const imageFormData = new FormData();
         if (webLogo) {
@@ -78,8 +72,6 @@ function Settings() {
               window.location.reload();
             }, 1000)
           );
-
-        // Handle the image response as needed
       }
     } catch (err) {
       console.error(err);
@@ -91,8 +83,6 @@ function Settings() {
         `http://localhost:8000/api/get/genral/settings`
       );
       const data = result.data.keyValuePairs;
-      // console.log(data, "data");
-      // Set the email field with data from the database
       setValues({
         ...values,
         email: data.email,

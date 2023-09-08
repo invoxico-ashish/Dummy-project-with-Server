@@ -10,16 +10,22 @@ function Permissions() {
   const [perData, setPerData] = useState([]);
   const [options, setOptions] = useState([]);
 
-
   const GetPermisionData = async () => {
-    try {axios.get("http://localhost:8000/api/get/module/data")
-        .then((res) => setPerData(res.data.result))
-        // .then((res) => console.log(perData, "jmdfoiugh"));
-    } catch (error) {console.log(error);}
+    try {
+      axios
+        .get("http://localhost:8000/api/get/module/data")
+        .then((res) => setPerData(res.data.result));
+      // .then((res) => console.log(perData, "jmdfoiugh"));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const assignedPermissionData = async () => {
-    try {const response = await axios.get(`http://localhost:8000/api/permission/option/value/${id}`);
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/permission/option/value/${id}`
+      );
 
       const permissionResp = response.data.result;
       const indexMapping = {};
@@ -30,15 +36,30 @@ function Permissions() {
       });
       setOptions(indexMapping);
       return indexMapping;
-    } catch (error) {console.log(error)}
+    } catch (error) {
+      console.log(error);
+    }
   };
-  useEffect(() => {GetPermisionData();assignedPermissionData();}, []);
+  // console.log(options)
+  useEffect(() => {
+    GetPermisionData();
+    assignedPermissionData();
+  }, []);
 
   const handleChange = async (admin_id, permissions, module_id) => {
-    const data = {admin_id: admin_id,permissions: permissions,module_id: module_id,
+    const data = {
+      admin_id: admin_id,
+      permissions: permissions,
+      module_id: module_id,
     };
-    await axios.post(`http://localhost:8000/api/permission/module/value/${id}`, data).then((res)=>console.log(data))
-      .then((res) => {toast.success("permission Successfuly assigned", {position: toast.POSITION.TOP_RIGHT})});
+    await axios
+      .post(`http://localhost:8000/api/permission/module/value/${id}`, data)
+      .then((res) => console.log(data))
+      .then((res) => {
+        toast.success("permission Successfuly assigned", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   };
 
   return (
@@ -60,6 +81,7 @@ function Permissions() {
             </thead>
             <tbody>
               {perData.map((item, index) => (
+                // console.log("kj")
                 <tr key={index}>
                   <td>{item.module_name}</td>
                   <td>
@@ -101,5 +123,3 @@ function Permissions() {
 }
 
 export default Permissions;
-
-

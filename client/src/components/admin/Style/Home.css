@@ -61,8 +61,24 @@
 /* ----------------------Navigation---------------------- */
 
 .top{margin-left: 200px;width: 75rem;  height: 100vh; background-color: #e6e1d5;}
-.navigate-home{ width:50rem; height: auto; margin-top: 100px;}
-.buttons{ display: flex; width:80px; justify-content: space-between;margin-top:none;}
-/* .first-top{ background-color: #e6e1d5;} */
+.navigate-home{ width:50rem; height: auto; }
+.buttons{ display: flex; align-items: center; justify-content:space-between; width:60px;}
 .main-cont{ width: 70rem; height:70vh; display: flex; justify-content: center; }
-.logoo{ width: 30px; background-color: #343a40;}
+.toggle-switch {display: flex;align-items: center;}
+.first-top{ display: flex; justify-content: space-between; width: 60rem;align-items: center;}
+.switch {position: relative;display: inline-block;width: 55px;height: 24px;}
+.slider {position: absolute;cursor: pointer;top: 0;left: 0;right: 0;bottom: 0;background-color: #ccc;-webkit-transition: .4s;transition: .4s;}
+.slider:before {position: absolute;content: "";height: 20px;width: 20px;left: 4px;bottom: 4px;background-color: white;-webkit-transition: .4s;transition: .4s;}  
+input:checked + .slider {background-color: #21f379;}
+input:focus + .slider {box-shadow: 0 0 1px #11d489;}input:checked + .slider:before {-webkit-transform: translateX(26px);-ms-transform: translateX(26px);transform: translateX(26px);}
+.slider.round {border-radius: 34px;}
+.slider.round:before {border-radius: 50%;}
+.main_cont{ width: 40rem; height: 200px; display: flex; flex-direction: column; justify-content: space-around;align-items: center;}
+.first_child_input{ display: flex; justify-content: space-between;height: auto; width: 500px;}
+.first_child_input select{ width: 300px;}
+.sec_child_input{display: flex; align-items: center; justify-content: space-between; width: 500px; }
+/* .Modal_form{background: radial-gradient(circle, rgba(238,174,202,1) 27%, rgba(148,233,221,1) 92%);} */
+.third_child_input{display: flex; justify-content: space-around; width: 300px;}
+.add_module{ width: 60rem; height: auto; margin-top: 20px; display: flex; justify-content: flex-end;margin-bottom: 20px;}
+  
+  

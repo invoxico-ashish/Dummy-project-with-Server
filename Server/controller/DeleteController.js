@@ -419,7 +419,7 @@ exports.UpdateAccPassword = async (req, res) => {
     console.log(error);
   }
 };
-exports.GetNavigateModule = async (reqs, res) => {
+exports.GetNavigateModule = async (req, res) => {
   const sql = `SELECT * FROM navigation_module`;
 
   await sqlconnect.query(sql, (err, data) => {
@@ -429,4 +429,117 @@ exports.GetNavigateModule = async (reqs, res) => {
       return res.status(400).json({ success: false, message: "Failed", err });
     }
   });
+};
+exports.GetNav_link_modules = async (req, res) => {
+  const sql = `SELECT * FROM nav_link_modules`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Success", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};
+exports.add_data_to_navigation_link = async (req, res) => {
+  const Data = req.body;
+  const updateValues = [
+    Data.selectId,
+    Data.selectedModule,
+    Data.selectVlaue,
+    Data.orderValue,
+    Data.selectId,
+  ];
+  // console.log(updateValues, "mdiobh");
+  // return
+  const Sqlone = `SELECt * FROM navigation_link WHERE navigate_id = ${Data.selectId}`;
+  try {
+    sqlconnect.query(Sqlone, [updateValues], (err, result) => {
+      console.log(result, "result");
+      // return false;
+      if (result.length > 0) {
+        sqlThree = `UPDATE navigation_link SET navigate_id=${Data.selectId}, nav_link_title="${Data.selectedModule}",nav_link_target="${Data.selectVlaue}",nav_link_display_order="${Data.orderValue}" WHERE navigate_id=${Data.selectId}`;
+        sqlconnect.query(sqlThree, [updateValues], (err, result) => {
+          if (!err) {
+            return res
+              .status(200)
+              .json({ success: true, message: "Success", result });
+          } else {
+            console.log(err);
+            return res
+              .status(400)
+              .json({ success: false, message: "failed", err });
+          }
+        });
+      } else {
+        const updateValuesTwo = [
+          Data.selectId,
+          Data.selectedModule,
+          Data.selectVlaue,
+          Data.orderValue,
+        ];
+        sqltwo = `INSERT INTO navigation_link (navigate_id,nav_link_title,nav_link_target,nav_link_display_order) VALUES (?)`;
+        sqlconnect.query(sqltwo, [updateValuesTwo], (err, data) => {
+          if (!err) {
+            return res
+              .status(201)
+              .json({ success: true, message: "done", data });
+          } else {
+            console.log(err);
+            return res
+              .status(400)
+              .json({ success: false, message: "failed", err });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "Some Error Occured", error });
+  }
+};
+exports.Navigation_module = async (req, res) => {
+  const name = req.body.module_name;
+  console.log(name);
+  // return;
+  const sql = `SELECT * FROM navigation_module WHERE Modules =?`;
+  sqlconnect.query(sql, name, (err, result) => {
+    if (result.length > 0) {
+      res.status(409).json({ success: false, message: "Duplicate Entry", err });
+    } else {
+      // const Sqlone =
+      const Sqlone = `INSERT INTO navigation_module (Modules) VALUES (?)`;
+      sqlconnect.query(Sqlone, name, (err, data) => {
+        if (!err) {
+          return res
+            .status(201)
+            .json({ success: true, message: "created", result });
+        } else {
+          return res
+            .status(400)
+            .json({ success: false, message: "Failed", err });
+        }
+      });
+    }
+  });
+};
+exports.Navigate_link_target = async (req, res) => {
+  const id = req.params.id;
+  const sql = `SELECT nav_link_target FROM  navigation_link WHERE navigate_id =${id}`;
+  try {
+    sqlconnect.query(sql, (err, data) => {
+      if (!err) {
+        return res
+          .status(200)
+          .json({ success: true, message: "Success", data });
+      } else {
+        return res.status(400).json({ success: false, message: "failed", err });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

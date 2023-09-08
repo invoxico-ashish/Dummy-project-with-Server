@@ -41,6 +41,8 @@ router.get("/get/latest/team", controller.GetLatestTeam);
 router.get("/get/module/data", controller.ModuleData);
 router.get("/get/genral/settings", controller.getGenralSettings);
 router.get("/get/navigate/modules", delcontroller.GetNavigateModule);
+router.get("/get/nav_link/modules", delcontroller.GetNav_link_modules);
+router.get("/get/navigation_link/target/:id", delcontroller.Navigate_link_target);
 
 
 router.post("/resgisert/admin", controller.RegisterAdmin);
@@ -49,6 +51,8 @@ router.post("/team/portfolio",upload.single("slideImage"),controller.PostPortIma
 router.post("/register",upload.single("ProfileImage"), delcontroller.RegisterAdmin);
 router.post("/setting/images",upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.SettingImages);
 router.post("/general/settings", upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.GeneralSettings);
+router.post("/post/nav_data",delcontroller.add_data_to_navigation_link);
+router.post("/post/nav_module",delcontroller.Navigation_module);
 
 //LOGIN ROUTE-------------------------------------------->
 
