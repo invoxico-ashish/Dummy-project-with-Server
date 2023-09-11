@@ -31,6 +31,7 @@ import ChangePassword from "./components/admin/ChangePassword";
 import Settings from "./components/admin/Settings";
 import NavigationSystem from "./components/admin/NavigationSystem"
 import NavigateHeader from "./components/admin/NavigateHeader";
+import NavigateFooter from "./components/admin/NavigateFooter";
 import "./components/Header/Navbar/Navbar.css"
 import { useEffect,useState } from "react";
 import axios from "axios";
@@ -62,11 +63,11 @@ useEffect(()=>{
 
   return (
     <div>
-         <Helmet>
-            <meta charSet="utf-8" />
-            <title>Photo sec</title>
-              {faviconUrl && (<link rel="icon" href={`http://localhost:8000/img/${faviconUrl}`} />)}
-         </Helmet>
+      <Helmet>
+       <meta charSet="utf-8" />
+         <title>Photo sec</title>
+       {faviconUrl && (<link rel="icon" href={`http://localhost:8000/img/${faviconUrl}`} />)}
+      </Helmet>
       <BrowserRouter>
         <Routes>
           <Route element={<Footer />}>
@@ -104,7 +105,8 @@ useEffect(()=>{
           <Route path="/changepassword/:id" element={<Protected><ChangePassword /></Protected> } />
           <Route path="/settings" element={<Protected><Settings /></Protected> } />
           <Route path="/navigation" element={<Protected><NavigationSystem /></Protected> } />
-          <Route path="/navigateheader" element={<Protected><NavigateHeader /></Protected> } />
+          <Route path="/navigateheader/:id" element={<Protected><NavigateHeader /></Protected> } />
+          <Route path="/navigatefooter/:id" element={<Protected><NavigateFooter /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

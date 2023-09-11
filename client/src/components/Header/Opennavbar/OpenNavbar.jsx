@@ -1,45 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./OpenNavbar.css";
 import { GrClose } from "react-icons/gr";
+import axios from "axios";
 
 function OpenNavbar({ setShowMenu }) {
-  // const style = { color: "white" };
+  const [nav_linksData, setNav_linksData] = useState([]);
+
+  const FetchedData = async () => {
+    const response = await axios.get(
+      `http://localhost:8000/api/get/nav_link/modules`
+    );
+    console.log(response.data.result, "res");
+    setNav_linksData(response.data.result);
+  };
+  const handleNavlinkClick = (url, target) => {
+    if (target === "_blank") {
+      window.open(url, "_blank");
+    }
+    setShowMenu(false);
+  };
+
+  useEffect(() => {
+    FetchedData();
+  }, []);
   return (
     <>
       <div className="Main-cont" direction="right">
-        <div onClick={() => setShowMenu(false)}className="crossArrow" >
+        <div onClick={() => setShowMenu(false)} className="crossArrow">
           <GrClose size={40} />
         </div>
         <div className="inner-div">
-          <NavLink
-            to={"/"}
-            className=" links"
-            onClick={() => setShowMenu(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to={"/about"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            About
-          </NavLink>
-          <NavLink
-            to={"/portfolio"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            Portfolio
-          </NavLink>
-          <NavLink
-            to={"/team"}
-            className="links"
-            onClick={() => setShowMenu(false)}
-          >
-            team
-          </NavLink>
+          {nav_linksData.map((value) => (
+            // console.log(value,"value")
+            <NavLink
+              to={`${value.nav_link_LINKS}`}
+              className=" links"
+              onClick={() => {
+                handleNavlinkClick(value.nav_link_LINKS, value.nav_link_target);
+              }}
+            >
+              {value.nav_link_title}
+            </NavLink>
+          ))}
         </div>
       </div>
     </>

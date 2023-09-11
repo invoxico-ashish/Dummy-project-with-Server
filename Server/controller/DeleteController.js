@@ -25,7 +25,6 @@ exports.DeleteimgById = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.UpdateImgById = async (req, res) => {
   const file = req.file;
   console.log(file);
@@ -86,7 +85,6 @@ exports.UpdateTeamById = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.DeleteTeamById = async (req, res) => {
   let id = req.params.id;
   console.log(id);
@@ -112,7 +110,6 @@ exports.DeleteTeamById = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.DeletePortFolioById = async (req, res) => {
   const id = req.params.id;
   try {
@@ -133,7 +130,6 @@ exports.DeletePortFolioById = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.UpdatePortFolio = async (req, res) => {
   const file = req.file;
   console.log(file);
@@ -236,7 +232,6 @@ exports.RegisterAdmin = async (req, res) => {
     }
   });
 };
-
 exports.LoginAdmin = async (req, res) => {
   let email = req.body.email;
   const password = req.body.password;
@@ -278,12 +273,10 @@ exports.LoginAdmin = async (req, res) => {
     return false;
   });
 };
-
 exports.LogOut = async (req, res) => {
   res.clearCookie("token");
   return res.json({ status: "success" });
 };
-
 exports.UpdateAdminDetails = async (req, res) => {
   try {
     const id = req.params.id;
@@ -308,7 +301,6 @@ exports.UpdateAdminDetails = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.DeleteAdminById = async (req, res) => {
   const id = req.params.id;
   try {
@@ -329,7 +321,6 @@ exports.DeleteAdminById = async (req, res) => {
     console.log(error);
   }
 };
-
 exports.PutPersonalDetails = async (req, res) => {
   // console.log(file);
   try {
@@ -431,7 +422,8 @@ exports.GetNavigateModule = async (req, res) => {
   });
 };
 exports.GetNav_link_modules = async (req, res) => {
-  const sql = `SELECT * FROM nav_link_modules`;
+  const sql = `SELECT Nav_link_id,navigate_id,nav_link_title,nav_link_target,nav_link_display_order,nav_link_LINKS FROM navigation_link WHERE nav_link_delete_value = 1 ORDER BY nav_link_display_order ASC`;
+  // const sql = ` select * from navigation_link `;
   await sqlconnect.query(sql, (err, result) => {
     if (!err) {
       return res
@@ -450,16 +442,18 @@ exports.add_data_to_navigation_link = async (req, res) => {
     Data.selectVlaue,
     Data.orderValue,
     Data.selectId,
+    // Data.delete_value,
+    Data.url,
   ];
   // console.log(updateValues, "mdiobh");
   // return
-  const Sqlone = `SELECt * FROM navigation_link WHERE navigate_id = ${Data.selectId}`;
+  const Sqlone = `SELECT * FROM navigation_link WHERE navigate_id = ${Data.selectId}`;
   try {
     sqlconnect.query(Sqlone, [updateValues], (err, result) => {
       console.log(result, "result");
       // return false;
       if (result.length > 0) {
-        sqlThree = `UPDATE navigation_link SET navigate_id=${Data.selectId}, nav_link_title="${Data.selectedModule}",nav_link_target="${Data.selectVlaue}",nav_link_display_order="${Data.orderValue}" WHERE navigate_id=${Data.selectId}`;
+        sqlThree = `UPDATE navigation_link SET navigate_id=${Data.selectId}, nav_link_title="${Data.selectedModule}",nav_link_target="${Data.selectVlaue}",nav_link_display_order="${Data.orderValue}", nav_link_LINKS="${Data.url}" WHERE navigate_id=${Data.selectId}`;
         sqlconnect.query(sqlThree, [updateValues], (err, result) => {
           if (!err) {
             return res
@@ -478,8 +472,10 @@ exports.add_data_to_navigation_link = async (req, res) => {
           Data.selectedModule,
           Data.selectVlaue,
           Data.orderValue,
+          // Data.delete_value,
+          Data.url,
         ];
-        sqltwo = `INSERT INTO navigation_link (navigate_id,nav_link_title,nav_link_target,nav_link_display_order) VALUES (?)`;
+        sqltwo = `INSERT INTO navigation_link (navigate_id,nav_link_title,nav_link_target,nav_link_display_order,nav_link_LINKS) VALUES (?)`;
         sqlconnect.query(sqltwo, [updateValuesTwo], (err, data) => {
           if (!err) {
             return res
@@ -528,7 +524,7 @@ exports.Navigation_module = async (req, res) => {
 };
 exports.Navigate_link_target = async (req, res) => {
   const id = req.params.id;
-  const sql = `SELECT nav_link_target FROM  navigation_link WHERE navigate_id =${id}`;
+  const sql = `SELECT * FROM  navigation_link WHERE navigate_id =${id}`;
   try {
     sqlconnect.query(sql, (err, data) => {
       if (!err) {
@@ -542,4 +538,158 @@ exports.Navigate_link_target = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+exports.Navigate_link_active_status = async (req, res) => {
+  const status = req.body.status;
+  const id = req.params.id;
+  // console.log(status);
+  // console.log(id);
+
+  const sql = `UPDATE navigation_module SET mod_status = ? WHERE navigate_id =? `;
+
+  await sqlconnect.query(sql, [status, id], (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      console.log(err);
+      return res.status(400).json({ success: false, message: "Error", err });
+    }
+  });
+};
+exports.nav_link_delete_value = async (req, res) => {
+  const id = req.params.id;
+
+  const sql = `UPDATE navigation_link SET nav_link_delete_value = 0 WHERE Nav_link_id = ${id}`;
+
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
+};
+exports.Update_nav_module_name = async (req, res) => {
+  try {
+    const newModuleName = req.body.Modules;
+    const id = req.params.id;
+    const sql = `UPDATE navigation_module SET Modules = ? WHERE navigate_id =?`;
+
+    await sqlconnect.query(sql, [newModuleName, id], (err, result) => {
+      if (!err) {
+        return res.status(200).json({ success: true, message: "ok", result });
+      } else {
+        return res.status(400).json({ success: false, message: "Fail", err });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.navigate_module_single_by_id = async (req, res) => {
+  const id = req.params.id;
+  const sql = `Select * from navigation_module WHERE navigate_id = ${id}`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Error", err });
+    }
+  });
+};
+exports.footer_modules = async (req, res) => {
+  const Data = req.body;
+
+  // return false
+  const updateValues = [
+    Data.footer_nav_id,
+    Data.foo_link_title,
+    Data.foo_link_target,
+    Data.foo_link_display_order,
+    // Data.selectId,
+    // Data.delete_value,
+    Data.foo_link_LINKS,
+  ];
+  console.log(updateValues, "values");
+  const Sqlone = `SELECT * FROM footer_navigation_link WHERE footer_nav_id=${Data.footer_nav_id}`;
+  try {
+    sqlconnect.query(Sqlone, [updateValues], (err, result) => {
+      console.log(result, "iod8ihuo");
+      // return;
+      if (result.length > 0) {
+        sqlThree = `UPDATE footer_navigation_link SET foo_link_title="${Data.foo_link_title}",foo_link_target="${Data.foo_link_target}",foo_link_display_order="${Data.foo_link_display_order}",foo_link_LINKS="${Data.foo_link_LINKS}" WHERE footer_nav_id=${Data.footer_nav_id}`;
+        sqlconnect.query(sqlThree, [updateValues], (err, result) => {
+          if (!err) {
+            return res
+              .status(200)
+              .json({ success: true, message: "Success", result });
+          } else {
+            console.log(err);
+            return res
+              .status(400)
+              .json({ success: false, message: "failed", err });
+          }
+        });
+      } else {
+        const updateValuesTwo = [
+          Data.footer_nav_id,
+          Data.foo_link_title,
+          Data.foo_link_target,
+          Data.foo_link_display_order,
+          // Data.delete_value,
+          Data.foo_link_LINKS,
+        ];
+        sqltwo = `INSERT INTO footer_navigation_link (foo_link_title,foo_link_target,foo_link_display_order,foo_link_LINKS) VALUES (?)`;
+        sqlconnect.query(sqltwo, [updateValuesTwo], (err, data) => {
+          if (!err) {
+            return res
+              .status(201)
+              .json({ success: true, message: "done", data });
+          } else {
+            console.log(err);
+            return res
+              .status(400)
+              .json({ success: false, message: "failed", err });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    console.log(err);
+  }
+};
+exports.get_foo_modules = async (req, res) => {
+  const sql = `SELECT * FROM footer_navigation_link WHERE foo_link_delete_value = 1`;
+  sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
+};
+exports.foo_deleted_status = async (req, res) => {
+  const id = req.params.id;
+
+  const sql = `UPDATE footer_navigation_link SET foo_link_delete_value = 0 WHERE footer_nav_id = ${id}`;
+
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
+};
+exports.foot_single_mod_by_id = async (req, res) => {
+  const id = req.params.id;
+  const sql = `select * from footer_navigation_link where footer_nav_id = ${id}`;
+
+  sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
 };

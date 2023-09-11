@@ -43,6 +43,9 @@ router.get("/get/genral/settings", controller.getGenralSettings);
 router.get("/get/navigate/modules", delcontroller.GetNavigateModule);
 router.get("/get/nav_link/modules", delcontroller.GetNav_link_modules);
 router.get("/get/navigation_link/target/:id", delcontroller.Navigate_link_target);
+router.get("/get/navigation_modules/single/module/:id", delcontroller.navigate_module_single_by_id);
+router.get("/get/footer_modules/", delcontroller.get_foo_modules);
+router.get("/get/footer_modules/single/:id", delcontroller.foot_single_mod_by_id);
 
 
 router.post("/resgisert/admin", controller.RegisterAdmin);
@@ -53,6 +56,8 @@ router.post("/setting/images",upload.fields([{ name: 'webLogo' }, { name: 'favLo
 router.post("/general/settings", upload.fields([{ name: 'webLogo' }, { name: 'favLogo' }]),controller.GeneralSettings);
 router.post("/post/nav_data",delcontroller.add_data_to_navigation_link);
 router.post("/post/nav_module",delcontroller.Navigation_module);
+router.post("/post/footer_module",delcontroller.footer_modules);
+
 
 //LOGIN ROUTE-------------------------------------------->
 
@@ -80,6 +85,10 @@ router.put("/update/portfolio/:id",verifyjwt.verifytoken,upload.single("slideIma
 router.put("/update/personal/details/:id",verifyjwt.verifytoken,upload.single("ProfileImage"),delcontroller.PutPersonalDetails);
 router.put("/update/admin/det/:id",verifyjwt.verifytoken,delcontroller.UpdateAdminDetails);
 router.put("/update/password/:id",verifyjwt.verifytoken, delcontroller.UpdateAccPassword);
+router.put("/post/nav_module/status/active/:id",delcontroller.Navigate_link_active_status);
+router.put("/delete/nav_link/status/deleted/:id",delcontroller.nav_link_delete_value);
+router.put("/update/nav_module/module/name/:id",delcontroller.Update_nav_module_name);
+router.put("/delete/footer_module/status/deleted/:id",delcontroller.foo_deleted_status);
 
 module.exports = router;
 

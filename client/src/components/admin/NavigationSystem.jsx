@@ -8,29 +8,69 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 function NavigationSystem() {
+  const token = localStorage.getItem("token");
   const Navigate = useNavigate();
   const [modules, setModules] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editmodalIsOpen, setEditmodalIsOpen] = useState(false);
-  const [toggleStates, setToggleStates] = useState([true, true, true]);
+  const [toggleStates, setToggleStates] = useState([]);
   const [moduleName, setModuleName] = useState("");
   const [updatemoduleName, setUpdateModuleName] = useState("");
+  const [isActive, setIsActive] = useState("");
+  const [isActivestate, setIsActiveState] = useState("");
+  const [updateID, setUpdateID] = useState("");
 
   const getModules = async () => {
     const res = await axios.get(
       `http://localhost:8000/api/get/navigate/modules`
     );
+
+    // const initialToggleStates = res.data.data.map(
+    //   (item) => console.log(item.mod_status, "items.")
+    //   // setIsActiveState(item.mod_status)
+    // );
+    // setToggleStates(initialToggleStates);
+    // console.log(isActivestate, "this is module");
+    // console.log(res.data.data, "asdasdfa.");
     setModules(res.data.data);
   };
+  const result = {};
+
+  modules.forEach((item) => {
+    result[item.Modules] = item.navigate_id;
+  });
+
+  // console.log(result, "result");
   const toggleSwitch = (index) => {
     const updatedToggleStates = [...toggleStates];
     updatedToggleStates[index] = !updatedToggleStates[index];
     setToggleStates(updatedToggleStates);
     const isChecked = updatedToggleStates[index];
-    console.log(`Checkbox value for index ${index}: ${isChecked}`);
+    // console.log(`Checkbox value for index ${index}: ${toggleStates}`);
 
     const valuess = isChecked ? 1 : 0;
-    console.log(valuess);
+    setIsActive(valuess);
+    // console.log(isChecked, "this is status ");
+  };
+  const handleActive = async (id) => {
+    // console.log(id, "helloe");
+
+    const updateStatus = await axios
+      .put(`http://localhost:8000/api/post/nav_module/status/active/${id}`, {
+        status: isActive,
+      })
+      .then((res) => {
+        // console.log("success");
+        toast.success("Updated Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Request Denied ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   };
 
   const handleButClick = () => {
@@ -55,7 +95,7 @@ function NavigationSystem() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(moduleName);
+    // console.log(moduleName);
     await axios
       .post(`http://localhost:8000/api/post/nav_module`, {
         module_name: moduleName,
@@ -64,7 +104,7 @@ function NavigationSystem() {
         toast.success("Created Successfuly ", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        console.log("success");
+        // console.log("success");
       })
       .catch((err) => {
         console.log(err);
@@ -75,17 +115,50 @@ function NavigationSystem() {
   };
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log(updatemoduleName);
+    // console.log(updatemoduleName);
+    axios
+      .put(
+        `http://localhost:8000/api/update/nav_module/module/name/${updateID}`,
+        { Modules: updatemoduleName }
+      )
+      .then((res) => {
+        toast.success("Updated Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        // console.log(res);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Request Denied ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   };
-  // const keyValuePairs = Object.keys(modules).map(key => ({
-  //   key: key,
-  //   value: modules[key]
-  // }));
-  
-  // console.log(keyValuePairs,"gggggggggg");
+  const handleOpenModal = (id) => {
+    setUpdateID(id);
+    setEditmodalIsOpen(true);
+    // console.log(updateID, "juioqg");
+  };
+
+  const GetModules = async (id) => {
+    const response = await axios
+      .get(
+        `http://localhost:8000/api/get/navigation_modules/single/module/${id}`
+      )
+      .then((res) => {
+        console.log(res);
+        const singlevalue = res.data.result[0];
+        setUpdateModuleName(singlevalue.Modules);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getModules();
-    // console.log(modules,"hhhhhhh")
   }, []);
   return (
     <>
@@ -120,9 +193,10 @@ function NavigationSystem() {
                         <label className="switch">
                           <input
                             type="checkbox"
-                            checked={toggleStates[index] || false}
+                            checked={value.mod_status == 1 ? true : false}
                             onChange={(e) => {
                               toggleSwitch(index);
+                              handleActive(value.navigate_id);
                             }}
                           />
                           <span className="slider round"></span>
@@ -136,16 +210,29 @@ function NavigationSystem() {
                             <BiEdit
                               color="white"
                               size={20}
-                              onClick={() => setEditmodalIsOpen(true)}
+                              onClick={() => {
+                                handleOpenModal(value.navigate_id);
+                                GetModules(value.navigate_id);
+                              }}
                             />
                           </Link>
                         </div>
                         <div>
-                          <Link to={"/navigateheader"}>
+                          {/* <Link to={`/navigateheader/${value.navigate_id}`} > */}
+                          <Link
+                            to={
+                              value.navigate_id == 1
+                                ? `/navigateheader/${value.navigate_id}`
+                                : value.navigate_id == 2
+                                ? `/navigatefooter/${value.navigate_id}`
+                                : ""
+                            }
+                          >
                             <BiCommentEdit color="white" size={20} />
                           </Link>
                         </div>
                       </div>
+                      {console.log(value.navigate_id)}
                     </td>
                   </tr>
                 ))}
@@ -173,6 +260,7 @@ function NavigationSystem() {
               <input
                 type="text"
                 name="name"
+                // value={moduleName}
                 className="input_select"
                 onChange={(e) => {
                   setModuleName(e.target.value);
@@ -201,7 +289,7 @@ function NavigationSystem() {
         contentLabel="Example Modal"
       >
         <div>
-          <h4>Update Module</h4>
+          <h4>Update Module </h4>
         </div>
         <form className="Modal_form">
           <div className="main_cont">
@@ -211,8 +299,9 @@ function NavigationSystem() {
               </div>
               <input
                 type="text"
-                name="name"
+                name="Modules "
                 className="input_select"
+                value={updatemoduleName}
                 onChange={(e) => {
                   setUpdateModuleName(e.target.value);
                 }}
