@@ -16,7 +16,7 @@ function OurTeam() {
         const FetchApi = await axios.get(
           "http://localhost:8000/api/get/our/team"
         );
-  
+  console.log(FetchApi.data.data)
         setTeamImg(FetchApi.data.data);
       } catch (error) {
         console.log(error);
@@ -71,22 +71,22 @@ function OurTeam() {
                     <div className="detail-box ">
                       <h5>{value.name}</h5>
                       <div className="social-box">
-                        <Link to="">
+                        <Link to={`${value.F_B}`}>
                           <i className="fa fa-facebook" aria-hidden="true">
                             <BiLogoFacebook />
                           </i>
                         </Link>
-                        <Link to="">
+                        <Link to={`${value.Twi_tter}`}>
                           <i className="fa fa-twitter" aria-hidden="true">
                             <BsTwitter />
                           </i>
                         </Link>
-                        <Link to="">
+                        <Link to={`${value.Linked_in}`}>
                           <i className="fa fa-linkedin" aria-hidden="true">
                             <BiLogoLinkedin />
                           </i>
                         </Link>
-                        <Link to="">
+                        <Link to={`${value.I_G}`}>
                           <i className="fa fa-instagram" aria-hidden="true">
                             <AiFillInstagram />
                           </i>

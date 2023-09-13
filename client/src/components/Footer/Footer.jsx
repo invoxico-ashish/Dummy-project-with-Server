@@ -8,15 +8,13 @@ function Footer() {
     const response = await axios.get(
       `http://localhost:8000/api/get/footer_modules`
     );
-    console.log(response.data.result, "res");
     setNav_linksData(response.data.result);
   };
   const handleNavlinkClick = (url, target) => {
     if (target === "_blank") {
       window.open(url, "_blank");
     }
-    // setShowMenu(false);
-  };
+  }
   useEffect(() => {
     FetchedData();
   }, []);
@@ -49,19 +47,6 @@ function Footer() {
                     {value.foo_link_title}
                   </Link>
                 ))}
-
-                {/* <Link to="/" className="">
-                  Home
-                </Link>
-                <Link to={"/about"} className="">
-                  About
-                </Link>
-                <Link to={"/portfolio"} className="">
-                  Portfolio
-                </Link>
-                <Link to={"/team"} className="">
-                  Team
-                </Link> */}
               </div>
             </div>
           </div>

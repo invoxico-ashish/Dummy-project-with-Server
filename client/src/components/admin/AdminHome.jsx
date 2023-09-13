@@ -70,7 +70,7 @@ function AdminHome({ faviconUrl }) {
             ) : (
               <>
                 <div className="logo">
-                  <h1>Login Page</h1>
+                  {/* <h1>Login Page</h1> */}
                   <br />
                   <img
                     src={`http://localhost:8000/img/${faviconUrl}`}

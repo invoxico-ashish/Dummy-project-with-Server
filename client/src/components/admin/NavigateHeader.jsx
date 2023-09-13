@@ -4,22 +4,24 @@ import { BiEdit } from "react-icons/bi";
 import { MdDeleteSweep } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { fetchUserPermissions } from "../Permissions/Permission";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 Modal.setAppElement("#root");
 function NavigateHeader() {
+  const mod_id = 4;
+  const id = localStorage.getItem("admin_id");
   const [moduleData, setModuleData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  // const [delmodalIsOpen, setDelIsOpen] = useState(false);
   const [selectVlaue, setSelectVlaue] = useState("");
   const [selectId, setSelectId] = useState("");
   const [orderValue, setOrderValue] = useState("");
   const [selectedModule, setSelectedModule] = useState(""); // Track the selected module
   const [selectedTarget, setSelectedTarget] = useState("");
   const [url, setUrl] = useState("");
-  // const [selectedOrder, setSelectedOrder] = useState("");
+  const [userPermissions, setUserPermissions] = useState([]);
   const Navigate = useNavigate();
   const token = localStorage.getItem("token");
   const customStyles = {
@@ -32,22 +34,27 @@ function NavigateHeader() {
       transform: "translate(-50%, -50%)",
     },
   };
-
-  const openModal = (module_name, id) => {
-    console.log(module_name, id);
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions(permissions);
+  };
+  const firstValue = userPermissions[mod_id];
+  const openModal = (module_name, id, target, order, link) => {
+    setIsOpen(true);
     setSelectId(id);
     setSelectedModule(module_name);
-    setIsOpen(true);
+    setSelectVlaue(target);
+    setSelectedTarget(target);
+    setOrderValue(order);
+    setUrl(link);
   };
   const closeModal = () => {
     setIsOpen(false);
   };
-
   const fetchModule = async () => {
     const response = await axios.get(
       `http://localhost:8000/api/get/nav_link/modules`
     );
-    console.log(response.data.result, "redasdal");
     setModuleData(response.data.result);
   };
 
@@ -59,6 +66,7 @@ function NavigateHeader() {
     formData.append("selectVlaue", selectVlaue);
     formData.append("orderValue", orderValue);
     formData.append("url", url);
+    formData.append("selectedTarget", selectedTarget);
     const formDataObject = Object.fromEntries(formData.entries());
     const config = {
       headers: {
@@ -73,13 +81,11 @@ function NavigateHeader() {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Request Denied ", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
   const handleButClick = () => {
@@ -90,19 +96,14 @@ function NavigateHeader() {
       .get(`http://localhost:8000/api/get/navigation_link/target/${selectId}`)
       .then((res) => {
         const response = res.data.data;
-        console.log(response, "value of selected module");
         const keyValueObject = response[0];
         setSelectedTarget(keyValueObject.nav_link_target);
-        // console.log(keyValueObject.nav_link_display_order, "dddd");
         setOrderValue(keyValueObject.nav_link_display_order);
         setUrl(keyValueObject.nav_link_LINKS);
-        // console.log(ss"order");
       })
-
       .catch((err) => console.log(err));
   };
   const handleDelete = (id) => {
-    console.log(`the ${id} deleted`);
     axios
       .put(`http://localhost:8000/api/delete/nav_link/status/deleted/${id}`)
       .then((res) => {
@@ -111,18 +112,17 @@ function NavigateHeader() {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Request Denied ", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
   useEffect(() => {
     fetchModule();
     FetchTarget_value();
+    fetchPermissions();
   }, []);
 
   return (
@@ -141,7 +141,11 @@ function NavigateHeader() {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Title</th>
-                  <th scope="col">Action</th>
+                  {id == 20 || firstValue == 2 ? (
+                    <th scope="col">Action</th>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -149,30 +153,40 @@ function NavigateHeader() {
                   <tr key={item.Nav_link_id}>
                     <th scope="row">{item.Nav_link_id}</th>
                     <td>{item.nav_link_title}</td>
-                    <td>
-                      <div className="buttons">
-                        <div className="logoo">
-                          <Link>
-                            <BiEdit
-                              color="white"
-                              size={20}
-                              onClick={() =>
-                                openModal(item.nav_link_title, item.Nav_link_id)
-                              }
-                            />
-                          </Link>
+                    {id == "20" || firstValue == 2 ? (
+                      <td>
+                        <div className="buttons">
+                          <div className="logoo">
+                            <Link>
+                              <BiEdit
+                                color="white"
+                                size={20}
+                                onClick={() =>
+                                  openModal(
+                                    item.nav_link_title,
+                                    item.Nav_link_id,
+                                    item.nav_link_target,
+                                    item.nav_link_display_order,
+                                    item.nav_link_LINKS
+                                  )
+                                }
+                              />
+                            </Link>
+                          </div>
+                          <div className="logoo">
+                            <Link>
+                              <MdDeleteSweep
+                                color="white"
+                                size={20}
+                                onClick={() => handleDelete(item.Nav_link_id)}
+                              />
+                            </Link>
+                          </div>
                         </div>
-                        <div className="logoo">
-                          <Link>
-                            <MdDeleteSweep
-                              color="white"
-                              size={20}
-                              onClick={() => handleDelete(item.Nav_link_id)}
-                            />
-                          </Link>
-                        </div>
-                      </div>
-                    </td>
+                      </td>
+                    ) : (
+                      ""
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -186,7 +200,7 @@ function NavigateHeader() {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          {/* <p>{selectedModule}</p> */}
+          <p>{selectedModule}</p>
 
           <form className="Modal_form">
             <div className="main_cont">
@@ -212,18 +226,19 @@ function NavigateHeader() {
                   className="form-select"
                   aria-label="Default select example"
                   name="select_link"
+                  value={selectVlaue}
                   onChange={(e) => setSelectVlaue(e.target.value)}
                 >
                   <option selected>Select</option>
                   <option
                     value="_self"
-                    selected={selectedTarget === "_self" ? "selected" : ""}
+                    // selected={selectedTarget === "_self" ? "selected" : ""}
                   >
                     Current window
                   </option>
                   <option
                     value="_blank"
-                    selected={selectedTarget === "_blank" ? "selected" : ""}
+                    // selected={selectedTarget === "_blank" ? "selected" : ""}
                   >
                     Another Window
                   </option>

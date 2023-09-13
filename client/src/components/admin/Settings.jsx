@@ -8,7 +8,6 @@ import { toast, ToastContainer } from "react-toastify";
 function Settings() {
   const Navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [inputField, setInputField] = useState([]);
   const [webLogo, setWebLogo] = useState([]);
   const [favLogo, setFavLogo] = useState([]);
   const [values, setValues] = useState({
@@ -96,10 +95,7 @@ function Settings() {
         webLogo: data.webLogo,
         favLogo: data.favLogo,
       });
-      // console.log(values);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error)}
   };
 
   useEffect(() => {
@@ -119,7 +115,7 @@ function Settings() {
               <input
                 type="text"
                 name="email"
-                className="form-control"
+                className="form-control"  
                 placeholder="Email"
                 aria-label="Email"
                 value={values.email}

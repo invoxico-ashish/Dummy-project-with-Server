@@ -19,14 +19,14 @@ function NavigateFooter() {
   const [foo_link_display_order, setFoo_link_display_order] = useState("");
   const [foo_link_LINKS, setFoo_link_LINKS] = useState("");
   const [singleData, setSingleData] = useState([]);
-  console.log(footer_nav_id, "id");
+  // console.log(footer_nav_id, "id");
 
   const footer_modules = async () => {
     const response = await axios.get(
       `http://localhost:8000/api/get/footer_modules`
     );
     setFoo_modules(response.data.result);
-    console.log(response.data.result, "resssss");
+    // console.log(response.data.result, "resssss");
   };
   const handleclick = (e) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ function NavigateFooter() {
     formData.append("foo_link_display_order", foo_link_display_order);
     formData.append("foo_link_LINKS", foo_link_LINKS);
     const formDataObject = Object.fromEntries(formData.entries());
-    console.log(formDataObject);
+    // console.log(formDataObject);
     // return false;s
     const config = {
       headers: {
@@ -67,7 +67,7 @@ function NavigateFooter() {
   };
 
   const handleDelete = (id) => {
-    console.log(`the ${id} deleted`);
+    // console.log(`the ${id} deleted`);
     axios
       .put(
         `http://localhost:8000/api/delete/footer_module/status/deleted/${id}`
@@ -88,21 +88,21 @@ function NavigateFooter() {
       });
   };
   const Foot_single = async (id) => {
-    console.log(footer_nav_id, "dkiough  ");
+    // console.log(footer_nav_id, "dkiough  ");
     const res = await axios
       .get(
         `http://localhost:8000/api/get/footer_modules/single/${id}`
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setSingleData(res.data.result[0]);
         setFoo_link_title(res.data.result[0]);
         setFoo_link_target(res.data.result[0]);
         setFoo_link_display_order(res.data.result[0]);
         setFoo_link_LINKS(res.data.result[0]);
-        console.log(singleData, "singleData");
+        // console.log(singleData, "singleData");
       });
-    console.log(res, "res");
+    // console.log(res, "res");
   };
   useEffect(() => {
     footer_modules();

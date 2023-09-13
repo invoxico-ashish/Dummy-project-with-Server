@@ -32,13 +32,15 @@ import Settings from "./components/admin/Settings";
 import NavigationSystem from "./components/admin/NavigationSystem"
 import NavigateHeader from "./components/admin/NavigateHeader";
 import NavigateFooter from "./components/admin/NavigateFooter";
+import AdminBlog from "./components/admin/AdminBlog";
 import "./components/Header/Navbar/Navbar.css"
 import { useEffect,useState } from "react";
 import axios from "axios";
 import {Helmet} from "react-helmet";
 function App() {
   const [faviconUrl, setFaviconUrl] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [mod_status, setMod_status] = useState('');
+
 
 useEffect(()=>{
   axios.get(`http://localhost:8000/api/get/genral/settings`)
@@ -46,21 +48,20 @@ useEffect(()=>{
     const faviconUrlFromAPI = res.data.keyValuePairs.favLogo;
     setFaviconUrl(faviconUrlFromAPI);
   })
-  .catch((error)=>console.error(error))
-  // const getData = async () => {
-  //   const response = await axios
-  //     .get(`http://localhost:8000/api/admin/detail/${id}`)
-  //     .then((res) => {
+  .catch((error)=>console.error(error));
 
-  //       // setProfilePicture(res.data.result[0].Profile_pic);
-  //     });
-  // };
-  // getData
+
+fetch_mod_status()
+
 },[])
 
-
-
-
+const fetch_mod_status = async()=>{
+  const response = await axios.get(`http://localhost:8000/api/get/module/mod_stat/act/inact`)
+  .then((res)=>{
+    // console.log(res.data.result)
+    setMod_status(res.data.result)
+  })
+    };
   return (
     <div>
       <Helmet>
@@ -70,8 +71,8 @@ useEffect(()=>{
       </Helmet>
       <BrowserRouter>
         <Routes>
-          <Route element={<Footer />}>
-            <Route element={<Navbar />}>
+          <Route element={ mod_status && mod_status[1].mod_status === "1" ? <Footer /> : ""}>
+            <Route element={mod_status && mod_status[0].mod_status === "1" ? <Navbar />: ""}>
               <Route element={<GetInTouch />}>
                 <Route>
                   <Route path="/" element={<Home />} />
@@ -83,7 +84,7 @@ useEffect(()=>{
             </Route>
           </Route>
           <Route path="*" element={ <Missing />} />
-          {/* ADMIN-ROUTES-------------------------------------------------------------> */}
+{/* --------------------------------------------ADMIN-ROUTES------------------------------------------------ */}
           <Route  element={<AdminNavbar/>}>
           <Route path="/admin" element={<AdminHome  faviconUrl={faviconUrl}/>} />
           <Route path="/dashboard"element={<Protected><Dashboard /></Protected>}/>
@@ -107,6 +108,7 @@ useEffect(()=>{
           <Route path="/navigation" element={<Protected><NavigationSystem /></Protected> } />
           <Route path="/navigateheader/:id" element={<Protected><NavigateHeader /></Protected> } />
           <Route path="/navigatefooter/:id" element={<Protected><NavigateFooter /></Protected> } />
+          <Route path="/show/blog" element={<Protected><AdminBlog /></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

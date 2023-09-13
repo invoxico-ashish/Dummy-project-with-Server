@@ -46,6 +46,7 @@ router.get("/get/navigation_link/target/:id", delcontroller.Navigate_link_target
 router.get("/get/navigation_modules/single/module/:id", delcontroller.navigate_module_single_by_id);
 router.get("/get/footer_modules/", delcontroller.get_foo_modules);
 router.get("/get/footer_modules/single/:id", delcontroller.foot_single_mod_by_id);
+router.get("/get/module/mod_stat/act/inact", delcontroller.Module_status_active_or_not);
 
 
 router.post("/resgisert/admin", controller.RegisterAdmin);

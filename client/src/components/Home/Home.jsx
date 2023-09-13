@@ -8,7 +8,7 @@ import Slider from "../Header/Slider/Slider";
 function Home() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Slider />
       <About />
       <Portfolio />
