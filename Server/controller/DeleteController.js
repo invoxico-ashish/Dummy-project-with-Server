@@ -608,3 +608,97 @@ exports.Module_status_active_or_not = async (req, res) => {
     }
   });
 };
+exports.post_category_cat_new = async (req, res) => {
+  const blog_data = {
+    Cat_Title: req.body.module_name,
+    Cat_Category: req.body.category,
+    Cat_Status: req.body.mod_isActive,
+  };
+  console.log(blog_data);
+  // return;
+  try {
+    const sql = `INSERT INTO admin_blog_categories (Cat_Title,Cat_Parent,Cat_Status) VALUES (?,?,?)`;
+    sqlconnect.query(
+      sql,
+      [blog_data.Cat_Title, blog_data.Cat_Category, blog_data.Cat_Status],
+      (err, result) => {
+        if (!err) {
+          return res
+            .status(200)
+            .json({ success: true, messages: "ok", result });
+        } else {
+          return res
+            .status(400)
+            .json({ success: false, message: "Failed", err });
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.get_cat_mod_act = async (req, res) => {
+  const sql = ` SELECT * FROM admin_blog_categories WHERE Cat_Delete = 1`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "ok", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed ", err });
+    }
+  });
+};
+exports.post_cat_status_by_button = async (req, res) => {
+  const module_stat = req.body.module_stat;
+  console.log(module_stat);
+  // return
+  const blog_id = req.params.id;
+  const sql = ` UPDATE admin_blog_categories SET Cat_Status = ? WHERE Cat_id = ${blog_id}`;
+  await sqlconnect.query(sql, [module_stat], (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "ok", result });
+    } else {
+      return res.status(400).json({ success: false, message: "fail", err });
+    }
+  });
+};
+exports.delete_cat_category_by_id = async (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE admin_blog_categories SET Cat_Delete = 0 WHERE Cat_id = ${id}`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
+};
+exports.update_category_cat_by_id = async (req, res) => {
+  const id = req.params.id;
+  const dataToBeUpdate = {
+    Cat_Title: req.body.Cat_Title,
+    Cat_Parent: req.body.Cat_Parent,
+    Cat_Status: req.body.Cat_Status,
+  };
+  console.log(dataToBeUpdate);
+  // return
+  const sql = `UPDATE admin_blog_categories SET Cat_Title = ?, Cat_Parent = ?, Cat_Status = ? WHERE Cat_id = ?`;
+
+  await sqlconnect.query(
+    sql,
+    [
+      dataToBeUpdate.Cat_Title,
+      dataToBeUpdate.Cat_Parent,
+      dataToBeUpdate.Cat_Status,
+      id,
+    ],
+    (err, result) => {
+      if (!err) {
+        return res.status(200).json({ success: true, message: "OK", result });
+      } else {
+        return res
+          .status(400)
+          .json({ success: false, messages: "failed", err });
+      }
+    }
+  );
+};

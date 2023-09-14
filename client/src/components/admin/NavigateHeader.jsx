@@ -39,6 +39,7 @@ function NavigateHeader() {
     setUserPermissions(permissions);
   };
   const firstValue = userPermissions[mod_id];
+  
   const openModal = (module_name, id, target, order, link) => {
     setIsOpen(true);
     setSelectId(id);
@@ -62,7 +63,7 @@ function NavigateHeader() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("selectId", selectId);
-    formData.append("selectedModule", selectedModule);
+    formData.append(" ", selectedModule);
     formData.append("selectVlaue", selectVlaue);
     formData.append("orderValue", orderValue);
     formData.append("url", url);

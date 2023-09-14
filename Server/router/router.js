@@ -47,6 +47,11 @@ router.get("/get/navigation_modules/single/module/:id", delcontroller.navigate_m
 router.get("/get/footer_modules/", delcontroller.get_foo_modules);
 router.get("/get/footer_modules/single/:id", delcontroller.foot_single_mod_by_id);
 router.get("/get/module/mod_stat/act/inact", delcontroller.Module_status_active_or_not);
+router.get("/get/category/cat_mod/act", delcontroller.get_cat_mod_act);
+router.get("/get/blog_data/by/:id", controller.get_blog_data_by_id);
+router.get("/get/blog_category/all", controller.get_blog_cat_all_data);
+router.get("/get/category/test/:id", controller.get_test_cate);
+
 
 
 router.post("/resgisert/admin", controller.RegisterAdmin);
@@ -58,6 +63,8 @@ router.post("/general/settings", upload.fields([{ name: 'webLogo' }, { name: 'fa
 router.post("/post/nav_data",delcontroller.add_data_to_navigation_link);
 router.post("/post/nav_module",delcontroller.Navigation_module);
 router.post("/post/footer_module",delcontroller.footer_modules);
+router.post("/post/category/new/cat",delcontroller.post_category_cat_new);
+router.post("/post/blog_cat/categories", controller.post_blog_category);
 
 
 //LOGIN ROUTE-------------------------------------------->
@@ -90,57 +97,8 @@ router.put("/post/nav_module/status/active/:id",delcontroller.Navigate_link_acti
 router.put("/delete/nav_link/status/deleted/:id",delcontroller.nav_link_delete_value);
 router.put("/update/nav_module/module/name/:id",delcontroller.Update_nav_module_name);
 router.put("/delete/footer_module/status/deleted/:id",delcontroller.foo_deleted_status);
+router.put("/put/admin_cat/category/status/:id",delcontroller.post_cat_status_by_button);
+router.put("/delete/blog_cat/blog/category/:id",delcontroller.delete_cat_category_by_id);
+router.put("/update/category/cat/:id",delcontroller.update_category_cat_by_id);
 
 module.exports = router;
-
-// const verifyUser = (req, res, next) => {
-//   const token = req.cookie.token;
-//   if (!token) {
-//     return res.status(401).json({
-//       success: false,
-//       message: "you are not Athourized",
-//     });
-//   } else {
-//     jwt.verify(token, "Jwt-secret-key", (err, decode) => {
-//       if (err) {
-//         return res.status(401).json({
-//           success: false,
-//           message: "Token is not ok",
-//         });
-//       } else {
-//         req.name = decode.name;
-//         next();
-//       }
-//     });
-//   }
-// };
-// const storage = multer.diskStorage({
-//   destination: "src/img/",
-//   filename: (req, file, cb) => {
-//     // console.log(file, "kwioe9h");
-//     console.log(file.fieldname, "kwioe9h");
-//     return cb(
-//       null,
-//       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-//     );
-//   },
-// });
-// // console.log(storage.);
-
-// const upload = multer({
-//   storage: storage,
-// });
-
-//var allowedDomains = ['http://localhost:3001', 'http://localhost:3000'];
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     // bypass the requests with no origin (like curl requests, mobile apps, etc )
-//     if (!origin) return callback(null, true);
- 
-//     if (allowedDomains.indexOf(origin) === -1) {
-//       var msg = `This site ${origin} does not have an access. Only specific domains are allowed to access it.`;
-//       return callback(new Error(msg), false);
-//     }
-//     return callback(null, true);
-//   }
-// }));

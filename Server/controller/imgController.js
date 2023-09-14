@@ -475,3 +475,46 @@ exports.getGenralSettings = async (req, res) => {
     }
   });
 };
+exports.post_blog_category = async (req, res) => {
+  const blog_cat_title = req.body.blog_cat_title;
+  const sql = `INSERT INTO admin_blog_categories (Cat_Title) VALUES (?)`;
+  await sqlconnect.query(sql, blog_cat_title, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "fail", err });
+    }
+  });
+};
+exports.get_blog_data_by_id = async (req, res) => {
+  const id = req.params.id;
+  const sql = `SELECT * FROM admin_blog WHERE blog_id = ${id}`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "ok", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};
+exports.get_blog_cat_all_data = async (req, res) => {
+  const sql = ` SELECT * FROM admin_blog_categories`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};
+exports.get_test_cate = async (req, res) => {
+  const id = req.params.id;
+  const sql = `select * from admin_blog_categories where Cat_id != ${id} `;
+  sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      console.log(err);
+    }
+  });
+};
