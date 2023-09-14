@@ -15,10 +15,7 @@ function Permissions() {
       axios
         .get("http://localhost:8000/api/get/module/data")
         .then((res) => setPerData(res.data.result));
-      // .then((res) => console.log(perData, "jmdfoiugh"));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {console.log(error)}
   };
 
   const assignedPermissionData = async () => {
@@ -40,7 +37,6 @@ function Permissions() {
       console.log(error);
     }
   };
-  // console.log(options)
   useEffect(() => {
     GetPermisionData();
     assignedPermissionData();
@@ -81,7 +77,6 @@ function Permissions() {
             </thead>
             <tbody>
               {perData.map((item, index) => (
-                // console.log("kj")
                 <tr key={index}>
                   <td>{item.module_name}</td>
                   <td>

@@ -3,7 +3,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { PiSlideshowBold } from "react-icons/pi";
 import { RiTeamFill } from "react-icons/ri";
 import { IoMdAlbums } from "react-icons/io";
-import {FaBloggerB} from "react-icons/fa"
+import { FaBloggerB } from "react-icons/fa";
 import { Link, Navigate, useLocation, Outlet } from "react-router-dom";
 import { TbUsersPlus, TbUsersGroup } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -20,6 +20,7 @@ function AdminNavbar() {
   const Slider_id = 2;
   const Team_id = 3;
   const nav_id = 4;
+  const blog_id = 5;
 
   const location = useLocation();
   const [portPermission, setPortmission] = useState([]);
@@ -34,6 +35,7 @@ function AdminNavbar() {
   const slideValue = portPermission[Slider_id];
   const TeamValue = portPermission[Team_id];
   const NavigateValue = portPermission[nav_id];
+  const blogValue = portPermission[blog_id];
 
   const handleDelete = () => {
     axios
@@ -75,7 +77,6 @@ function AdminNavbar() {
               aria-controls="#navbarm"
               aria-expanded="false"
               aria-label="Toggle-navigation"
-              
             >
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -171,6 +172,16 @@ function AdminNavbar() {
                   ""
                 )}
 
+                {id === "20" || blogValue == 1 || blogValue == 2 ? (
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to={"/show/blog"}>
+                      <FaBloggerB /> <span className="ml-2">Blog</span>
+                    </Link>
+                  </li>
+                ) : (
+                  ""
+                )}
+
                 {id === "20" ? (
                   <>
                     <li className="nav-item">
@@ -197,17 +208,12 @@ function AdminNavbar() {
                     <CgProfile /> <span className="ml-2">Account</span>
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to={"/show/blog"} >
-                    <FaBloggerB /> <span className="ml-2">Blog</span>
-                  </Link>
-                </li>
+
                 <li className="nav-item">
                   <Link className="nav-link text-white" onClick={handleDelete}>
                     <FiLogOut /> <span className="ml-2">LogOut</span>
                   </Link>
                 </li>
-                
               </ul>
             </div>
           </>

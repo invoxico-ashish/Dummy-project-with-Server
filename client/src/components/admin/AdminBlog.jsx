@@ -8,9 +8,20 @@ import { BiEdit } from "react-icons/bi";
 import { MdDeleteSweep } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
+import { fetchUserPermissions } from "../Permissions/Permission";
+import NotAuth from "../NotAuth";
 
 function AdminBlog() {
+  const mod_id = 5;
+  const id = localStorage.getItem("admin_id");
   const token = localStorage.getItem("token");
+  const [userPermissions, setUserPermissions] = useState([]);
+  const fetchPermissions = async () => {
+    const permissions = await fetchUserPermissions();
+    setUserPermissions(permissions);
+  };
+  const firstValue = userPermissions[mod_id];
+
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [module_name, setModule_name] = useState("");
@@ -26,8 +37,12 @@ function AdminBlog() {
   const openModal = async () => {
     await axios
       .get(`http://localhost:8000/api/get/blog_category/all`)
-      .then((res) => {setMod_Options(res.data.result)})
-      .catch((err) => {console.log(err);});
+      .then((res) => {
+        setMod_Options(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setIsOpen(true);
   };
   const closeModel = (e) => {
@@ -37,7 +52,7 @@ function AdminBlog() {
 
   const handleClick = (e, id) => {
     const isChecked = e.target.checked;
-    setCheckedMap((prevCheckedMap) => ({...prevCheckedMap,[id]: isChecked}));
+    setCheckedMap((prevCheckedMap) => ({ ...prevCheckedMap, [id]: isChecked }));
     // isChecked
     //   ? console.log(e.target.checked, id)
     //   : console.log(e.target.checked, id);
@@ -48,10 +63,15 @@ function AdminBlog() {
         module_stat: module_stat,
       })
       .then((res) => {
-        toast.success("Updated Successfuly ", {position: toast.POSITION.TOP_RIGHT});
-        setTimeout(() => {window.location.reload();}, 300);
+        toast.success("Updated Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
-      .catch((err) => {console.log(err);
+      .catch((err) => {
+        console.log(err);
         toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
@@ -62,13 +82,21 @@ function AdminBlog() {
     setSelected_id(id);
     axios
       .get(`http://localhost:8000/api/get/blog_category/all`)
-      .then((res) => {setMod_Options(res.data.result);})
-      .catch((err) => {console.log(err)});
+      .then((res) => {
+        setMod_Options(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     axios
       .get(`http://localhost:8000/api/get/category/test/${id}`)
-      .then((res) => {setShow_cat_inp(res.data.result)})
-      .catch((err) => {console.log(err)});
-       setEditModalOpen(true);
+      .then((res) => {
+        setShow_cat_inp(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setEditModalOpen(true);
   };
   const closeEditModel = () => {
     setEditModalOpen(false);
@@ -78,16 +106,25 @@ function AdminBlog() {
     await axios
       .put(`http://localhost:8000/api/delete/blog_cat/blog/category/${id}`)
       .then((res) => {
-        toast.success("Updated Successfuly ", {position: toast.POSITION.TOP_RIGHT});
-        setTimeout(() => {window.location.reload();}, 500);
+        toast.success("Updated Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
-      .catch((err) => {console.log(err);
+      .catch((err) => {
+        console.log(err);
         toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
   const handleCreate = (e) => {
     e.preventDefault();
-    const requestData = {module_name: module_name,mod_isActive: mod_isActive,category: cat_Category,};
+    const requestData = {
+      module_name: module_name,
+      mod_isActive: mod_isActive,
+      category: cat_Category,
+    };
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -101,24 +138,37 @@ function AdminBlog() {
         config
       )
       .then((res) => {
-        toast.success("Created Successfuly ", {position: toast.POSITION.TOP_RIGHT});
-        setTimeout(() => {window.location.reload();}, 500);
+        toast.success("Created Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
-      .catch((err) => {console.log(err);
+      .catch((err) => {
+        console.log(err);
         toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
   const handleUpdateClick = async (e) => {
     e.preventDefault();
-    const updateData = {Cat_Title: module_name,Cat_Parent: cat_parent,Cat_Status: mod_isActive,};
+    const updateData = {
+      Cat_Title: module_name,
+      Cat_Parent: cat_parent,
+      Cat_Status: mod_isActive,
+    };
     await axios
       .put(
         `http://localhost:8000/api/update/category/cat/${selected_id}`,
         updateData
       )
       .then((res) => {
-        toast.success("Created Successfuly ", {position: toast.POSITION.TOP_RIGHT,});
-        setTimeout(() => {window.location.reload();}, 500);
+        toast.success("Created Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
       .catch((err) => {
         toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
@@ -128,10 +178,17 @@ function AdminBlog() {
   const Fetch_blog_mod = async () => {
     await axios
       .get(`http://localhost:8000/api/get/category/cat_mod/act`)
-      .then((res) => {setBlog_mod_data(res.data.result)})
-      .catch((err) => {console.log(err)});
+      .then((res) => {
+        setBlog_mod_data(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  useEffect(() => {Fetch_blog_mod()}, []);
+  useEffect(() => {
+    Fetch_blog_mod();
+    fetchPermissions();
+  }, []);
 
   const customStyles = {
     content: {
@@ -146,242 +203,268 @@ function AdminBlog() {
 
   return (
     <>
-      <div className="top">
-        <div className="parent_div">
-          <div className="child_div">
-            <div className="top-section">
-              <h5>Blog Category System</h5>
-              <div>
-                <Link>
-                  <BsPlusCircleFill
-                    size={30}
-                    color="#49bfaf"
-                    onClick={openModal}
+      {firstValue === 0 ? (
+        <NotAuth />
+      ) : firstValue === "1" || "2" || id === "20" ? (
+        <>
+          <div className="top">
+            <div className="parent_div">
+              <div className="child_div">
+                <div className="top-section">
+                  <h5>Blog Category System</h5>
+                  {firstValue === 2 ? (
+                    <div>
+                      <Link>
+                        <BsPlusCircleFill
+                          size={30}
+                          color="#49bfaf"
+                          onClick={openModal}
+                        />
+                      </Link>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="content-table">
+                  <table className="table table-striped table-dark blog_tble">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Cat_Title</th>
+                        {firstValue === 2 || id === "20" ? (
+                          <>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {blog_mod_data.map((value) => (
+                        <tr key={value.Cat_id}>
+                          <th scope="row">{value.Cat_id}</th>
+                          <td>{value.Cat_Title}</td>
+                          {firstValue === 2 || id === "20" ? (
+                            <>
+                              <td>
+                                <div className="form-check form-switch switch_inp">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`flexSwitchCheckChecked_${value.blog_id}`}
+                                    checked={
+                                      checkedMap[value.Cat_id] ||
+                                      value.Cat_Status === "1"
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={(e) => {
+                                      handleClick(e, value.Cat_id);
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="buttons">
+                                  <div>
+                                    <Link>
+                                      <BiEdit
+                                        color="white"
+                                        size={20}
+                                        onClick={() => {
+                                          handleEditclick(
+                                            value.Cat_id,
+                                            value.Cat_Status,
+                                            value.Cat_Title,
+                                            value.Cat_Parent
+                                          );
+                                        }}
+                                      />
+                                    </Link>
+                                  </div>
+
+                                  <div>
+                                    <Link>
+                                      <MdDeleteSweep
+                                        color="white"
+                                        size={20}
+                                        onClick={(e) =>
+                                          handleDelete(e, value.Cat_id)
+                                        }
+                                      />
+                                    </Link>
+                                  </div>
+                                </div>
+                              </td>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Modal
+            isOpen={modalIsOpen}
+            // onAfterOpen={afterOpenModal}
+            onRequestClose={closeEditModel}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <div>
+              <h4>Create New Category</h4>
+            </div>
+            <form className="Modal_form">
+              <div className="main_cont">
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6>Category Name</h6>
+                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    className="input_select"
+                    onChange={(e) => {
+                      setModule_name(e.target.value);
+                    }}
                   />
-                </Link>
+                </div>
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6>Category Status </h6>
+                  </div>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="select_link"
+                    onChange={(e) => setMod_isActive(e.target.value)}
+                  >
+                    <option selected>Select</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                </div>
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6>Category</h6>
+                  </div>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="select_link"
+                    onChange={(e) => {
+                      setCat_Category(e.target.value);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {mod_Options.map((value) => (
+                      <option value={value.Cat_id}>{value.Cat_Title}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="third_child_input">
+                  <div className="first_but"></div>
+                  <button className="" onClick={closeModel}>
+                    close
+                  </button>
+                  <div className="sec_but">
+                    <button className="" onClick={handleCreate}>
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
               </div>
+            </form>
+          </Modal>
+          {/* ------------------------MODAL FOR EDIT CATEGORY----------------------- */}
+          <Modal
+            isOpen={editModalOpen}
+            // onAfterOpen={afterOpenModal}
+            onRequestClose={closeEditModel}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <div>
+              <h4>Edit Category</h4>
             </div>
-            <div className="content-table">
-              <table className="table table-striped table-dark blog_tble">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Cat_Title</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {blog_mod_data.map((value) => (
-                    <tr key={value.Cat_id}>
-                      <th scope="row">{value.Cat_id}</th>
-                      <td>{value.Cat_Title}</td>
-                      <td>
-                        <div className="form-check form-switch switch_inp">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`flexSwitchCheckChecked_${value.blog_id}`}
-                            checked={
-                              checkedMap[value.Cat_id] ||
-                              value.Cat_Status === "1"
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              handleClick(e, value.Cat_id);
-                            }}
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="buttons">
-                          <div>
-                            <Link>
-                              <BiEdit
-                                color="white"
-                                size={20}
-                                onClick={() => {
-                                  handleEditclick(
-                                    value.Cat_id,
-                                    value.Cat_Status,
-                                    value.Cat_Title,
-                                    value.Cat_Parent
-                                  );
-                                }}
-                              />
-                            </Link>
-                          </div>
+            <form className="Modal_form">
+              <div className="main_cont">
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6>Category Name</h6>
+                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    className="input_select"
+                    value={module_name}
+                    onChange={(e) => {
+                      setModule_name(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6> Category</h6>
+                  </div>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="select_link"
+                    value={cat_parent}
+                    onChange={(e) => {
+                      setCat_Parent(e.target.value);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {show_cat_inp.map((value, index) => (
+                      <option value={value.Cat_id}>{value.Cat_Title}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="sec_child_input">
+                  <div className="input_lab">
+                    <h6>Category Status</h6>
+                  </div>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    name="select_link"
+                    value={mod_isActive}
+                    onChange={(e) => setMod_isActive(e.target.value)}
+                  >
+                    <option selected>Select</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                </div>
 
-                          <div>
-                            <Link>
-                              <MdDeleteSweep
-                                color="white"
-                                size={20}
-                                onClick={(e) => handleDelete(e, value.Cat_id)}
-                              />
-                            </Link>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Modal
-        isOpen={modalIsOpen}
-        // onAfterOpen={afterOpenModal}
-        onRequestClose={closeEditModel}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <div>
-          <h4>Create New Category</h4>
-        </div>
-        <form className="Modal_form">
-          <div className="main_cont">
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6>Category Name</h6>
+                <div className="third_child_input">
+                  <div className="first_but"></div>
+                  <button className="" onClick={closeEditModel}>
+                    close
+                  </button>
+                  <div className="sec_but">
+                    <button className="" onClick={handleUpdateClick}>
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
               </div>
-              <input
-                type="text"
-                name="name"
-                className="input_select"
-                onChange={(e) => {
-                  setModule_name(e.target.value);
-                }}
-              />
-            </div>
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6>Category Status </h6>
-              </div>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="select_link"
-                onChange={(e) => setMod_isActive(e.target.value)}
-              >
-                <option selected>Select</option>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
-              </select>
-            </div>
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6>Category</h6>
-              </div>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="select_link"
-                onChange={(e) => {
-                  setCat_Category(e.target.value);
-                }}
-              >
-                <option selected>Select</option>
-                {mod_Options.map((value) => (
-                  <option value={value.Cat_id}>{value.Cat_Title}</option>
-                ))}
-              </select>
-            </div>
-            <div className="third_child_input">
-              <div className="first_but"></div>
-              <button className="" onClick={closeModel}>
-                close
-              </button>
-              <div className="sec_but">
-                <button className="" onClick={handleCreate}>
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </Modal>
-      {/* ------------------------MODAL FOR EDIT CATEGORY----------------------- */}
-      <Modal
-        isOpen={editModalOpen}
-        // onAfterOpen={afterOpenModal}
-        onRequestClose={closeEditModel}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <div>
-          <h4>Edit Category</h4>
-        </div>
-        <form className="Modal_form">
-          <div className="main_cont">
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6>Category Name</h6>
-              </div>
-              <input
-                type="text"
-                name="name"
-                className="input_select"
-                value={module_name}
-                onChange={(e) => {
-                  setModule_name(e.target.value);
-                }}
-              />
-            </div>
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6> Category</h6>
-              </div>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="select_link"
-                value={cat_parent}
-                onChange={(e) => {
-                  setCat_Parent(e.target.value);
-                }}
-              >
-                <option selected>Select</option>
-                {show_cat_inp.map((value, index) => (
-                  <option value={value.Cat_id}>{value.Cat_Title}</option>
-                ))}
-              </select>
-            </div>
-            <div className="sec_child_input">
-              <div className="input_lab">
-                <h6>Category Status</h6>
-              </div>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                name="select_link"
-                value={mod_isActive}
-                onChange={(e) => setMod_isActive(e.target.value)}
-              >
-                <option selected>Select</option>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
-              </select>
-            </div>
-
-            <div className="third_child_input">
-              <div className="first_but"></div>
-              <button className="" onClick={closeEditModel}>
-                close
-              </button>
-              <div className="sec_but">
-                <button className="" onClick={handleUpdateClick}>
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </Modal>
-      <ToastContainer />
+            </form>
+          </Modal>
+          <ToastContainer />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }
