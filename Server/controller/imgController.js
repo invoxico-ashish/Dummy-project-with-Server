@@ -518,3 +518,62 @@ exports.get_test_cate = async (req, res) => {
     }
   });
 };
+exports.create_new_blog = async (req, res) => {
+  const file = req.file;
+  let Blog_Title = req.body.Blog_Title;
+  let Blog_Status = req.body.Blog_Status;
+  let Selected_Category = req.body.Selected_Category;
+  // let blog_cat_id = req.body.blog_cat_id;
+  let Long_Desc = req.body.Long_Desc;
+  let Short_Desc = req.body.Short_Desc;
+  let Blog_img = file.filename;
+  let today = new Date();
+  const dateObject = new Date(today);
+  const formattedDate = dateObject.toISOString().split("T")[0]; // Extract date part
+  try {
+    const data = [
+      Blog_Title,
+      Blog_Status,
+      Selected_Category,
+      // blog_cat_id,
+      Short_Desc,
+      Long_Desc,
+      Blog_img,
+      formattedDate,
+    ];
+    console.log(data, "data");
+    // return;
+
+    const sql = `INSERT INTO admin_blog (blog_Title,blog_Status,blog_Selected_Category,blog_Short_Desc,blog_Long_Desc,blog_img,blog_Publish_Date) VALUES (?)`;
+
+    await sqlconnect.query(sql, [data], (err, result) => {
+      if (!err) {
+        return res.status(200).json({ success: true, message: "OK", result });
+      } else {
+        return res.status(400).json({ success: false, message: "failed", err });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.get_all_cate_list = async (req, res) => {
+  const sql = ` SELECT * FROM admin_blog_categories`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "ok", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};
+exports.get_all_blog_list = async (req, res) => {
+  const sql = ` SELECT blog_id,blog_Title,blog_Status,blog_Publish_Date,Cat_Title FROM admin_blog LEFT JOIN admin_blog_categories ON admin_blog.blog_Selected_Category = admin_blog_categories.Cat_id;`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "ok", result });
+    } else {
+      return res.status(400).json({ success: false, message: "Failed", err });
+    }
+  });
+};

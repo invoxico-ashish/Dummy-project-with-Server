@@ -51,6 +51,8 @@ router.get("/get/category/cat_mod/act", delcontroller.get_cat_mod_act);
 router.get("/get/blog_data/by/:id", controller.get_blog_data_by_id);
 router.get("/get/blog_category/all", controller.get_blog_cat_all_data);
 router.get("/get/category/test/:id", controller.get_test_cate);
+router.get("/get/category/list/all", controller.get_all_cate_list);
+router.get("/get/blog/list/all", controller.get_all_blog_list);
 
 
 
@@ -65,6 +67,7 @@ router.post("/post/nav_module",delcontroller.Navigation_module);
 router.post("/post/footer_module",delcontroller.footer_modules);
 router.post("/post/category/new/cat",delcontroller.post_category_cat_new);
 router.post("/post/blog_cat/categories", controller.post_blog_category);
+router.post("/post/blog/create/blog",upload.single("Blog_img"), controller.create_new_blog);
 
 
 //LOGIN ROUTE-------------------------------------------->
@@ -100,5 +103,7 @@ router.put("/delete/footer_module/status/deleted/:id",delcontroller.foo_deleted_
 router.put("/put/admin_cat/category/status/:id",delcontroller.post_cat_status_by_button);
 router.put("/delete/blog_cat/blog/category/:id",delcontroller.delete_cat_category_by_id);
 router.put("/update/category/cat/:id",delcontroller.update_category_cat_by_id);
+router.put("/delete/blog/single/:id",delcontroller.delete_blog_by_id);
+router.put("/update/admin_blog/single_blog/:id",upload.single("Blog_img"),delcontroller.update_single_blog);
 
 module.exports = router;

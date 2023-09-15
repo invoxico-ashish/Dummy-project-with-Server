@@ -10,6 +10,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { IoNavigate } from "react-icons/io5";
+import { BiCategory } from "react-icons/bi";
 import "./Style/Home.css";
 import axios from "axios";
 import { fetchUserPermissions } from "../Permissions/Permission";
@@ -174,8 +175,17 @@ function AdminNavbar() {
 
                 {id === "20" || blogValue == 1 || blogValue == 2 ? (
                   <li className="nav-item">
-                    <Link className="nav-link text-white" to={"/show/blog"}>
-                      <FaBloggerB /> <span className="ml-2">Blog</span>
+                    <Link className="nav-link text-white" to={"/show/blog_cate"}>
+                      <BiCategory /> <span className="ml-2">Blog category</span>
+                    </Link>
+                  </li>
+                ) : (
+                  ""
+                )}
+                   {id === "20" || blogValue == 1 || blogValue == 2 ? (
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to={"/blog"}>
+                      <FaBloggerB /> <span className="ml-2">Blogs</span>
                     </Link>
                   </li>
                 ) : (

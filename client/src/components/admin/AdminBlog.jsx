@@ -58,6 +58,7 @@ function AdminBlog() {
     //   : console.log(e.target.checked, id);
     const module_stat = isChecked ? 1 : 0;
 
+
     axios
       .put(`http://localhost:8000/api/put/admin_cat/category/status/${id}`, {
         module_stat: module_stat,
@@ -68,7 +69,7 @@ function AdminBlog() {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 300);
+        }, 200);
       })
       .catch((err) => {
         console.log(err);
@@ -212,7 +213,7 @@ function AdminBlog() {
               <div className="child_div">
                 <div className="top-section">
                   <h5>Blog Category System</h5>
-                  {firstValue === 2 ? (
+                  {firstValue === 2 || id === "20" ? (
                     <div>
                       <Link>
                         <BsPlusCircleFill

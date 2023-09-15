@@ -73,7 +73,7 @@ input:checked + .slider {background-color: #21f379;}
 input:focus + .slider {box-shadow: 0 0 1px #11d489;}input:checked + .slider:before {-webkit-transform: translateX(26px);-ms-transform: translateX(26px);transform: translateX(26px);}
 .slider.round {border-radius: 34px;}
 .slider.round:before {border-radius: 50%;}
-.main_cont{ width: 40rem; height: 200px; display: flex; flex-direction: column; justify-content: space-around;align-items: center;}
+.main_cont{ width: 40rem; height: 80vh; display: flex; flex-direction: column; justify-content: space-around;align-items: center;}
 .first_child_input{ display: flex; justify-content: space-between;height: auto; width: 500px;}
 .first_child_input select{ width: 300px;}
 .sec_child_input{display: flex; align-items: center; justify-content: space-between; width: 500px; }

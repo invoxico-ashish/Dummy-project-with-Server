@@ -63,7 +63,7 @@ function NavigateHeader() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("selectId", selectId);
-    formData.append(" ", selectedModule);
+    formData.append("selectedModule", selectedModule);
     formData.append("selectVlaue", selectVlaue);
     formData.append("orderValue", orderValue);
     formData.append("url", url);
@@ -201,7 +201,7 @@ function NavigateHeader() {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <p>{selectedModule}</p>
+          {/* <p>{selectedModule}</p> */}
 
           <form className="Modal_form">
             <div className="main_cont">

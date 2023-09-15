@@ -33,6 +33,7 @@ import NavigationSystem from "./components/admin/NavigationSystem"
 import NavigateHeader from "./components/admin/NavigateHeader";
 import NavigateFooter from "./components/admin/NavigateFooter";
 import AdminBlog from "./components/admin/AdminBlog";
+import BlogAdmin from "./components/admin/BlogAdmin";
 import "./components/Header/Navbar/Navbar.css"
 import { useEffect,useState } from "react";
 import axios from "axios";
@@ -108,7 +109,8 @@ const fetch_mod_status = async()=>{
           <Route path="/navigation" element={<Protected><NavigationSystem /></Protected> } />
           <Route path="/navigateheader/:id" element={<Protected><NavigateHeader /></Protected> } />
           <Route path="/navigatefooter/:id" element={<Protected><NavigateFooter /></Protected> } />
-          <Route path="/show/blog" element={<Protected><AdminBlog /></Protected> } />
+          <Route path="/show/blog_cate" element={<Protected><AdminBlog /></Protected> } />
+          <Route path="/blog" element={<Protected><BlogAdmin/></Protected> } />
           </Route>
         </Routes>
       </BrowserRouter> 

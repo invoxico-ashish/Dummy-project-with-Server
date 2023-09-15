@@ -374,6 +374,7 @@ exports.add_data_to_navigation_link = async (req, res) => {
     Data.selectId,
     Data.url,
   ];
+  console.log(updateValues);
   const Sqlone = `SELECT * FROM navigation_link WHERE navigate_id = ${Data.selectId}`;
   try {
     sqlconnect.query(Sqlone, [updateValues], (err, result) => {
@@ -698,6 +699,51 @@ exports.update_category_cat_by_id = async (req, res) => {
         return res
           .status(400)
           .json({ success: false, messages: "failed", err });
+      }
+    }
+  );
+};
+exports.delete_blog_by_id = async (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE admin_blog SET blog_delete = 0 WHERE blog_id = ${id}`;
+  await sqlconnect.query(sql, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ success: true, message: "OK", result });
+    } else {
+      return res.status(400).json({ success: false, message: "failed", err });
+    }
+  });
+};
+exports.update_single_blog = async (req, res) => {
+  const id = req.params.id;
+  const file = req.file;
+  const updated_data = {
+    blog_Title: req.body.blog_Title,
+    Blog_Status: req.body.Blog_Status,
+    Selected_Category: req.body.Selected_Category,
+    Short_Desc: req.body.Short_Desc,
+    Long_Desc: req.body.Long_Desc,
+    Blog_img: file.filename,
+  };
+  console.log(updated_data);
+
+  const sql = ` UPDATE admin_blog SET blog_Title = ?, blog_Status = ?, blog_Selected_Category = ?, blog_Short_Desc=?, blog_Long_Desc=?, blog_img = ? WHERE blog_id = ${id}`;
+
+  await sqlconnect.query(
+    sql,
+    [
+      updated_data.blog_Title,
+      updated_data.Blog_Status,
+      updated_data.Selected_Category,
+      updated_data.Short_Desc,
+      updated_data.Long_Desc,
+      updated_data.Blog_img,
+    ],
+    (err, result) => {
+      if (!err) {
+        return res.status(200).json({ success: true, message: "ok", result });
+      } else {
+        return res.status(400).json({ success: false, message: "failed", err });
       }
     }
   );
