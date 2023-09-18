@@ -20,7 +20,6 @@
 .lestOne {display: flex;align-items: center;justify-content: space-between;}
 .Home-sec {display: flex;margin-left: 170px;}
 .userListing{ width:600px; height: 50vh; margin-left: 20px;}
-/* .userlist-cont{border: 1px solid black;} */
 .user-heading{ width: auto;margin-left: 20px;}
 .secParent{ width: auto;height: 30rem; display: flex; justify-content: space-between; } 
 .secChildone{ width: 600px ; height: auto;  margin-left: 400px;}
@@ -28,7 +27,6 @@
 .thirParent{ width:600px; height: auto; margin-left: 400px;  }
 .thirdChild{ width: auto; height: auto;}
 .firstParent{ margin-left: 400px;width: auto; }
-
 
 /* ------------------ Account Css ---------------------- */
 
@@ -89,4 +87,9 @@ input:focus + .slider {box-shadow: 0 0 1px #11d489;}input:checked + .slider:befo
 .top-section{width: 55rem;height: 50px; display: flex; align-items: center; justify-content:space-between;}
 .content-table{height: 400px; width:50rem;margin-top: 10px;}
 .switch_inp{ width: 100px;margin-left:20px}
+.imgshow{ width: 200px; height: 100px; margin-top: 10px;}
+.public{width: 50px; height:auto;background-color: #e7d019; font-size: small;color: #000000; }
+.yellow{width: 50px; height:auto;background-color: #fd0404; font-size: small; }
+.blog_logo{border-radius: 10px;}
+
 

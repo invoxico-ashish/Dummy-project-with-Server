@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import "./Style/Home.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { MdDeleteSweep } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
 function BlogAdmin() {
@@ -15,13 +17,13 @@ function BlogAdmin() {
   const [blog_Title, setBlog_Title] = useState("");
   const [Blog_Status, setBlog_Status] = useState("");
   const [Selected_Category, setSelected_Category] = useState("");
-  //   const [Selected_Category_id, setSelected_Category_id] = useState("");
   const [cat_List, setCat_List] = useState([]);
   const [Long_Desc, setLong_Desc] = useState("");
   const [Short_Desc, setShort_Desc] = useState("");
   const [Blog_img, setBlog_img] = useState([]);
   const [blog_list, setBlog_list] = useState([]);
   const [blog_id, setBlog_id] = useState("");
+  const [currentFile, setCurrentFile] = useState("");
   const handelImageChange = (e) => {
     const file = e.target.files[0];
     setBlog_img(file);
@@ -39,7 +41,6 @@ function BlogAdmin() {
     formData.append("Long_Desc", Long_Desc);
     formData.append("Short_Desc", Short_Desc);
     formData.append("Blog_img", Blog_img);
-
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -50,15 +51,21 @@ function BlogAdmin() {
       .post(`http://localhost:8000/api/post/blog/create/blog`, formData, config)
       .then((res) => {
         console.log("OK");
+        toast.success("Created Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log(blog_id, "blog_id");
     // return
     const formData = new FormData();
     formData.append("blog_Title", blog_Title);
@@ -66,25 +73,84 @@ function BlogAdmin() {
     formData.append("Selected_Category", Selected_Category);
     formData.append("Short_Desc", Short_Desc);
     formData.append("Long_Desc", Long_Desc);
-    formData.append("Blog_img", Blog_img);
+
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
-    axios
-      .put(
-        `http://localhost:8000/api/update/admin_blog/single_blog/${blog_id}`,
-        formData,
-        config
-      )
-      .then((res) => {
-        console.log("okioki");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if (Blog_img !== null) {
+      const imageFormData = new FormData();
+      imageFormData.append("Blog_img", Blog_img);
+      console.log("here is the img code ");
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      try {
+        axios
+          .put(
+            `http://localhost:8000/api/update/blog_img/single_img/${blog_id}`,
+            imageFormData,
+            config
+          )
+          .then((res) => {
+            console.log("img OK");
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      axios
+        .put(
+          `http://localhost:8000/api/update/admin_blog/single_blog/${blog_id}`,
+          formData,
+          config
+        )
+        .then((res) => {
+          console.log("oki oki");
+          toast.success("Created Successfuly ", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Request Denied ", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        });
+    } else {
+      console.log("text_only");
+      axios
+        .put(
+          `http://localhost:8000/api/update/admin_blog/single_blog/${blog_id}`,
+          formData,
+          config
+        )
+        .then((res) => {
+          console.log("oki oki");
+          toast.success("Created Successfuly ", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Request Denied ", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        });
+    }
   };
   const openModal = async () => {
     await axios
@@ -104,13 +170,24 @@ function BlogAdmin() {
     setEditModalOpen(false);
   };
   const editOpen = async (id) => {
-    console.log(id, "id");
+    // console.log(id, "id");
     setBlog_id(id);
 
     await axios
       .get(`http://localhost:8000/api/get/category/list/all`)
       .then((res) => {
         setCat_List(res.data.result);
+      });
+
+    await axios
+      .get(`http://localhost:8000/api/get/blog_data/by/${id}`)
+      .then((res) => {
+        setBlog_Title(res.data.result[0].blog_Title);
+        setBlog_Status(res.data.result[0].blog_Status);
+        setSelected_Category(res.data.result[0].blog_Selected_Category);
+        setShort_Desc(res.data.result[0].blog_Short_Desc);
+        setLong_Desc(res.data.result[0].blog_Long_Desc);
+        setCurrentFile({ blog_img: res.data.result[0].blog_img });
       });
 
     setEditModalOpen(true);
@@ -125,13 +202,20 @@ function BlogAdmin() {
   };
 
   const handleDelete = (id) => {
+    console.log(id);
     axios
       .put(`http://localhost:8000/api/delete/blog/single/${id}`)
       .then((res) => {
-        console.log("ok");
+        toast.success("Deleted Successfuly ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Request Denied ", { position: toast.POSITION.TOP_RIGHT });
       });
   };
   useEffect(() => {
@@ -184,9 +268,21 @@ function BlogAdmin() {
                     <tr key={blog.blog_id}>
                       <th scope="row">{blog.blog_id}</th>
                       <td>{blog.blog_Title}</td>
-                      <td>{blog.blog_Status === "1" ? "Publish" : "Hide"}</td>
-                      <td>{blog.Cat_Title}</td>
-                      <td>{blog.blog_Publish_Date}</td>
+                      <td>
+                        <span className="">
+                          {blog.blog_Status === "1" ? (
+                            <h6 className="public">Publish</h6>
+                          ) : (
+                            <h6 className="yellow">Hide</h6>
+                          )}
+                        </span>
+                      </td>
+                      <td>
+                        {blog.Cat_Title === null
+                          ? "No Category"
+                          : blog.Cat_Title}
+                      </td>
+                      <td>{blog.blog_Publish_Date.slice(0, 10)}</td>
                       <td>
                         <div className="buttons">
                           <div>
@@ -203,7 +299,7 @@ function BlogAdmin() {
                               <MdDeleteSweep
                                 color="white"
                                 size={20}
-                                onClick={() => handleDelete(blog.blog_cat_id)}
+                                onClick={() => handleDelete(blog.blog_id)}
                               />
                             </Link>
                           </div>
@@ -236,6 +332,7 @@ function BlogAdmin() {
                 type="text"
                 name="name"
                 className="input_select"
+                placeholder="Blog Title..."
                 onChange={(e) => {
                   setBlog_Title(e.target.value);
                 }}
@@ -253,7 +350,7 @@ function BlogAdmin() {
                   setBlog_Status(e.target.value);
                 }}
               >
-                <option selected>Select</option>
+                <option defaultValue>Select</option>
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
               </select>
@@ -270,7 +367,7 @@ function BlogAdmin() {
                   setSelected_Category(e.target.value);
                 }}
               >
-                <option selected>Select</option>
+                <option defaultValue>Select</option>
                 {cat_List.map((cat) => (
                   <option key={cat.Cat_id} value={cat.Cat_id}>
                     {cat.Cat_Title}
@@ -285,6 +382,7 @@ function BlogAdmin() {
               <input
                 type="text"
                 name="name"
+                placeholder="Blog Description..."
                 className="input_select"
                 onChange={(e) => {
                   setShort_Desc(e.target.value);
@@ -300,6 +398,7 @@ function BlogAdmin() {
                 name="w3review"
                 rows="4"
                 cols="50"
+                placeholder="Blog Long Description..."
                 onChange={(e) => {
                   setLong_Desc(e.target.value);
                 }}
@@ -349,6 +448,7 @@ function BlogAdmin() {
               <input
                 type="text"
                 name="name"
+                value={blog_Title}
                 className="input_select"
                 onChange={(e) => setBlog_Title(e.target.value)}
               />
@@ -361,11 +461,12 @@ function BlogAdmin() {
                 className="form-select"
                 aria-label="Default select example"
                 name="select_link"
+                value={Selected_Category}
                 onChange={(e) => {
                   setSelected_Category(e.target.value);
                 }}
               >
-                <option selected>Select</option>
+                <option defaultValue>Select</option>
                 {cat_List.map((cat) => (
                   <option key={cat.Cat_id} value={cat.Cat_id}>
                     {cat.Cat_Title}
@@ -381,11 +482,12 @@ function BlogAdmin() {
                 className="form-select"
                 aria-label="Default select example"
                 name="select_link"
+                value={Blog_Status}
                 onChange={(e) => {
                   setBlog_Status(e.target.value);
                 }}
               >
-                <option selected>Select</option>
+                <option defaultValue>Select</option>
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
               </select>
@@ -398,6 +500,7 @@ function BlogAdmin() {
                 type="text"
                 name="name"
                 className="input_select"
+                value={Short_Desc}
                 onChange={(e) => {
                   setShort_Desc(e.target.value);
                 }}
@@ -412,6 +515,7 @@ function BlogAdmin() {
                 name="w3review"
                 rows="4"
                 cols="50"
+                value={Long_Desc}
                 onChange={(e) => {
                   setLong_Desc(e.target.value);
                 }}
@@ -424,9 +528,20 @@ function BlogAdmin() {
               <input
                 type="file"
                 name="Blog_img"
+                accept="image/*"
                 className="input_select"
                 onChange={handelImageChangetwo}
               />
+              {currentFile.blog_img && (
+                <div className="imgshow">
+                  <img
+                    src={`http://localhost:8000/img/${currentFile.blog_img}`}
+                    width="100"
+                    className="blog_logo"
+                  />
+                  <div>Current Image</div>
+                </div>
+              )}
             </div>
 
             <div className="third_child_input">
@@ -443,6 +558,7 @@ function BlogAdmin() {
           </div>
         </form>
       </Modal>
+      <ToastContainer />
     </>
   );
 }

@@ -43,9 +43,7 @@ function Settings() {
     };
     axios
       .post(`http://localhost:8000/api/general/settings`, formData, config)
-
       .catch((err) => console.log(err));
-
     try {
       if (webLogo || favLogo) {
         const imageFormData = new FormData();
@@ -82,6 +80,8 @@ function Settings() {
         `http://localhost:8000/api/get/genral/settings`
       );
       const data = result.data.keyValuePairs;
+      console.log(data,"data");
+      // return
       setValues({
         ...values,
         email: data.email,
@@ -95,7 +95,9 @@ function Settings() {
         webLogo: data.webLogo,
         favLogo: data.favLogo,
       });
-    } catch (error) {console.log(error)}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -115,7 +117,7 @@ function Settings() {
               <input
                 type="text"
                 name="email"
-                className="form-control"  
+                className="form-control"
                 placeholder="Email"
                 aria-label="Email"
                 value={values.email}

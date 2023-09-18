@@ -332,6 +332,7 @@ function AdminBlog() {
                     type="text"
                     name="name"
                     className="input_select"
+                    placeholder="Category Title..."
                     onChange={(e) => {
                       setModule_name(e.target.value);
                     }}
