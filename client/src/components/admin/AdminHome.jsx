@@ -90,7 +90,7 @@ function AdminHome({ faviconUrl }) {
                       </label>
                       <input
                         type="email"
-                        s
+                  
                         name="email"
                         {...register("email", {
                           required: true,

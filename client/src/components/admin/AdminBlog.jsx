@@ -58,7 +58,6 @@ function AdminBlog() {
     //   : console.log(e.target.checked, id);
     const module_stat = isChecked ? 1 : 0;
 
-
     axios
       .put(`http://localhost:8000/api/put/admin_cat/category/status/${id}`, {
         module_stat: module_stat,

@@ -67,7 +67,6 @@ input:focus + .slider {box-shadow: 0 0 1px #11d489;}input:checked + .slider:befo
 .first_child_input{ display: flex; justify-content: space-between;height: auto; width: 500px;}
 .first_child_input select{ width: 300px;}
 .sec_child_input{display: flex; align-items: center; justify-content: space-between; width: 500px; }
-/* .Modal_form{background: radial-gradient(circle, rgba(238,174,202,1) 27%, rgba(148,233,221,1) 92%);} */
 .third_child_input{display: flex; justify-content: space-around; width: 300px;}
 .add_module{ width: 60rem; height: auto; margin-top: 20px; display: flex; justify-content: flex-end;margin-bottom: 20px;}
 .sec_child_input select {width: 200px;}  
