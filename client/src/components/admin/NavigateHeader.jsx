@@ -39,7 +39,7 @@ function NavigateHeader() {
     setUserPermissions(permissions);
   };
   const firstValue = userPermissions[mod_id];
-  
+
   const openModal = (module_name, id, target, order, link) => {
     setIsOpen(true);
     setSelectId(id);
@@ -196,13 +196,9 @@ function NavigateHeader() {
         </div>
         <Modal
           isOpen={modalIsOpen}
-          // onAfterOpen={afterOpenModal}
-          // onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-          {/* <p>{selectedModule}</p> */}
-
           <form className="Modal_form">
             <div className="main_cont">
               <div className="sec_child_input">
