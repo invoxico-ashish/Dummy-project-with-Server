@@ -35,7 +35,7 @@ function OpenNavbar({ setShowMenu }) {
             // console.log(value,"value")
             <NavLink
               to={`${value.nav_link_LINKS}`}
-              className=" links"
+              className="links"
               onClick={() => {
                 handleNavlinkClick(value.nav_link_LINKS, value.nav_link_target);
               }}
